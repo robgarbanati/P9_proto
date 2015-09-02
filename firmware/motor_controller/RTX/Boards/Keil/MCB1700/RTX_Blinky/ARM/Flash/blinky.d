@@ -1,0 +1,11 @@
+.\Flash\blinky.o: ..\Blinky.c
+.\Flash\blinky.o: ..\..\..\..\..\INC\cmsis_os.h
+.\Flash\blinky.o: C:\Development\Keil_Arm\ARM\ARMCC\bin\..\include\stdint.h
+.\Flash\blinky.o: C:\Development\Keil_Arm\ARM\ARMCC\bin\..\include\stddef.h
+.\Flash\blinky.o: ..\LPC17xx.H
+.\Flash\blinky.o: C:\Development\Keil_Arm\ARM\CMSIS\Include\core_cm3.h
+.\Flash\blinky.o: C:\Development\Keil_Arm\ARM\CMSIS\Include\core_cmInstr.h
+.\Flash\blinky.o: C:\Development\Keil_Arm\ARM\CMSIS\Include\core_cmFunc.h
+.\Flash\blinky.o: ..\system_LPC17xx.h
+.\Flash\blinky.o: ..\GLCD.h
+.\Flash\blinky.o: ..\LED.h

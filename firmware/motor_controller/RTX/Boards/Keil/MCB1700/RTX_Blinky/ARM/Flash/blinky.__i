@@ -1,0 +1,5 @@
+-c --cpu Cortex-M3 -D__RTX -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork -I..\..\..\..\..\INC 
+-I C:\Development\Keil_Arm\ARM\RV31\INC 
+-I C:\Development\Keil_Arm\ARM\CMSIS\Include 
+-I C:\Development\Keil_Arm\ARM\Inc\NXP\LPC17xx 
+-o ".\Flash\blinky.o" --omf_browse ".\Flash\blinky.crf" --depend ".\Flash\blinky.d" "..\Blinky.c"

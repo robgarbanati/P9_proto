@@ -42,7 +42,8 @@ void configure_DRV8301(void)
 	CtrlReg |= (DRV8301_WRITE_CMD << 15);
 	
 	CtrlReg   = 0x17CA;
-	sendData(CtrlReg);
+	for(;;)
+		sendData(CtrlReg);
 }
 
 uint16_t getStatus_DRV8301(void)
