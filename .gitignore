@@ -1,5 +1,2 @@
 *.o
-*F072*
-*Debug*
 *.bak
-firmware/motor_controller/code/F072/Debug/*
