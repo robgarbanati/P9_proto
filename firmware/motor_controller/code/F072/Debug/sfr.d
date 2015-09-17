@@ -2,7 +2,7 @@
 .\f072\debug\sfr.o: ..\Nuvoton\HW\Include\SFR.h
 .\f072\debug\sfr.o: ..\Nuvoton\HW\Include\F072/SFR.h
 .\f072\debug\sfr.o: ..\Nuvoton\HW\Include\F072/NVTChipDef.h
-.\f072\debug\sfr.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
+.\f072\debug\sfr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\f072\debug\sfr.o: ..\Nuvoton\HW\Include\F072/SYS.h
 .\f072\debug\sfr.o: ..\Nuvoton\HW\Include\F072/CLK.h
 .\f072\debug\sfr.o: ..\Nuvoton\HW\Include\F072/SYSINT.h

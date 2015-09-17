@@ -15,6 +15,7 @@
 #include "app_SinDrive.h"
 #include "app_drv8301.h"
 #include "app_SoftPWM.h"
+#include "app_OptoSensor.h"
 
 #define ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT	7
 #define HIGH_STATE	1
@@ -38,11 +39,13 @@ BOOL	g_bLEDH=TRUE,g_LED_S=FALSE;
 volatile UINT32	blue_duty_cycle, green_duty_cycle, red_duty_cycle;
 extern volatile int current_sensed;
 
-UINT32 TO_counter = 0;
+volatile UINT32 TO_counter = 0;
 volatile UINT8 speed_flag;
 UINT8 shifted_activity_button = 0;
 extern UINT8 activity_button_pressed_flag;
 static UINT8 activity_button_is_being_pressed;
+
+volatile UINT16 Homing_pin_state;
 
 int is_left_safety_clip_in(void)
 {
@@ -87,6 +90,27 @@ void GPAB_IRQHandler(void)
 			DrvGPIO_ClearIntFlag(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
 		}
 	}	
+	
+	// Is this from homing sensor?
+	if(DrvGPIO_GetIntFlag(&HOMING_SENSOR_GPIO, HOMING_SENSOR_PIN))
+	{
+		// grab homing sensor state and process it...
+		// returned state is not 0 or 1, it's actually 0 or shifted value (1 << PIN_POS) to reflect the actuall pin!!!
+		Homing_pin_state = DrvGPIO_GetInputPinValue(&HOMING_SENSOR_GPIO, HOMING_SENSOR_PIN);
+		
+		if (Homing_pin_state) {
+			// TEST - visualizing opto. functino
+			//DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_6);
+			OptoSensor_process_transition(HIGH);
+		} else {
+			// TEST - visualizing opto. functino
+			//DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_6);
+			OptoSensor_process_transition(LOW);
+		}
+			
+		// Clear the homing interrupt.
+		DrvGPIO_ClearIntFlag(&HOMING_SENSOR_GPIO, HOMING_SENSOR_PIN);
+	}
 }
 
 uint8_t Update = 0;
@@ -98,6 +122,9 @@ void TMR0_IRQHandler(void)
 	DrvTimer_ClearIntFlagTmr0();
 		
 	Update = 1;
+	
+	// TEST - for measuring processor load
+	//DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_11);
 	
 	// Increment real-time counter
 	TO_counter++;
@@ -206,10 +233,12 @@ void gpioInit(void)
 	// Configure GPIO port B pins.
 	DrvGPIO_SetIOMode(&GPIOB,
 	
+		DRVGPIO_IOMODE_PIN6_OUT		|
+	
 		DRVGPIO_IOMODE_PIN8_OUT		|	// PWM Motor
 		DRVGPIO_IOMODE_PIN9_OUT		|	// PWM Motor
 		DRVGPIO_IOMODE_PIN10_OUT	|	// PWM Motor
-		//DRVGPIO_IOMODE_PIN11_OUT	|	// PWM LED			
+		DRVGPIO_IOMODE_PIN11_OUT	|	// busy LED			
 		
 		DRVGPIO_IOMODE_PIN12_IN		|	// Read activity_Button
 		DRVGPIO_IOMODE_PIN13_IN		|	// Read Homing_Sensor
@@ -221,8 +250,12 @@ void gpioInit(void)
 //	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
 //	DrvGPIO_EnableFallingLowInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
 
-//	// Enable GPIO interrupt routine.
-//	NVIC_EnableIRQ(GPAB_IRQn);    
+	// Enable interupt on interrupter change
+	DrvGPIO_SetRisingInt(&HOMING_SENSOR_GPIO, HOMING_SENSOR_PIN, TRUE);
+	DrvGPIO_SetFallingInt(&HOMING_SENSOR_GPIO, HOMING_SENSOR_PIN, TRUE);
+
+	// Enable GPIO interrupt routine.
+	NVIC_EnableIRQ(GPAB_IRQn);    
 }
 
 uint16_t res;
@@ -242,26 +275,44 @@ int main(void)
 	
 	// motor driver IC initialization
 	init_DRV8301();	
-	
-	PWM_Init();
-		
+	// motor PWM module initialization
+	PWM_Init();		
+	// BLDC motor control initialization
 	SineDrive_init();	
-	SineDrive_Halt();
 	
+	// software PWM for RGB initializaiton
 	RGB_init(); // place it after sindrive init so it doesn't slow down initial calculation
 	RGB_set(RGB_RED);
 	
-	SineDrive_setPower(0.98); 	
-	SineDrive_setFrequency(1.0);
-	SineDrive_setAmplitude(100.00);
-	
-	SineDrive_Start();
+	// DEMO - starting motor movement
+	SineDrive_setMotorMovement(1.50, 80.00, 0.80, 1500);
 	
 	for (;;)
 	{
+		// DEMO - timer interrupt sets this Update flag
+		//        when new update is up, just call the SineDrive_do() function...
+		//        SineDrive_do() takes care of everything, accelerating, decellerating, swithing states, moving motor, sinchronizing, etc...
 		if (Update) {
 			Update = 0;
-			SineDrive_do();			
+			SineDrive_do();	
+			
+			// TEST - for measuring processor load
+			//DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_11);			
 		}
+		
+		// DEMO - at 10th second since restart, shange the motor movement
+		//        observe the gracefull change by first reducing oscillation amplitude, then restarting
+		//        with new movement by gradualy increasing amplitude
+		if (TO_counter == 10000)
+		{
+				SineDrive_setMotorMovement(0.50, 80.00, 0.80, 1500);
+		}
+		
+		// DEMO - same here, just starting drom 30th second...
+		if (TO_counter == 30000)
+		{
+				SineDrive_setMotorMovement(3.20, 25.00, 0.80, 1500);
+		}
+
 	}
 }

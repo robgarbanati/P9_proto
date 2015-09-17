@@ -39,5 +39,4 @@ uint16_t getCtrlReg_DRV8301(uint8_t Reg);
 
 uint16_t sendData(uint16_t Data);
 
-
 #endif /* DRV8301_H_ */

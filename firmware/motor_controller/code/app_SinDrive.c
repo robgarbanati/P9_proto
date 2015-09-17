@@ -29,23 +29,24 @@ float driveFrequency;
 uint32_t driveAmplitude;
 uint32_t thresholdAmplitude;
 
-float t = 16300;	
-float phaseStartTime, phaseStopTime;
-float indexStartTime, indexStopTime;
-float phaseTime, indexTime;
-bool  phaseImpulseStarted = false;
-bool  phaseImpulseDone = false;
-bool  indexImpulseDone = false;
-bool  offsetFound = false;
-float timeOffset = 0;
-//float direction = 1;
+int16_t phy_measured_offset;
 
-uint16_t amplitudeFactor = MAX_AMPLITUDE_FACTOR;
+float t = 16300;	
+
+INT16 amplitudeFactor = 0;
+INT16 amplitudeFactorStep;
 
 enum state_machine State = STOPPED;
 
 static void SineDrive_switchState(enum state_machine newState);
 static void SineDrive_motorOFF(void);
+
+// Motor movement parameters
+float		drvFrequency;
+float 	drvPower;
+float 	drvAmplitude;
+UINT16	drvTransitionTime;
+UINT8   drvNewParameters = 0;
 
 static void SineDrive_create_sine_table(void)
 {
@@ -57,30 +58,6 @@ static void SineDrive_create_sine_table(void)
 		phase = (float)((2.00 * PI * i)/SINE_STEPS);
 		sine_full[i] = sin(phase) * SINE_MAX;
 		sine[i] = sine_full[i];
-	}
-}
-
-static void SineDrive_create_delta_table(void)
-{
-	float phase;
-	float one_third = (2 * PI) / 3;
-	uint32_t i;
-	
-	for (i=0; i<SINE_STEPS; i++)
-	{
-		phase = (float)((2.00 * PI * i)/SINE_STEPS);		
-		if ((phase >= 0) && (phase < one_third))
-		{
-			delta[i] = sin(phase) * MOTOR_PWM_PERIOD;
-		}
-		if ((phase >= one_third) && (phase < 2*one_third))
-		{
-			delta[i] = -sin(phase - 2*one_third) * MOTOR_PWM_PERIOD;
-		}
-		if (phase >= 2*one_third)
-		{
-			delta[i] = 0;
-		}
 	}
 }
 
@@ -99,7 +76,6 @@ static void SineDrive_create_fine_sine_table(void)
 void SineDrive_init(void)
 {
 	SineDrive_create_sine_table();
-	SineDrive_create_delta_table();
 	SineDrive_create_fine_sine_table();
 	
 	stepU = 0;
@@ -120,6 +96,8 @@ void SineDrive_init(void)
 	
 	// Enable the timer.
 	DrvTimer_EnableTmr0();	
+	
+	SineDrive_Halt();
 }
 
 void SineDrive_stepUp(void)
@@ -159,13 +137,6 @@ void SineDrive_SineStep(void)
 	PWM_set_output2(SINE_MAX + sine[stepW]);
 }
 
-void SineDrive_DeltaStep(void)
-{
-	PWM_set_output0(delta[stepU]);
-	PWM_set_output1(delta[stepV]);
-	PWM_set_output2(delta[stepW]);
-}
-
 void SineDrive_setFrequency(float Frequency)
 {
 	driveFrequency = Frequency;
@@ -196,6 +167,11 @@ void SineDrive_setState(enum state_machine Stat)
 
 void SineDrive_Start(void)
 {
+	drvNewParameters = 0;	
+	amplitudeFactor = 0;	
+	SineDrive_setPower(drvPower); 	
+	SineDrive_setFrequency(drvFrequency);
+	SineDrive_setAmplitude(drvAmplitude);				
 	SineDrive_switchState(ACCELERATE);
 }
 
@@ -226,7 +202,6 @@ static void SineDrive_switchState(enum state_machine newState)
 {
 	if (newState == STOPPED)
 	{		
-		//SineDrive_motorOFF();
 		amplitudeFactor = 0;
 		t = 0;
 		State = STOPPED;
@@ -253,6 +228,8 @@ static void SineDrive_switchState(enum state_machine newState)
 }
 
 uint16_t aOffset;	
+int16_t  global_phy;
+
 void SineDrive_do(void)
 {	
 	// set correct time step interval according to update timer period!
@@ -261,10 +238,8 @@ void SineDrive_do(void)
 	
 	static int32_t  step_now, step_old;	
 	static int16_t  step_cnt;			
-	static uint32_t arg, last_arg;
+	static uint32_t arg;
 	static int16_t  discrete_phy;
-	static float    partOffset;
-	//static float    angularOffset;
 	uint32_t i;
 	
 	if (State == STOPPED)
@@ -277,9 +252,10 @@ void SineDrive_do(void)
 	{
 		// increase amplitude until set value is reached
 		// then switch to RUN state
-		amplitudeFactor++;
+		amplitudeFactor += amplitudeFactorStep;
 		if (amplitudeFactor >= MAX_AMPLITUDE_FACTOR)
 		{
+			amplitudeFactor = MAX_AMPLITUDE_FACTOR;
 			SineDrive_switchState(RUN);
 		}
 	}
@@ -300,66 +276,32 @@ void SineDrive_do(void)
 		arg %= FINE_SINE_STEPS;
 		discrete_phy = fine_sine[arg];		
 		
-		// detect change in direction, and reset offset measuring
-		// changes occur at pi/2 and 3pi/2, the sine function
-		// in this case sine is approximated with fine_sine table with FINE_SINE_STEPS
-		// therefore changes occur at FINE_SINE_STEPS/4 and 3*FINE_SINE_STEPS/4
-		//port_pin_set_output_level(PHASE_0_PIN, HIGH);
-		if ((last_arg <= FINE_SINE_STEPS/4) && (arg > FINE_SINE_STEPS/4))
-		{
-			// direction change!!!
-			SineDrive_resetOffsetMeasuring();
-			//direction = -1;
-		}
-		if ((last_arg <= 3*FINE_SINE_STEPS/4) && (arg > 3*FINE_SINE_STEPS/4))
-		{
-			// direction change!!!
-			SineDrive_resetOffsetMeasuring();
-			//direction = 1;
-		}
-		last_arg = arg;
+		global_phy = discrete_phy;
 				
-		
-		
-		// detect phase close to 0
-		if (abs(discrete_phy) < 500)
-		//if ((arg > FINE_SINE_STEPS/4) && (arg < FINE_SINE_STEPS * 3 / 4))
-		{
-			if (!phaseImpulseStarted)
-			{
-				phaseImpulseStarted = true;
-				//////////////////////////////////////////////////port_pin_set_output_level(PHASE_0_PIN, HIGH);
-				SineDrive_getPhaseStartTime();
-			}			
-		} else {
-			if (phaseImpulseStarted)
-			{
-				phaseImpulseStarted = false;
-				//////////////////////////////////////////////////port_pin_set_output_level(PHASE_0_PIN, LOW);
-				SineDrive_getPhaseStopTime();
-			}			
-		}
-		
 		t += t_step;			
 		
-		partOffset = timeOffset/100;
-		timeOffset -= partOffset;
-
 		step_now = (int32_t)(discrete_phy * driveAmplitude + aOffset * driveAmplitude)/(10000);
 		step_now = step_now * amplitudeFactor / MAX_AMPLITUDE_FACTOR;
 		step_cnt = step_now - step_old;
 		step_old = step_now;
 		
-		if (partOffset > t_step/20)
+		// add/remove steps to adjust the offset,
+		// but only if motor is already moving, don't affect the steps in which motor is supposed to be still
+		if (abs(phy_measured_offset) > 200)
 		{
-			if (step_cnt<0)
+			if ((abs(step_cnt) > 0) && (abs(step_cnt) < 3))
 			{
-				step_cnt--;
-			}	
-			if (step_cnt>0)
-			{
-				step_cnt++;
-			}		
+				if (phy_measured_offset<0)
+				{
+					step_cnt--;
+				}
+				if (phy_measured_offset>0)
+				{
+					step_cnt++;
+				}
+				
+				phy_measured_offset = 95 * phy_measured_offset / 100;
+			}						
 		}
 		
 		if (step_cnt>0)
@@ -383,63 +325,42 @@ void SineDrive_do(void)
 	if (State == DECELERATE)
 	{
 		// decrease amplitude until it's 0
-		// then switch to STOP state
-		amplitudeFactor--;
-		if (amplitudeFactor == 0)
-		{			
-			SineDrive_switchState(STOPPED);
+		// then switch either to STOP state or start new cycle with pending parameters
+		amplitudeFactor -= amplitudeFactorStep;
+		if (amplitudeFactor <= 0)
+		{		
+			amplitudeFactor = 0;
+			
+			if (drvNewParameters) 
+			{
+				SineDrive_Start();
+			} else {
+				SineDrive_switchState(STOPPED);
+			}			
 		}
 	}
 }
 
-void SineDrive_getPhaseStartTime(void)
+/*
+  Frequency in Hz, float
+	Amplitude in %, [0.00 - 100.00]
+	Power, [0.00 - 1.00]
+	TransitionTime in ms - max 5000!
+*/
+void SineDrive_setMotorMovement(float Frequency, float Amplitude, float Power, UINT16 TransitionTime)
 {
-	phaseStartTime = t;
-}
-
-void SineDrive_getPhaseStopTime(void)
-{
-	phaseStopTime = t;
-	phaseTime = (phaseStartTime + phaseStopTime) / 2;	
+	drvFrequency = 			Frequency;
+	drvPower = 					Power;
+	drvAmplitude = 			Amplitude;
+	drvTransitionTime = TransitionTime;
+	drvNewParameters = 	1;
 	
-	if (!offsetFound)
-	{
-		phaseImpulseDone = true;
-	}	
-			
-}
-
-void SineDrive_getIndexStartTime(void)
-{		
-	indexStartTime = t;			
-}
-
-void SineDrive_getIndexStopTime(void)
-{
-	indexStopTime = t;
-	indexTime = (indexStartTime + indexStopTime) / 2;
+	amplitudeFactorStep = (MAX_AMPLITUDE_FACTOR / TransitionTime);
 	
-	if (!offsetFound)
-	{
-		indexImpulseDone = true;
-		if (phaseImpulseDone)
-		{
-			SineDrive_calcTimeDrift();
-		}
-	}	
-}
-
-void SineDrive_calcTimeDrift(void)
-{
-	timeOffset = indexTime - phaseTime;
-	offsetFound = true;
-	//printf("Offset t: %d\r\n", (uint32_t)(timeOffset*1000));
-}
-
-void SineDrive_resetOffsetMeasuring(void)
-{
-	offsetFound = false;
-	indexImpulseDone = false;
-	phaseImpulseDone = false;
-	timeOffset = 0;
+	if (State == STOPPED)
+	{		
+		SineDrive_Start();
+	} else {
+		SineDrive_Stop();
+	};
 }

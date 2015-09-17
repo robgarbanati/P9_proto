@@ -2,7 +2,7 @@
 .\f072\debug\app_softpwm.o: ../Nuvoton/Include/Platform.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h
-.\f072\debug\app_softpwm.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
+.\f072\debug\app_softpwm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/HW/Include/SFR.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/HW/Include/F072/SFR.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/HW/Include/F072/NVTChipDef.h
@@ -19,7 +19,7 @@
 .\f072\debug\app_softpwm.o: ../Nuvoton/HW/Include/F072/APU.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/HW/Include/F072/ADC.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/Include/NVTTypes.h
-.\f072\debug\app_softpwm.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stddef.h
+.\f072\debug\app_softpwm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/Include/Driver/DrvGPIO.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/Include/System/SysInfra.h
 .\f072\debug\app_softpwm.o: ../Nuvoton/Include/System/ModuleID.h

@@ -2,7 +2,7 @@
 .\f072\debug\app_sindrive.o: ../Nuvoton/Include/Platform.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h
-.\f072\debug\app_sindrive.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
+.\f072\debug\app_sindrive.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/HW/Include/SFR.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/HW/Include/F072/SFR.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/HW/Include/F072/NVTChipDef.h
@@ -19,9 +19,9 @@
 .\f072\debug\app_sindrive.o: ../Nuvoton/HW/Include/F072/APU.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/HW/Include/F072/ADC.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/Include/NVTTypes.h
-.\f072\debug\app_sindrive.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stddef.h
-.\f072\debug\app_sindrive.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdlib.h
-.\f072\debug\app_sindrive.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\Math.h
+.\f072\debug\app_sindrive.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\f072\debug\app_sindrive.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\f072\debug\app_sindrive.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\Math.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/Include/Driver/DrvCLK.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/Include/System/SysInfra.h
 .\f072\debug\app_sindrive.o: ../Nuvoton/Include/System/ModuleID.h

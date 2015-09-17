@@ -7,6 +7,7 @@
 ".\f072\debug\app_sindrive.o"
 ".\f072\debug\app_drv8301.o"
 ".\f072\debug\app_softpwm.o"
+".\f072\debug\app_optosensor.o"
 ".\f072\debug\core_cm0.o"
 ".\f072\debug\startup_n572_isp.o"
 "..\Nuvoton\Lib\Commu\SemiHost_Keil.lib"
