@@ -282,10 +282,10 @@ int main(void)
 	
 	// software PWM for RGB initializaiton
 	RGB_init(); // place it after sindrive init so it doesn't slow down initial calculation
-	RGB_set(RGB_RED);
+	RGB_set(RGB_YELLOW);
 	
 	// DEMO - starting motor movement
-	SineDrive_setMotorMovement(1.50, 80.00, 0.80, 1500);
+	SineDrive_setMotorMovement(2.0, 0.25, 0.70, 3000);
 	
 	for (;;)
 	{
@@ -305,13 +305,15 @@ int main(void)
 		//        with new movement by gradualy increasing amplitude
 		if (TO_counter == 10000)
 		{
-				SineDrive_setMotorMovement(0.50, 80.00, 0.80, 1500);
+				//SineDrive_setMotorMovement(2.0, 0.25, 0.70, 3000);
+			SineDrive_setMotorMovement(0.25, 1.0, 0.70, 3000);
 		}
 		
-		// DEMO - same here, just starting drom 30th second...
-		if (TO_counter == 30000)
+		// DEMO - same here, just starting drom 20th second...
+		if (TO_counter == 20000)
 		{
-				SineDrive_setMotorMovement(3.20, 25.00, 0.80, 1500);
+				//SineDrive_setMotorMovement(2.0, 0.25, 0.70, 3000);
+			SineDrive_setMotorMovement(3.5, 0.25, 0.70, 3000);
 		}
 
 	}

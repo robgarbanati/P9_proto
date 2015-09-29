@@ -28,7 +28,8 @@ typedef enum state_machine
 	STOPPED,
 	ACCELERATE,
 	RUN,
-	DECELERATE
+	DECELERATE,
+	SWITCHOVER
 } stm;
 
 void SineDrive_init(void);
