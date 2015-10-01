@@ -14,6 +14,8 @@
         <TargetCommonOption>
           <Device>N572F072</Device>
           <Vendor>Nuvoton</Vendor>
+          <PackID>Nuvoton.NuMicro_DFP.1.0.2</PackID>
+          <PackURL>http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack</PackURL>
           <Cpu>IRAM(0x20000000-0x20001FFF) IROM(0-0x11FFF) CLOCK(48000000) CPUTYPE("Cortex-M0")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -72,6 +74,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -128,6 +132,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -139,8 +144,8 @@
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <RestoreTracepoints>1</RestoreTracepoints>
-            <RestoreTracepoints>1</RestoreTracepoints>
-            <RestoreTracepoints>1</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
+            <UsePdscDebugDescription>1</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
           <TargetSelection>15</TargetSelection>
@@ -430,24 +435,14 @@
               <FilePath>.\Adc.h</FilePath>
             </File>
             <File>
+              <FileName>Motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Motor.h</FilePath>
+            </File>
+            <File>
               <FileName>PWM.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\PWM.h</FilePath>
-            </File>
-            <File>
-              <FileName>app_SinDrive.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\app_SinDrive.h</FilePath>
-            </File>
-            <File>
-              <FileName>app_drv8301.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\app_drv8301.h</FilePath>
-            </File>
-            <File>
-              <FileName>app_SoftPWM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\app_SoftPWM.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -475,24 +470,14 @@
               <FilePath>.\Adc.c</FilePath>
             </File>
             <File>
+              <FileName>Motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Motor.c</FilePath>
+            </File>
+            <File>
               <FileName>PWM.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\PWM.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_SinDrive.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app_SinDrive.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_drv8301.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app_drv8301.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_SoftPWM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app_SoftPWM.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -541,6 +526,8 @@
         <TargetCommonOption>
           <Device>N572F072</Device>
           <Vendor>Nuvoton</Vendor>
+          <PackID>Nuvoton.NuMicro_DFP.1.0.2</PackID>
+          <PackURL>http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack</PackURL>
           <Cpu>IRAM(0x20000000-0x20001FFF) IROM(0-0x11FFF) CLOCK(48000000) CPUTYPE("Cortex-M0")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -599,6 +586,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -655,6 +644,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -666,8 +656,8 @@
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <RestoreTracepoints>1</RestoreTracepoints>
-            <RestoreTracepoints>1</RestoreTracepoints>
-            <RestoreTracepoints>1</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
+            <UsePdscDebugDescription>1</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
           <TargetSelection>16</TargetSelection>
@@ -957,24 +947,14 @@
               <FilePath>.\Adc.h</FilePath>
             </File>
             <File>
+              <FileName>Motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Motor.h</FilePath>
+            </File>
+            <File>
               <FileName>PWM.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\PWM.h</FilePath>
-            </File>
-            <File>
-              <FileName>app_SinDrive.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\app_SinDrive.h</FilePath>
-            </File>
-            <File>
-              <FileName>app_drv8301.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\app_drv8301.h</FilePath>
-            </File>
-            <File>
-              <FileName>app_SoftPWM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\app_SoftPWM.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1002,24 +982,14 @@
               <FilePath>.\Adc.c</FilePath>
             </File>
             <File>
+              <FileName>Motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Motor.c</FilePath>
+            </File>
+            <File>
               <FileName>PWM.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\PWM.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_SinDrive.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app_SinDrive.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_drv8301.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app_drv8301.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_SoftPWM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app_SoftPWM.c</FilePath>
             </File>
           </Files>
         </Group>

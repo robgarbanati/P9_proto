@@ -1,0 +1,22 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Rob\Documents\OLogic\Unacuna\P9_proto\firmware\motor_controller\snooboardcode\Motor_Control_Chip.uvprojx
+Project File Date:  09/21/2015
+
+<h2>Output:</h2>
+Build target 'F072_Debug'
+compiling Main.c...
+Main.c(259): warning:  #177-D: variable "old_PWM" was declared but never referenced
+        uint8_t old_PWM = 0;
+Main.c: 1 warning, 0 errors
+linking...
+Program Size: Code=13536 RO-data=656 RW-data=260 ZI-data=5692  
+After Build - User command #1: fromelf --i32combined --output F072\Debug\Motor_Control_Chip.hex F072\Debug\Motor_Control_Chip.axf
+After Build - User command #2: ../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\Motor_Control_Chip.hex
+hex2bin v1.0.2, Copyright (C) 2012 Jacques Pelletier
+Lowest address = 00000000
+Highest address = 0000392B
+".\F072\Debug\Motor_Control_Chip.axf" - 0 Error(s), 1 Warning(s).

@@ -205,7 +205,7 @@ void gpioInit(void)
 
 	// Configure GPIO port B pins.
 	DrvGPIO_SetIOMode(&GPIOB,
-	
+		DRVGPIO_IOMODE_PIN5_OUT		|	// Power Down
 		DRVGPIO_IOMODE_PIN8_OUT		|	// PWM Motor A
 		DRVGPIO_IOMODE_PIN9_OUT		|	// PWM Motor B
 		DRVGPIO_IOMODE_PIN10_OUT	|	// PWM Motor C
@@ -215,6 +215,7 @@ void gpioInit(void)
 	);
 	
 	DrvGPIO_SetOutputBit(&GPIOA, DRVGPIO_PIN_14); // EN_GATE needs to enabled before SPI	
+	DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_5); // EN_GATE needs to enabled before SPI	
 
 //	// Enable interupt on activity button released.
 	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
@@ -231,6 +232,7 @@ void MainTestFunc(void)
 uint16_t res;
 int main(void)
 {
+	uint8_t old_PWM = 0;
 	int i = 0;
 
 	clkInit();
@@ -270,9 +272,17 @@ int main(void)
 		{
 			set_led_color_from_state();
 			if (Update) {
+				if(get_motor_PWM() != old_PWM)
+				{
+					old_PWM = get_motor_PWM();
+					SineDrive_setPower(((float) get_motor_PWM()) / 100);
+				}
+				
 				Update = 0;
 				SineDrive_setFrequency(get_frequency_from_state());
 				SineDrive_setAmplitude(get_amplitude_from_state());
+//				SineDrive_setFrequency(1);
+//				SineDrive_setAmplitude(16.30);
 				SineDrive_do();
 			}
 		}
@@ -285,17 +295,3 @@ int main(void)
 		}
 	}
 }
-
-
-//void Reset_Handler()
-//{
-//	extern void __main(void);
-//	extern void (*appJumpAddress)(void);
-
-//	// Enter the bootloader if application address is invalid.
-//	// __main();
-
-//	// Run the application.
-//	// at a specific address. 
-//	(*appJumpAddress)();
-//}

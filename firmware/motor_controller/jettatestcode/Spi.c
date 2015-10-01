@@ -26,7 +26,7 @@ volatile UINT8 activity_button_pressed_flag = 0;
 #define STEPUP3 		5
 #define STEPUP4			6
 
-static UINT16 sway_state;
+static UINT8 sway_state, motor_PWM;
 static UINT32 desired_speed;
 
 //
@@ -46,6 +46,12 @@ UINT32 get_desired_speed(void)
 UINT8 get_sway_state(void)
 {
 	return (UINT8) sway_state;
+}
+
+
+UINT8 get_motor_PWM(void)
+{
+	return (UINT8) motor_PWM;
 }
 
 float get_frequency_from_state(void)
@@ -218,9 +224,11 @@ void read_and_write_SPI(void)
 			spiMaster_Data[index] = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 			
 			// Interpret messages
+			
+			printf("spimessage is %x\n", spiSlave_Data[index]);
 			sway_state = (spiSlave_Data[index] & 0x00FF);
 //			desired_speed = (spiSlave_Data[index] & 0x00FF);
-//			sway_state = (spiSlave_Data[index] >> 8) & 0x0F;
+			motor_PWM = (spiSlave_Data[index] >> 8) & 0x00FF;
 			
 			// Daisy-chain: Pass slave values (recvd from Linux master) to master (to Cry Detect Board) and vice versa.
 			spiSlave_Write(spiMaster_Data[index] | activity_button_pressed_flag);

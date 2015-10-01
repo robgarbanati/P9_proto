@@ -73,12 +73,10 @@ void spiSlave_Write(UINT32 value);
 // Exchange single word with slave device
 void spiMaster_Xchange(UINT16 TxData, UINT16 RxData);
 
-
+UINT8 get_motor_PWM(void);
 float get_frequency_from_state(void);
 float get_amplitude_from_state(void);
 void set_led_color_from_state(void);
-
-void SpiTestFunc(void);
 
 #endif // __SPI_H
 

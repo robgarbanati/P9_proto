@@ -8,18 +8,20 @@ Project File Date:  08/19/2015
 
 <h2>Output:</h2>
 Build target 'F072_Debug'
-compiling Spi.c...
+compiling Main.c...
 app_SoftPWM.h(16): warning:  #1-D: last line of file ends without a newline
   void RGB_set(uint8_t R, uint8_t G, uint8_t B);
-Spi.c(22): warning:  #47-D: incompatible redefinition of macro "ONLINE_STATE" (declared at line 9 of "PWM.h")
-  #define ONLINE_STATE  13
-Spi.c: 2 warnings, 0 errors
+Main.c(236): warning:  #550-D: variable "i" was set but never used
+        int i = 0;
+Main.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=13680 RO-data=656 RW-data=256 ZI-data=5696  
+Program Size: Code=14364 RO-data=700 RW-data=264 ZI-data=5712  
 After Build - User command #1: fromelf --i32combined --output F072\Debug\Motor_Control_Chip.hex F072\Debug\Motor_Control_Chip.axf
 After Build - User command #2: ../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\Motor_Control_Chip.hex
 hex2bin v1.0.2, Copyright (C) 2012 Jacques Pelletier
 Lowest address = 00000000
-Highest address = 000039B7
+Highest address = 00003C97
 ".\F072\Debug\Motor_Control_Chip.axf" - 0 Error(s), 2 Warning(s).
-Load "C:\\Users\\Rob\\Documents\\OLogic\\Unacuna\\P9_proto\\firmware\\motor_controller\\jettatestcode\\F072\\Debug\\Motor_Control_Chip.axf" 
+</pre>
+</body>
+</html>
