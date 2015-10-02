@@ -277,6 +277,12 @@ int main(void)
 	init_DRV8301();	
 	// motor PWM module initialization
 	PWM_Init();		
+	
+	// test
+	//PWM_set_output0(16);
+	//while(1);
+	
+	
 	// BLDC motor control initialization
 	SineDrive_init();	
 	

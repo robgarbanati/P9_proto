@@ -26,7 +26,7 @@ I (..\Nuvoton\HW\Include\F072/SPI.h)(0x55F94FFA)
 I (..\Nuvoton\HW\Include\F072/PWM.h)(0x55F94FFA)
 I (..\Nuvoton\HW\Include\F072/APU.h)(0x55F94FFA)
 I (..\Nuvoton\HW\Include\F072/ADC.h)(0x55F94FFA)
-F (.\Main.c)(0x560AFB25)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\main.o --omf_browse .\f072\debug\main.crf --depend .\f072\debug\main.d)
+F (.\Main.c)(0x560DA850)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\main.o --omf_browse .\f072\debug\main.crf --depend .\f072\debug\main.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54766380)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54766380)
 I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
@@ -149,7 +149,7 @@ I (PWM.h)(0x5525AE35)
 I (../Nuvoton/Include/Driver/DrvADC.h)(0x55F94FFA)
 I (../Nuvoton/Include/Driver/DrvADCEx_F072.h)(0x55F94FFA)
 I (../Nuvoton/Include/Driver/DrvAPU.h)(0x55F94FFA)
-F (.\PWM.c)(0x552702E5)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\pwm.o --omf_browse .\f072\debug\pwm.crf --depend .\f072\debug\pwm.d)
+F (.\PWM.c)(0x560DA8CE)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\pwm.o --omf_browse .\f072\debug\pwm.crf --depend .\f072\debug\pwm.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54766380)
 I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x55F94FFA)
 I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
