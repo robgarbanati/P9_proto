@@ -8,15 +8,20 @@ Project File Date:  09/21/2015
 
 <h2>Output:</h2>
 Build target 'F072_Debug'
-compiling Main.c...
-Main.c(259): warning:  #177-D: variable "old_PWM" was declared but never referenced
-        uint8_t old_PWM = 0;
-Main.c: 1 warning, 0 errors
+compiling Spi.c...
+Spi.c(26): warning:  #47-D: incompatible redefinition of macro "ONLINE_STATE" (declared at line 9 of "PWM.h")
+  #define ONLINE_STATE  13
+Spi.c: 1 warning, 0 errors
 linking...
-Program Size: Code=13536 RO-data=656 RW-data=260 ZI-data=5692  
+Program Size: Code=17816 RO-data=832 RW-data=288 ZI-data=5712  
 After Build - User command #1: fromelf --i32combined --output F072\Debug\Motor_Control_Chip.hex F072\Debug\Motor_Control_Chip.axf
 After Build - User command #2: ../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\Motor_Control_Chip.hex
 hex2bin v1.0.2, Copyright (C) 2012 Jacques Pelletier
 Lowest address = 00000000
-Highest address = 0000392B
+Highest address = 00004AAF
 ".\F072\Debug\Motor_Control_Chip.axf" - 0 Error(s), 1 Warning(s).
+Load "C:\\Users\\Rob\\Documents\\OLogic\\Unacuna\\P9_proto\\firmware\\motor_controller\\snooboardcode\\F072\\Debug\\Motor_Control_Chip.axf" 
+</pre>
+</body>
+</html>
+cuments\\OLogic\\Unacuna\\P9_proto\\firmware\\motor_controller\\snooboardcode\\F072\\Debug\\Motor_Control_Chip.axf" 

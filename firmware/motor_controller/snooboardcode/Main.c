@@ -124,7 +124,7 @@ void TMR0_IRQHandler(void)
 	Update = 1;
 	
 	// TEST - for measuring processor load
-//	DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_5);
+	//DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_11);
 	
 	// Increment real-time counter
 	TO_counter++;
@@ -255,8 +255,7 @@ void gpioInit(void)
 uint16_t res;
 int main(void)
 {
-
-	uint8_t old_PWM = 0;
+	float old_frequency = 2.0, old_amplitude = 0.25, old_power = 0.70;
 	
 	clkInit();
 
@@ -269,9 +268,15 @@ int main(void)
 	
 	
 	// motor driver IC initialization
-	init_DRV8301();	
+	init_DRV8301();
 	// motor PWM module initialization
-	PWM_Init();		
+	PWM_Init();
+	
+	// test
+	//PWM_set_output0(16);
+	//while(1);
+	
+	
 	// BLDC motor control initialization
 	SineDrive_init();	
 	
@@ -280,11 +285,10 @@ int main(void)
 	RGB_set(RGB_RED);
 	
 	// DEMO - starting motor movement
-	SineDrive_setMotorMovement(.25, 0.00, 0.80, 1500);
-	
+	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
+
 	for (;;)
 	{
-		float old_frequency, old_amplitude;
 		
 		// DEMO - timer interrupt sets this Update flag
 		//        when new update is up, just call the SineDrive_do() function...
@@ -296,27 +300,48 @@ int main(void)
 			{
 				old_frequency = get_frequency_from_state();
 				old_amplitude = get_amplitude_from_state();
-				SineDrive_setMotorMovement(old_frequency, old_amplitude, get_motor_PWM(), 500);
+				SineDrive_setMotorMovement(old_frequency, old_amplitude, get_motor_PWM(), 3000);
+			}
+			if(old_power != get_motor_PWM())
+			{
+				old_power = get_motor_PWM();
+				printf("old = %f, new = %f\n", old_power, get_motor_PWM());
+				SineDrive_setPower(old_power);
 			}
 			SineDrive_do();	
 			
 			// TEST - for measuring processor load
 //			DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_5);			
 		}
-		
-		// DEMO - at 10th second since restart, shange the motor movement
-		//        observe the gracefull change by first reducing oscillation amplitude, then restarting
-		//        with new movement by gradualy increasing amplitude
-//		if (TO_counter == 6000)
-//		{
-//				SineDrive_setMotorMovement(0.50, 80.00, 0.80, 1500);
+	}
+//	for (;;)
+//	{
+//		// DEMO - timer interrupt sets this Update flag
+//		//        when new update is up, just call the SineDrive_do() function...
+//		//        SineDrive_do() takes care of everything, accelerating, decellerating, swithing states, moving motor, sinchronizing, etc...
+//		if (Update) {
+//			Update = 0;
+//			SineDrive_do();	
+//			
+//			// TEST - for measuring processor load
+//			//DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_11);			
 //		}
 //		
-//		// DEMO - same here, just starting from 30th second...
-//		if (TO_counter == 12000)
+//		// DEMO - at 10th second since restart, shange the motor movement
+//		//        observe the gracefull change by first reducing oscillation amplitude, then restarting
+//		//        with new movement by gradualy increasing amplitude
+//		if (TO_counter == 10000)
 //		{
-//				SineDrive_setMotorMovement(0.50, 95.00, 0.80, 3500);
+//				//SineDrive_setMotorMovement(2.0, 0.25, 0.70, 3000);
+//			SineDrive_setMotorMovement(0.25, 1.0, 0.70, 3000);
+//		}
+//		
+//		// DEMO - same here, just starting drom 20th second...
+//		if (TO_counter == 20000)
+//		{
+//				//SineDrive_setMotorMovement(2.0, 0.25, 0.70, 3000);
+//			SineDrive_setMotorMovement(3.5, 0.25, 0.70, 3000);
 //		}
 
-	}
+//	}
 }

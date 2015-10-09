@@ -28,12 +28,14 @@ typedef enum state_machine
 	STOPPED,
 	ACCELERATE,
 	RUN,
-	DECELERATE
+	DECELERATE,
+	SWITCHOVER
 } stm;
 
 void SineDrive_init(void);
 void SineDrive_do(void);
 void SineDrive_Halt(void);
 void SineDrive_setMotorMovement(float Frequency, float Amplitude, float Power, UINT16 TransitionTime);
+void SineDrive_setPower(float Power);
 
 #endif /* SINEDRIVE_H_ */

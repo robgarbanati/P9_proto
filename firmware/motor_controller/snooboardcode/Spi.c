@@ -40,7 +40,7 @@ float get_frequency_from_state(void)
 	switch(sway_state)
 	{
 		case ONLINE_STATE:
-			return 0;
+			return 3.43;
 		case BASELINE:
 			return 0.79;
 		case STEPUP1:
@@ -63,14 +63,14 @@ float get_amplitude_from_state(void)
 		case ONLINE_STATE:
 			return 0;
 		case BASELINE:
-			return 34.04;
+			return 0.3404;
 		case STEPUP1:
-			return 21.79;
+			return 0.2179;
 		case STEPUP2:
-			return 13.62;
+			return 0.1362;
 		case STEPUP3:
 		case STEPUP4:
-			return 8.17;
+			return 0.0817;
 		default:
 			return 0;
 	}
@@ -108,6 +108,7 @@ void set_led_color_from_state(void)
 
 float get_motor_PWM(void)
 {
+//	printf("pwm is %f and %f\n", (float) motor_PWM,((float) motor_PWM)/100);
 	return ((float) motor_PWM)/100;
 }
 
@@ -225,8 +226,10 @@ void read_and_write_SPI(void)
 			spiMaster_Data[index] = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 			
 			// Interpret messages
+//			printf("%d\n", spiSlave_Data[index]);
 			sway_state = (spiSlave_Data[index] & 0x00FF);
 			motor_PWM = (spiSlave_Data[index] >> 8) & 0x00FF;
+//			printf("%d %d\n", motor_PWM, sway_state);
 			
 			// Daisy-chain: Pass slave values (recvd from Linux master) to master (to Cry Detect Board) and vice versa.
 			spiSlave_Write(spiMaster_Data[index] | activity_button_pressed_flag);

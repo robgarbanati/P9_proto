@@ -34,8 +34,8 @@
 
 void PWM_Init(void)
 {	
-	UINT16	u16PreScale = 4;
-	E_DRVPWM_CLOCKDIV	eClockDiv = eDRVPWM_CLOCK_DIV_2;
+	UINT16	u16PreScale = 2;
+	E_DRVPWM_CLOCKDIV	eClockDiv = eDRVPWM_CLOCK_DIV_1;
 	DrvCLK_SetClkSrcPwm(eDRVCLK_PWMSRC_48M);	
 	
 	DrvPWM_DisablePwmInverter();							
@@ -65,15 +65,18 @@ void PWM_Init(void)
 
 void PWM_set_output0(uint16_t Value)
 {
-	DrvPWM_SetComparatorPwm0(MOTOR_PWM_PERIOD - Value);
+	//DrvPWM_SetComparatorPwm0(MOTOR_PWM_PERIOD - Value);
+	DrvPWM_SetComparatorPwm0(Value);
 }
 
 void PWM_set_output1(uint16_t Value)
 {
-	DrvPWM_SetComparatorPwm1(MOTOR_PWM_PERIOD - Value);
+	//DrvPWM_SetComparatorPwm1(MOTOR_PWM_PERIOD - Value);
+	DrvPWM_SetComparatorPwm1(Value);
 }
 
 void PWM_set_output2(uint16_t Value)
 {
-	DrvPWM_SetComparatorPwm2(MOTOR_PWM_PERIOD - Value);
+	//DrvPWM_SetComparatorPwm2(MOTOR_PWM_PERIOD - Value);
+	DrvPWM_SetComparatorPwm2(Value);
 }

@@ -35,7 +35,7 @@ uint16_t sendData(uint16_t Data)
 
 void configure_DRV8301(void)
 {
-	int i = 0;
+	int i;
 	uint16_t CtrlReg = 0x00;	
 	
 	CtrlReg  = (0x00 << DRV8301_OC_MODE) || (0x01 << DRV8301_PWM_MODE) || (0x00 << DRV8301_GATE_RESET) || (0x02 << DRV8301_GATE_CURRENT);
@@ -43,10 +43,9 @@ void configure_DRV8301(void)
 	CtrlReg |= (DRV8301_WRITE_CMD << 15);
 	
 	CtrlReg   = 0x17CA;
-//	for(;;)
+	//for(;;)
 //	sendData(CtrlReg);
-	
-	for(i=0;i<1000;i++)
+	for(i=0;i<100;i++)
 	{
 		while(DrvSPI_GetBusy(SPI_MASTER_HANDLER));
 		CtrlReg   = 0x17CA;

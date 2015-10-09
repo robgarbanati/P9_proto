@@ -30,3 +30,4 @@
 .\f072\debug\app_sindrive.o: ../Nuvoton/Include/Driver/DrvSYS.h
 .\f072\debug\app_sindrive.o: PWM.h
 .\f072\debug\app_sindrive.o: app_SinDrive.h
+.\f072\debug\app_sindrive.o: app_SoftPWM.h

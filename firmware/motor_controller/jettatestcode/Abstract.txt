@@ -1,5 +1,0 @@
-Robot project for the Rev B Play-i robot head prototype.  This hardware is 
-the second version of the robot hardware.  It utilizes the Nuvoton N572 ARM 
-M0 microcontroller.
-
-

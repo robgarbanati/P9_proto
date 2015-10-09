@@ -8,6 +8,7 @@
 
 #include "PWM.h"
 #include "app_SinDrive.h"
+#include "app_SoftPWM.h"
 
 #define FINE_SINE_STEPS (1024)
 #define MAX_AMPLITUDE_FACTOR 5000
@@ -25,8 +26,9 @@ int16_t fine_sine[FINE_SINE_STEPS];
 int16_t drive_percent = 100;
 static uint8_t stepU, stepV, stepW;
 
+float driveAmplitude;
 float driveFrequency;
-uint32_t driveAmplitude;
+uint32_t intDriveAmplitude;
 uint32_t thresholdAmplitude;
 
 int16_t phy_measured_offset;
@@ -35,6 +37,10 @@ float t = 16300;
 
 INT16 amplitudeFactor = 0;
 INT16 amplitudeFactorStep;
+
+float amplitudeDriveStep;
+float frequencyDriveStep;
+UINT8 amplitudeTransitionDone, frequencyTransitionDone;
 
 enum state_machine State = STOPPED;
 
@@ -145,8 +151,9 @@ void SineDrive_setFrequency(float Frequency)
 // Amplitude is in the range [0:1], where 1 is one full length oscillation (180deg left, then 180deg right)
 void SineDrive_setAmplitude(float Amplitude)
 {
-	Amplitude /= 100.00;
-	driveAmplitude = (uint32_t)(FULL_TURN * Amplitude / 2);
+	//Amplitude /= 100.00;
+	driveAmplitude = Amplitude;
+	intDriveAmplitude = (uint32_t)(FULL_TURN * driveAmplitude / 2);
 	thresholdAmplitude = (uint32_t)(FULL_TURN * 10.0 / 2);
 }
 
@@ -173,6 +180,14 @@ void SineDrive_Start(void)
 	SineDrive_setFrequency(drvFrequency);
 	SineDrive_setAmplitude(drvAmplitude);				
 	SineDrive_switchState(ACCELERATE);
+}
+
+void SineDrive_Switchover(void)
+{
+	// activate the transiton code...
+	amplitudeTransitionDone = 0;
+	frequencyTransitionDone = 0;	
+	SineDrive_switchState(SWITCHOVER);
 }
 
 void SineDrive_Stop(void)
@@ -224,11 +239,18 @@ static void SineDrive_switchState(enum state_machine newState)
 		amplitudeFactor = MAX_AMPLITUDE_FACTOR;
 		State = RUN;
 	}
+	
+	if (newState == SWITCHOVER)
+	{
+		State = SWITCHOVER;
+	}
 		
 }
 
 uint16_t aOffset;	
 int16_t  global_phy;
+uint8_t tst = 0;
+uint32_t old_arg;
 
 void SineDrive_do(void)
 {	
@@ -260,7 +282,7 @@ void SineDrive_do(void)
 		}
 	}
 	
-	if ( (State == RUN) || (State == ACCELERATE) || (State == DECELERATE) )
+	if ( (State == RUN) || (State == ACCELERATE) || (State == DECELERATE) || (State == SWITCHOVER) )
 	{
 		// RUN until time is up or stop command is received
 		// then switch to DECELRATE
@@ -274,15 +296,16 @@ void SineDrive_do(void)
 		// phy = sin(2 * PI * Frequency * t);
 		arg  = (FINE_SINE_STEPS * driveFrequency * t);
 		arg %= FINE_SINE_STEPS;
-		discrete_phy = fine_sine[arg];		
+		discrete_phy = fine_sine[arg];	
+
 		
 		global_phy = discrete_phy;
 				
 		t += t_step;			
 		
-		step_now = (int32_t)(discrete_phy * driveAmplitude + aOffset * driveAmplitude)/(10000);
+		step_now = (int32_t)(discrete_phy * intDriveAmplitude + aOffset * intDriveAmplitude)/(10000);
 		step_now = step_now * amplitudeFactor / MAX_AMPLITUDE_FACTOR;
-		step_cnt = step_now - step_old;
+		step_cnt = step_now - step_old;		
 		step_old = step_now;
 		
 		// add/remove steps to adjust the offset,
@@ -339,6 +362,93 @@ void SineDrive_do(void)
 			}			
 		}
 	}
+	
+	if (State == SWITCHOVER)
+	{
+		// amplitude transition
+		if (amplitudeTransitionDone == 0)
+		{
+			if (amplitudeDriveStep > 0)
+			{
+				// amplitude up...
+				driveAmplitude += amplitudeDriveStep;
+				if (driveAmplitude >= drvAmplitude)
+				{		
+					driveAmplitude = drvAmplitude;
+					amplitudeTransitionDone = 1;
+				}
+			} else {
+				// amplitude down...
+				driveAmplitude += amplitudeDriveStep;
+				if (driveAmplitude <= drvAmplitude)
+				{		
+					driveAmplitude = drvAmplitude;
+					amplitudeTransitionDone = 1;
+				}
+			}
+			SineDrive_setAmplitude(driveAmplitude);
+		}
+		
+		// frequency transition
+		// are we at the swing endpoint! (1/4 sine or 3/4 sine)
+		if ( ((old_arg <= 256) && (arg > 256)) || ((old_arg <= 768 ) && (arg > 768)) )
+		{
+			
+			// do the frequency update
+			driveFrequency += frequencyDriveStep;
+			if (frequencyDriveStep > 0)
+			{
+					// speeding up...
+					if (driveFrequency >= drvFrequency)
+					{
+						driveFrequency = drvFrequency;
+						frequencyTransitionDone = 1;
+					}
+			} else {
+					// slowing down...
+					if (driveFrequency <= drvFrequency)
+					{
+						driveFrequency = drvFrequency;
+						frequencyTransitionDone = 1;
+					}
+			}	
+			
+			// this is where sine functions of different frequencies are seamlessly "sewed" together
+			
+			//**********************************************************************************************************
+			// reset oscillation time to appropriate point on sin function ( Pi/4 or 3Pi/4 )
+			if ((old_arg <= 256) && (arg > 256))
+			{
+				t = arg / (driveFrequency * 1024);
+			}
+				
+			if ((old_arg <= 768) && (arg > 768))
+			{
+				t = arg / (driveFrequency * 1024);					
+			}
+										
+			// reset arg and setep count variables			
+			arg  = (FINE_SINE_STEPS * driveFrequency * t);
+			arg %= FINE_SINE_STEPS;
+			discrete_phy = fine_sine[arg];
+			step_now = (int32_t)(discrete_phy * intDriveAmplitude + aOffset * intDriveAmplitude)/(10000);
+			step_now = step_now * amplitudeFactor / MAX_AMPLITUDE_FACTOR;
+			step_old = step_now;
+			
+			// reset any opto corrections
+			phy_measured_offset = 0;
+			//**********************************************************************************************************			
+		}		
+		
+		// if all is done...
+		if ((amplitudeTransitionDone == 1) && (frequencyTransitionDone == 1))
+		{
+			SineDrive_switchState(RUN);
+		}
+	}
+	
+	// always keep track of arg value, it's needed for the smooth transition
+	old_arg = arg;
 }
 
 /*
@@ -349,6 +459,8 @@ void SineDrive_do(void)
 */
 void SineDrive_setMotorMovement(float Frequency, float Amplitude, float Power, UINT16 TransitionTime)
 {
+	float TransitionSteps;
+	
 	drvFrequency = 			Frequency;
 	drvPower = 					Power;
 	drvAmplitude = 			Amplitude;
@@ -357,10 +469,38 @@ void SineDrive_setMotorMovement(float Frequency, float Amplitude, float Power, U
 	
 	amplitudeFactorStep = (MAX_AMPLITUDE_FACTOR / TransitionTime);
 	
+	// amplitude can be modified each ms, that is at each PWM update interrupt
+	// to make the change in required time, find out by how much apmplitude must be changed at each update
+	amplitudeDriveStep = ( (drvAmplitude -  driveAmplitude) / TransitionTime);
+	
+	// frequency is changed at each reversal of direction, that's two times per oscillation
+	// total number of reversals is (TransitionTime/frequency) * 2
+	// transition time is in ms, frequency in Hz
+  // there are different ways to select which frequency to use in calculation
+	// it can be the new value, the one at which motor is already moving or maybe an average of those two...
+	// It looks like that current value is best suited, it gives nice smooth change
+	// which ever the option is used, time for frequency change is not exact.
+	// The number of half-oscillations in this process is not exact, it's based on startign frequency, therefore f. change time is not exact.
+	TransitionSteps = ((2.0 * TransitionTime) / ( driveFrequency * 1000.0));	
+	frequencyDriveStep = (drvFrequency - driveFrequency) / TransitionSteps;
+	
+	// Should we stop?
+	if (drvFrequency == 0)
+	{
+		if (State != STOPPED) {
+			SineDrive_Stop();
+		}
+		return;
+	}
+	
+	// Should we start?
 	if (State == STOPPED)
-	{		
+	{
 		SineDrive_Start();
-	} else {
-		SineDrive_Stop();
-	};
+		return;
+	}
+	
+	// OK, motion change is needed...		
+	SineDrive_Switchover();
+	
 }
