@@ -52,7 +52,7 @@ float get_frequency_from_state(void)
 		case STEPUP4:
 			return 3.43;
 		default:
-			return 0;
+			return 3.43;
 	}
 }
 

@@ -842,10 +842,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>16</ColumnNumber>
+      <ColumnNumber>75</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>269</TopLine>
-      <CurrentLine>309</CurrentLine>
+      <TopLine>287</TopLine>
+      <CurrentLine>308</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Main.c</PathWithFileName>
       <FilenameWithoutPath>Main.c</FilenameWithoutPath>
@@ -858,9 +858,9 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>23</ColumnNumber>
+      <ColumnNumber>30</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>207</TopLine>
+      <TopLine>208</TopLine>
       <CurrentLine>232</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Spi.c</PathWithFileName>
@@ -922,9 +922,9 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>16</ColumnNumber>
+      <ColumnNumber>19</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>16</TopLine>
+      <TopLine>26</TopLine>
       <CurrentLine>48</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\app_drv8301.c</PathWithFileName>
@@ -996,7 +996,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>253</TopLine>
+      <TopLine>254</TopLine>
       <CurrentLine>259</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Nuvoton\CMSIS\CM0\startup\arm\startup_N572_ISP.s</PathWithFileName>
