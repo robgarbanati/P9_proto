@@ -18,6 +18,7 @@
 #include "app_OptoSensor.h"
 
 #define ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT	7
+#define POWER_OFF_SPI_SHIFT_AMOUNT			6
 #define HIGH_STATE	1
 #define LOW_STATE	0
 
@@ -25,9 +26,9 @@
 #include <stdio.h>	  
 #define  SMPLPWM_TESTCAP 0
  
-/*---------------------------------------------------------------------------------------------------------*/
-/* Global variables                                                                                        */
-/*---------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
+/* Global variables                                                                       				*/
+/*------------------------------------------------------------------------------------------------------*/
 						 
 UINT16	g_u16Frequency;
 UINT32	g_bCapInt = 0;
@@ -41,8 +42,11 @@ extern volatile int current_sensed;
 
 volatile UINT32 TO_counter = 0;
 volatile UINT8 speed_flag;
-UINT8 shifted_activity_button = 0;
-extern UINT8 activity_button_pressed_flag;
+extern UINT8 activity_button_pressed_flag, power_down_flag;
+
+/*------------------------------------------------------------------------------------------------------*/
+/* Local variables                                                                               		*/
+/*------------------------------------------------------------------------------------------------------*/
 static UINT8 activity_button_is_being_pressed;
 
 volatile UINT16 Homing_pin_state;
@@ -64,7 +68,7 @@ int get_activity_button_state(void)
 
 void GPAB_IRQHandler(void)
 {	
-	// Is this from SPI CS?
+	// Is interrupt from SPI CS?
 	if(DrvGPIO_GetIntFlag(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN))
 	{
 		// Handle send/receive of packets from N3290 (State Machine Chip) and Cry Detect Board.
@@ -74,7 +78,7 @@ void GPAB_IRQHandler(void)
 		DrvGPIO_ClearIntFlag(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN);
 	}
 	
-	// Is this from Activity Button?
+	// Is interrupt from Activity Button?
 	if(DrvGPIO_GetIntFlag(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN))
 	{
 		activity_button_is_being_pressed = 1;
@@ -91,6 +95,20 @@ void GPAB_IRQHandler(void)
 		}
 	}	
 	
+	// Is interrupt from Activity Button?
+	if(DrvGPIO_GetIntFlag(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN))
+	{
+//		// Only continue if pin is high.
+//		DrvGPIO_ClearIntFlag(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN);
+//		if (DrvGPIO_GetInputPinValue(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN))
+//		{
+		power_down_flag = 1 << POWER_OFF_SPI_SHIFT_AMOUNT;
+		
+		// Clear the activity button interrupt.
+		DrvGPIO_ClearIntFlag(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN);
+//		}
+	}	
+	
 	// Is this from homing sensor?
 	if(DrvGPIO_GetIntFlag(&HOMING_SENSOR_GPIO, HOMING_SENSOR_PIN))
 	{
@@ -99,11 +117,11 @@ void GPAB_IRQHandler(void)
 		Homing_pin_state = DrvGPIO_GetInputPinValue(&HOMING_SENSOR_GPIO, HOMING_SENSOR_PIN);
 		
 		if (Homing_pin_state) {
-			// TEST - visualizing opto. functino
+			// TEST - visualizing opto. function
 			//DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_6);
 			OptoSensor_process_transition(HIGH);
 		} else {
-			// TEST - visualizing opto. functino
+			// TEST - visualizing opto. function
 			//DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_6);
 			OptoSensor_process_transition(LOW);
 		}
@@ -232,7 +250,8 @@ void gpioInit(void)
 
 	// Configure GPIO port B pins.
 	DrvGPIO_SetIOMode(&GPIOB,
-		DRVGPIO_IOMODE_PIN5_OUT		|	// Power_Down
+		DRVGPIO_IOMODE_PIN5_OUT		|	// Power_Down (Turn off power)
+		DRVGPIO_IOMODE_PIN6_IN		|	// Power_Off (Sense power button)
 		DRVGPIO_IOMODE_PIN8_OUT		|	// PWM Motor A
 		DRVGPIO_IOMODE_PIN9_OUT		|	// PWM Motor B
 		DRVGPIO_IOMODE_PIN10_OUT	|	// PWM Motor C
@@ -244,9 +263,12 @@ void gpioInit(void)
 	DrvGPIO_SetOutputBit(&GPIOA, DRVGPIO_PIN_14); // EN_GATE needs to enabled before SPI	
 	DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_5); // Turn off power down
 
-//	// Enable interupt on activity button released.
-	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
+	// Enable interrupt on activity button released. TODO should we delete one of these interrupt triggers?
+//	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
 	DrvGPIO_EnableFallingLowInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
+	
+	// Enable interrupt on power off pin pressed (high).
+	DrvGPIO_SetRisingInt(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN, TRUE);
 
 //	// Enable GPIO interrupt routine.
 	NVIC_EnableIRQ(GPAB_IRQn);    
@@ -255,7 +277,7 @@ void gpioInit(void)
 uint16_t res;
 int main(void)
 {
-	float old_frequency = 2.0, old_amplitude = 0.25, old_power = 0.70;
+	float old_frequency = 2.0, old_amplitude = 0.25, old_power = 0.40;
 	
 	clkInit();
 
@@ -272,11 +294,6 @@ int main(void)
 	// motor PWM module initialization
 	PWM_Init();
 	
-	// test
-	//PWM_set_output0(16);
-	//while(1);
-	
-	
 	// BLDC motor control initialization
 	SineDrive_init();	
 	
@@ -284,15 +301,11 @@ int main(void)
 	RGB_init(); // place it after sindrive init so it doesn't slow down initial calculation
 	RGB_set(RGB_RED);
 	
-	// DEMO - starting motor movement
 	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
+	SineDrive_do();
 
 	for (;;)
-	{
-		
-		// DEMO - timer interrupt sets this Update flag
-		//        when new update is up, just call the SineDrive_do() function...
-		//        SineDrive_do() takes care of everything, accelerating, decellerating, swithing states, moving motor, sinchronizing, etc...
+	{	
 		if (Update) {
 			Update = 0;
 			set_led_color_from_state();
@@ -300,48 +313,17 @@ int main(void)
 			{
 				old_frequency = get_frequency_from_state();
 				old_amplitude = get_amplitude_from_state();
-				SineDrive_setMotorMovement(old_frequency, old_amplitude, get_motor_PWM(), 3000);
+				SineDrive_setMotorMovement(old_frequency, old_amplitude, 0.40, 3000);
 			}
-			if(old_power != get_motor_PWM())
-			{
-				old_power = get_motor_PWM();
-				printf("old = %f, new = %f\n", old_power, get_motor_PWM());
-				SineDrive_setPower(old_power);
-			}
+//			if(old_power != get_motor_PWM())
+//			{
+//				old_power = get_motor_PWM();
+//				printf("old = %f, new = %f\n", old_power, get_motor_PWM());
+//				SineDrive_setPower(old_power);
+//			}
 			SineDrive_do();	
-			
-			// TEST - for measuring processor load
-//			DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_5);			
+	
 		}
 	}
-//	for (;;)
-//	{
-//		// DEMO - timer interrupt sets this Update flag
-//		//        when new update is up, just call the SineDrive_do() function...
-//		//        SineDrive_do() takes care of everything, accelerating, decellerating, swithing states, moving motor, sinchronizing, etc...
-//		if (Update) {
-//			Update = 0;
-//			SineDrive_do();	
-//			
-//			// TEST - for measuring processor load
-//			//DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_11);			
-//		}
-//		
-//		// DEMO - at 10th second since restart, shange the motor movement
-//		//        observe the gracefull change by first reducing oscillation amplitude, then restarting
-//		//        with new movement by gradualy increasing amplitude
-//		if (TO_counter == 10000)
-//		{
-//				//SineDrive_setMotorMovement(2.0, 0.25, 0.70, 3000);
-//			SineDrive_setMotorMovement(0.25, 1.0, 0.70, 3000);
-//		}
-//		
-//		// DEMO - same here, just starting drom 20th second...
-//		if (TO_counter == 20000)
-//		{
-//				//SineDrive_setMotorMovement(2.0, 0.25, 0.70, 3000);
-//			SineDrive_setMotorMovement(3.5, 0.25, 0.70, 3000);
-//		}
 
-//	}
 }

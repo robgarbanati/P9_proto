@@ -15,6 +15,7 @@
 #define SPI_MAX_VALUE	0xFF
 #define MOTOR_SPEED_DIVIDER 4  // We have a resolution of 0.25 hz
 volatile UINT8 activity_button_pressed_flag = 0;
+volatile UINT8 power_down_flag = 0;
 
 //
 // Local Defines
@@ -232,18 +233,21 @@ void read_and_write_SPI(void)
 //			printf("%d %d\n", motor_PWM, sway_state);
 			
 			// Daisy-chain: Pass slave values (recvd from Linux master) to master (to Cry Detect Board) and vice versa.
-			spiSlave_Write(spiMaster_Data[index] | activity_button_pressed_flag);
-			spiMaster_Write(spiSlave_Data[index]);
+			// TODO: delete because it's always only one packet
+//			spiSlave_Write(spiMaster_Data[index] | activity_button_pressed_flag);
+//			spiMaster_Write(spiSlave_Data[index]);
 			
-			// Increment the index, but prevent overflow.
-			if (index < SPI_BUF_LENGTH) ++index;
+//			// Increment the index, but prevent overflow.
+//			if (index < SPI_BUF_LENGTH) ++index;
 		}
 	}
 
 	// Initialize the first zero status byte to shift out on the next packet.
-	spiSlave_Write(spiMaster_Data[index-1] | activity_button_pressed_flag | get_safety_clip_flags());
-	spiMaster_Write(spiSlave_Data[index-1]);
+	spiSlave_Write(activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
+//	spiSlave_Write(spiMaster_Data[index]);// | activity_button_pressed_flag);// | power_down_flag | get_safety_clip_flags());
+	spiMaster_Write(spiSlave_Data[index]);
 	
 	activity_button_pressed_flag = 0;
+	power_down_flag = 0;
 }
 

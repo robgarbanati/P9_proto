@@ -45,7 +45,7 @@ void configure_DRV8301(void)
 	CtrlReg   = 0x17CA;
 	//for(;;)
 //	sendData(CtrlReg);
-	for(i=0;i<100;i++)
+	for(i=0;i<1000;i++) // It doesn't always work, so doing it 1000 times makes it pretty damn foolproof. And we have plenty of time while the linux boots up.
 	{
 		while(DrvSPI_GetBusy(SPI_MASTER_HANDLER));
 		CtrlReg   = 0x17CA;

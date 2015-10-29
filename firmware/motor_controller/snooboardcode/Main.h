@@ -7,6 +7,9 @@
 // Global Defines and Declarations
 //
 
+#define POWER_OFF_BUTTON_GPIO	GPIOB
+#define POWER_OFF_BUTTON_PIN	DRVGPIO_PIN_6
+
 #define ACTIVITY_BUTTON_GPIO	GPIOB
 #define ACTIVITY_BUTTON_PIN		DRVGPIO_PIN_12
 
