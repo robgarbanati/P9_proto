@@ -1,0 +1,19 @@
+;Copyright (C) Nuvoton Technology Corp. All Rights Reserved.
+;
+; Format: 		Folder		Driver		ModuleID
+; Delimiter:	TAB
+; Driver:		No file name extention ".lib" and prefix or postfix
+;
+Driver		DrvADC				DRVADC
+Driver		DrvAPU				DRVAPU
+Driver		DrvCLK				DRVCLK
+Driver		DrvFMC				DRVFMC
+Driver		DrvGPIO				DRVGPIO
+Driver		DrvI2C				DRVI2C
+Driver		DrvINT				DRVINT
+Driver		DrvPWM				DRVPWM
+Driver		DrvRTC				DRVRTC
+Driver		DrvSPI				DRVSPI
+Driver		DrvSYS				DRVSYS
+Driver		DrvTimer			DRVTIMER
+Driver		DrvWDT				DRVWDT

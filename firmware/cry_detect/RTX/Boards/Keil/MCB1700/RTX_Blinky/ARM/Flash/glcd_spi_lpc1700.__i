@@ -1,0 +1,5 @@
+-c --cpu Cortex-M3 -D__RTX -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork -I..\..\..\..\..\INC 
+-I C:\Development\Keil_Arm\ARM\RV31\INC 
+-I C:\Development\Keil_Arm\ARM\CMSIS\Include 
+-I C:\Development\Keil_Arm\ARM\Inc\NXP\LPC17xx 
+-o ".\Flash\glcd_spi_lpc1700.o" --omf_browse ".\Flash\glcd_spi_lpc1700.crf" --depend ".\Flash\glcd_spi_lpc1700.d" "..\GLCD_SPI_LPC1700.c"
