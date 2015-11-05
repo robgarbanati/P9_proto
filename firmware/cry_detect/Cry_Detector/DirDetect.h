@@ -24,9 +24,9 @@
 //#define NB  				NUM_FILTER_COEFFS
 //#define NA  				NUM_FILTER_COEFFS
 
-#define ROR_FILTER	0x01
-#define SHD_FILTER	0x02
-#define FNV_FILTER	0x03
+#define ROR_FILTER	0x0100
+#define SHD_FILTER	0x0200
+#define FNV_FILTER	0x0300
 
 
 

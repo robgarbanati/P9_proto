@@ -21,8 +21,8 @@
 #define GAIN   100000000
 
 volatile uint16_t audio_filter = 0; // received from spi.
-volatile UINT16 baby_state = 0; // Result of cry analysis. To be sent over spi.
-int filt_amp_A = 0;
+volatile UINT16 cry_volume = 0; // Result of cry analysis. To be sent over spi.
+int filt_amp_ave_B = 0;
 
 //
 // Local Variables and Defines
@@ -32,7 +32,7 @@ static int cry_thresholdA, cry_thresholdB;
 
 static int16_t ADC_Buf_A[ADC_BUFFER_SIZE];
 static int16_t ADC_Buf_B[ADC_BUFFER_SIZE];
-static int16_t ADC_Buf_C[ADC_BUFFER_SIZE+6];
+static int16_t ADC_Buf_C[ADC_BUFFER_SIZE];
 
 static int16_t BP_Buf_A[ADC_BUFFER_SIZE];
 
@@ -280,7 +280,7 @@ int elliptic_filter(int16_t* x, int16_t* y)
 		a = RoRa;
 		b = RoRb;
 		cry_thresholdA = 80;
-		cry_thresholdB = 250;
+		cry_thresholdB = 0x310;
 		filter_length = NB = NA = 7;
 	}
 	else if(audio_filter == SHD_FILTER)
@@ -288,7 +288,7 @@ int elliptic_filter(int16_t* x, int16_t* y)
 		a = SHDa;
 		b = SHDb;
 		cry_thresholdA = 150;
-		cry_thresholdB = 550;
+		cry_thresholdB = 0x300;
 		filter_length =	NB = NA = 7;
 	}
 	else if(audio_filter == FNV_FILTER)
@@ -296,7 +296,7 @@ int elliptic_filter(int16_t* x, int16_t* y)
 		a = FnVa;
 		b = FnVb;
 		cry_thresholdA = 250;
-		cry_thresholdB = 700;
+		cry_thresholdB = 0x330;
 		filter_length = NB = NA = 7;
 	}
 	else // ROR_FILTER
@@ -304,10 +304,10 @@ int elliptic_filter(int16_t* x, int16_t* y)
 		a = RoRa;
 		b = RoRb;
 		cry_thresholdA = 1020;
-		cry_thresholdB = 60;
+		cry_thresholdB = 0x310;
 		filter_length = NB = NA = 7;
 	}
-	if(audio_filter & 8)
+	if(audio_filter & 0x8000)
 	{
 		cry_thresholdA = INT16_MAX;
 		cry_thresholdB = INT16_MAX;
@@ -393,9 +393,9 @@ void Do_Loop(void)
 {	
 	static int i = 0, k=0, j=0;
 	float phaseAB=0.0, phaseAC=0.0, phaseBC=0.0;
-//	int filt_amp_A = 0;
+	int filt_amp_A = 0;
 	static int filt_amp_ave_A=0;
-	static int filt_amp_ave_B=0;
+//	static int filt_amp_ave_B=0;
 	static int filt_amp_ave_A_circ[] = {0, 0};
 	static int filt_amp_ave_B_circ[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -404,10 +404,10 @@ void Do_Loop(void)
 	{ 
 		filt_amp_A = elliptic_filter(ADC_Buf_A, BP_Buf_A);
 		
-		phaseAB = find_phase(ADC_Buf_A, ADC_Buf_B, vol_min_A, vol_min_B);
-		phaseAC = find_phase(ADC_Buf_A, ADC_Buf_C, vol_min_A, vol_min_C);
-		phaseBC = find_phase(ADC_Buf_B, ADC_Buf_C, vol_min_B, vol_min_C);
-//		
+//		phaseAB = find_phase(ADC_Buf_A, ADC_Buf_B, vol_min_A, vol_min_B);
+//		phaseAC = find_phase(ADC_Buf_A, ADC_Buf_C, vol_min_A, vol_min_C);
+//		phaseBC = find_phase(ADC_Buf_B, ADC_Buf_C, vol_min_B, vol_min_C);
+
 //		phaseAB = (0.2 * (float) find_phase(ADC_Buf_A, ADC_Buf_B, vol_min_A, vol_min_B)) + 0.8*phaseAB;
 //		phaseAC = (0.2 * (float) find_phase(ADC_Buf_A, ADC_Buf_C, vol_min_A, vol_min_C)) + 0.8*phaseAC;
 //		phaseBC = (0.2 * (float) find_phase(ADC_Buf_B, ADC_Buf_C, vol_min_B, vol_min_C)) + 0.8*phaseBC;
@@ -463,32 +463,32 @@ void Do_Loop(void)
 //		if(filt_amp_ave_A > cry_thresholdA)
 //		{
 //			DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_6);
-//			baby_state |= 0x1000;
+//			cry_volume |= 0x1000;
 //		}
 //		else
 //		{
 //			DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_6);
-//			baby_state &= 0x2000;
+//			cry_volume &= 0x2000;
 //		}
 		
 		if(filt_amp_ave_B > cry_thresholdB)
 		{
-			DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_7);
-			baby_state |= 0x2000;
+			cry_volume = filt_amp_ave_B - cry_thresholdB;
+			cry_volume /= 10;
+			if(cry_volume > 0xFF)
+				cry_volume = 0xFF;
 		}
 		else
 		{
-			DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_7);
-			baby_state &= 0x1000;
+			cry_volume = 0;
 		}
-		
+		 
 		i++;
-//		printf("AB: %d, AC: %d, BC: %d, ave_amp = %d\n", phaseAB, phaseAC, phaseBC, average_amplitude);
-//		printf("AB: %d, AC: %d, BC: %d, short %d, long %d\n", phaseAB, phaseAC, phaseBC, filt_amp_ave_A, filt_amp_ave_B);
-//		printf("AB: %f, AC: %f, BC: %f, short %d, long %d\n", phaseAB, phaseAC, phaseBC, filt_amp_ave_A, filt_amp_ave_B);
-//		printf("%d, %x, %d, %d, %d, %d\n", i, audio_filter, filt_amp_A, filt_amp_ave_A, filt_amp_ave_B, baby_state);
-		printf("af = %d\n", audio_filter);
-//		printf("filt_amp_ave_B = %d\n", filt_amp_A);
+//		printf("AB: %f, AC: %f, BC: %f, ave %d\n", phaseAB, phaseAC, phaseBC, filt_amp_ave_B);
+//		printf("%d, %x, %d, %d, %d, %d\n", i, audio_filter, filt_amp_A, filt_amp_ave_A, filt_amp_ave_B, cry_volume);
+//		printf("af = %d\n", audio_filter);
+//		printf("filt_amp_ave_B = %d\n", filt_amp_ave_B);
+//		printf("cry_volume = %d\n", cry_volume);
 		
 
 		// print maybe

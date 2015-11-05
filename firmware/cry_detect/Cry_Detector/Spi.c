@@ -8,9 +8,9 @@
 //
 // Global Variables
 //
-extern volatile UINT16 baby_state;
+extern volatile UINT16 cry_volume;
 extern volatile uint16_t audio_filter;
-extern volatile int filt_amp_A;
+extern volatile int filt_amp_ave_B;
 //
 // Local Defines
 //
@@ -73,12 +73,8 @@ void spiSlave_Write(UINT32 value)
 //
 void read_and_write_SPI(void)
 {
-	UINT8 index = 0;
-//	UINT16 spiSlave_Data[SPI_BUF_LENGTH];
-
-	// Assume we receive a zero length packet.
-// 	spiSlave_Data[0] = 0;
-
+//	UINT8 index = 0;
+	
 	// Send/receive bytes until the SPI CS pin is raised.
 	while (!DrvGPIO_GetInputPinValue(&SPI_GPIO, SPI_CS_PIN))
 	{
@@ -89,19 +85,12 @@ void read_and_write_SPI(void)
 		if (!DrvGPIO_GetInputPinValue(&SPI_GPIO, SPI_CS_PIN))
 		{
 			// Read the value shifted in.
- 			audio_filter = DrvSPI_SingleReadData0(SPI_SLAVE_HANDLER)>>12;
-		
-			// Set the data to shift out.
-			spiSlave_Write(baby_state);
-//			spiSlave_Write(baby_state | audio_filter);
+ 			audio_filter = DrvSPI_SingleReadData0(SPI_SLAVE_HANDLER);
 
-			// Increment the index, but prevent overflow.
-			if (index < SPI_BUF_LENGTH) ++index;
+//			// Increment the index, but prevent overflow.
+//			if (index < SPI_BUF_LENGTH) ++index;
 		}
 	}
-
 	// Initialize the first zero status byte to shift out on the next packet.
-	spiSlave_Write(filt_amp_A);
-//	spiSlave_Write(baby_state | audio_filter);
-//	printf("%d %d\n", audio_filter, audio_filter>>8);
+	spiSlave_Write(cry_volume);
 }
