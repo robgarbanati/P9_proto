@@ -277,7 +277,7 @@ void gpioInit(void)
 uint16_t res;
 int main(void)
 {
-	float old_frequency = 2.0, old_amplitude = 0.25, old_power = 0.40;
+	float old_frequency = 0.0, old_amplitude = 0.0, old_power = 0.40;
 	
 	clkInit();
 
@@ -301,8 +301,8 @@ int main(void)
 	RGB_init(); // place it after sindrive init so it doesn't slow down initial calculation
 	RGB_set(RGB_RED);
 	
-	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
-	SineDrive_do();
+	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 1500);
+	set_sway_state(BASELINE);
 
 	for (;;)
 	{	
@@ -313,7 +313,7 @@ int main(void)
 			{
 				old_frequency = get_frequency_from_state();
 				old_amplitude = get_amplitude_from_state();
-				SineDrive_setMotorMovement(old_frequency, old_amplitude, 0.40, 3000);
+				SineDrive_setMotorMovement(old_frequency, old_amplitude, 0.4, 3000);
 			}
 //			if(old_power != get_motor_PWM())
 //			{
@@ -322,6 +322,27 @@ int main(void)
 //				SineDrive_setPower(old_power);
 //			}
 			SineDrive_do();	
+			
+			// EXAMPLE ********************************************************
+			// driver status reading and checking
+			
+			// read the status register
+			res = getReg_DRV8301(DRV8301_STATUS_REG1);
+			
+			// check for general fault flag
+			if (res && DRV8301_FAULT_FLAG)
+			{
+				// fault detected!
+				
+				// TEST, just go to online state
+				set_sway_state(ONLINE_STATE);
+				
+				// you can test specific flags if you need to and see if
+				// there was an OC and on which channel and which mosfet -> flags DRV8301_FETHA_OC_FLAG, DRV8301_FETLA_OC_FLAG, etc...
+				// there was an undervoltage (UVP flags), over temperature warning (OTW), etc... See datasheet for DRV8301.
+				
+			}
+			// EXAMPLE ********************************************************
 	
 		}
 	}

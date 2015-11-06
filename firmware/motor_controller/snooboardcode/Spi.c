@@ -24,21 +24,14 @@ volatile UINT8 power_down_flag = 0;
 static UINT8 sway_state, motor_PWM;
 static UINT32 desired_speed;
 
-#define ONLINE_STATE	13
-#define BASELINE 		11
-#define STEPUP1 		2
-#define STEPUP2 		3
-#define STEPUP3 		5
-#define STEPUP4			6
 
 //
 // Global Functions
 //
 
-
 float get_frequency_from_state(void)
 {
-	switch(sway_state)
+	/*switch(sway_state)
 	{
 		case ONLINE_STATE:
 			return 3.43;
@@ -54,12 +47,29 @@ float get_frequency_from_state(void)
 			return 3.43;
 		default:
 			return 3.43;
+	}*/
+	switch(sway_state)
+	{
+		case ONLINE_STATE:
+			return 3.25;
+		case BASELINE:
+			return 0.75;
+		case STEPUP1:
+			return 1.50;
+		case STEPUP2:
+			return 1.70;
+		case STEPUP3:
+			return 2.50;
+		case STEPUP4:
+			return 3.25;
+		default:
+			return 3.25;
 	}
 }
 
 float get_amplitude_from_state(void)
 {
-	switch(sway_state)
+	/*switch(sway_state)
 	{
 		case ONLINE_STATE:
 			return 0;
@@ -72,6 +82,22 @@ float get_amplitude_from_state(void)
 		case STEPUP3:
 		case STEPUP4:
 			return 0.0817;
+		default:
+			return 0;
+	}*/
+	switch(sway_state)
+	{
+		case ONLINE_STATE:
+			return 0;
+		case BASELINE:
+			return 0.6808;
+		case STEPUP1:
+			return 0.4357;
+		case STEPUP2:
+			return 0.2713;
+		case STEPUP3:
+		case STEPUP4:
+			return 0.1634;
 		default:
 			return 0;
 	}
@@ -126,6 +152,12 @@ UINT32 get_desired_speed(void)
 UINT8 get_sway_state(void)
 {
 	return (UINT8) sway_state;
+}
+
+// usefull for code testing
+void set_sway_state(UINT8 newState)
+{
+	sway_state = newState;
 }
 
 //
@@ -186,7 +218,7 @@ void spiMaster_Write(UINT32 value)
 	DrvSPI_SetGo(SPI_MASTER_HANDLER);
 }
 
-void spiMaster_Xchange(UINT16 TxData, UINT16 RxData)
+void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData)
 {
 	// Set the data to shift out of the SPI port.
 	DrvSPI_SingleWriteData0(SPI_MASTER_HANDLER, (UINT32) TxData);
@@ -198,7 +230,7 @@ void spiMaster_Xchange(UINT16 TxData, UINT16 RxData)
 	while (DrvSPI_GetBusy(SPI_MASTER_HANDLER));
 	
 	// Read the value shifted in
-	DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
+	*RxData = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 }
 
 // Handle the send/receive of the SPI packets at interrupt time.

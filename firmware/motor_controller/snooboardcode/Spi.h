@@ -10,8 +10,8 @@
 
 // SPI master mode for communication with Cry Detect Board.
 #define SPI_MASTER_HANDLER		DRVSPI_SPI0_HANDLER
-#define SPI_MASTER_DEVICE  		eDRVSPI_SLAVE_1
-//#define SPI_MASTER_DEVICE  		eDRVSPI_SLAVE_2
+//#define SPI_MASTER_DEVICE  		eDRVSPI_SLAVE_1
+#define SPI_MASTER_DEVICE  		eDRVSPI_SLAVE_2
 #define SPI_MASTER_DIVIDER    (_DRVSPI_DIVIDER(DrvCLK_GetHclk(), 100000))
 #define SPI_MASTER_OPEN_FLAGS (	DRVSPI_ENDIAN_BIG | \
 								DRVSPI_IDEL_CLK_LOW | \
@@ -45,11 +45,19 @@
 #define LEFT_SAFETY_CLIP_FLAG_POSITION	5
 #define RIGHT_SAFETY_CLIP_FLAG_POSITION	4
 
+#define ONLINE_STATE	13
+#define BASELINE 		11
+#define STEPUP1 		2
+#define STEPUP2 		3
+#define STEPUP3 		5
+#define STEPUP4			6
+
 //
 // Global Functions
 //
 UINT32 get_desired_speed(void);
 UINT8 get_sway_state(void);
+void set_sway_state(UINT8 newState);
 float get_motor_PWM(void);
 	
 void spiSlave_Init(void);
@@ -72,7 +80,7 @@ void read_and_write_SPI(void);
 void spiSlave_Write(UINT32 value);
 
 // Exchange single word with slave device
-void spiMaster_Xchange(UINT16 TxData, UINT16 RxData);
+void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData);
 
 
 float get_frequency_from_state(void);
