@@ -3,39 +3,32 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-C:\Users\Rob\Documents\OLogic\Unacuna\P9_proto\firmware\cry_detect\CDB_Elliptic_Cry_Detector + DirDetect\Cry_Detector.uvproj
-Project File Date:  10/14/2015
+C:\Users\Rob\Documents\OLogic\Unacuna\P9_proto\firmware\cry_detect\Cry_Detector\Cry_Detector.uvproj
+Project File Date:  11/04/2015
 
 <h2>Output:</h2>
 Build target 'F072_Debug'
-compiling Main.c...
 compiling DirDetect.c...
-DirDetect.c(395): warning:  #550-D: variable "phaseAB" was set but never used
+DirDetect.c(395): warning:  #177-D: variable "phaseAB" was declared but never referenced
         float phaseAB=0.0, phaseAC=0.0, phaseBC=0.0;
-DirDetect.c(395): warning:  #550-D: variable "phaseAC" was set but never used
+DirDetect.c(395): warning:  #177-D: variable "phaseAC" was declared but never referenced
         float phaseAB=0.0, phaseAC=0.0, phaseBC=0.0;
-DirDetect.c(395): warning:  #550-D: variable "phaseBC" was set but never used
+DirDetect.c(395): warning:  #177-D: variable "phaseBC" was declared but never referenced
         float phaseAB=0.0, phaseAC=0.0, phaseBC=0.0;
 DirDetect.c(31): warning:  #550-D: variable "cry_thresholdA" was set but never used
   static int cry_thresholdA, cry_thresholdB;
 DirDetect.c: 4 warnings, 0 errors
-compiling Spi.c...
 linking...
-Program Size: Code=7416 RO-data=512 RW-data=192 ZI-data=7880  
+Program Size: Code=6576 RO-data=512 RW-data=184 ZI-data=7864  
 After Build - User command #1: fromelf --i32combined --output F072\Debug\Cry_Detector.hex F072\Debug\Cry_Detector.axf
 After Build - User command #2: ../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\Cry_Detector.hex
 hex2bin v1.0.2, Copyright (C) 2012 Jacques Pelletier
 Lowest address = 00000000
-Highest address = 0000206F
+Highest address = 00001D1F
 ".\F072\Debug\Cry_Detector.axf" - 0 Error(s), 4 Warning(s).
+Load "C:\\Users\\Rob\\Documents\\OLogic\\Unacuna\\P9_proto\\firmware\\cry_detect\\Cry_Detector\\F072\\Debug\\Cry_Detector.axf" 
 </pre>
 </body>
 </html>
-N, TRUE);
-Spi.c(83): error:  #20: identifier "SPI_GPIO" is undefined
-        while (!DrvGPIO_GetInputPinValue(&SPI_GPIO, SPI_CS_PIN))
-Spi.c(83): error:  #20: identifier "SPI_CS_PIN" is undefined
-        while (!DrvGPIO_GetInputPinValue(&SPI_GPIO, SPI_CS_PIN))
-Spi.c: 0 warnings, 4 errors
-".\F072\Debug\Cry_Detector.axf" - 6 Error(s), 4 Warning(s).
-Target not created
+ments\\OLogic\\Unacuna\\P9_proto\\firmware\\cry_detect\\Cry_Detector\\F072\\Debug\\Cry_Detector.axf" 
+roto\\firmware\\cry_detect\\Cry_Detector\\F072\\Debug\\Cry_Detector.axf" 

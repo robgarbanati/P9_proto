@@ -14,8 +14,8 @@
 //
 #define SPI_MAX_VALUE	0xFF
 #define MOTOR_SPEED_DIVIDER 4  // We have a resolution of 0.25 hz
-volatile UINT8 activity_button_pressed_flag = 0;
-volatile UINT8 power_down_flag = 0;
+volatile UINT16 activity_button_pressed_flag = 0;
+volatile UINT16 power_down_flag = 0;
 
 //
 // Local Defines
@@ -139,7 +139,7 @@ float get_motor_PWM(void)
 	return ((float) motor_PWM)/100;
 }
 
-UINT8 get_safety_clip_flags(void)
+UINT16 get_safety_clip_flags(void)
 {
 	return (is_left_safety_clip_in() << LEFT_SAFETY_CLIP_FLAG_POSITION) | (is_right_safety_clip_in() << RIGHT_SAFETY_CLIP_FLAG_POSITION);
 }
@@ -277,7 +277,8 @@ void read_and_write_SPI(void)
 	// Initialize the first zero status byte to shift out on the next packet.
 //	spiSlave_Write(activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
 //	spiSlave_Write(0x24);
-	spiSlave_Write(spiMaster_Data[index]);// | activity_button_pressed_flag);// | power_down_flag | get_safety_clip_flags());
+	spiSlave_Write(spiMaster_Data[index] | activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
+//	printf("
 	spiMaster_Write(spiSlave_Data[index]);
 	
 	activity_button_pressed_flag = 0;

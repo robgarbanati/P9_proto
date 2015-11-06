@@ -17,8 +17,8 @@
 #include "app_SoftPWM.h"
 #include "app_OptoSensor.h"
 
-#define ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT	7
-#define POWER_OFF_SPI_SHIFT_AMOUNT			6
+#define ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT	11
+#define POWER_OFF_SPI_SHIFT_AMOUNT			10
 #define HIGH_STATE	1
 #define LOW_STATE	0
 
@@ -42,7 +42,7 @@ extern volatile int current_sensed;
 
 volatile UINT32 TO_counter = 0;
 volatile UINT8 speed_flag;
-extern UINT8 activity_button_pressed_flag, power_down_flag;
+extern UINT16 activity_button_pressed_flag, power_down_flag;
 
 /*------------------------------------------------------------------------------------------------------*/
 /* Local variables                                                                               		*/
@@ -92,6 +92,7 @@ void GPAB_IRQHandler(void)
 			
 			// Clear the activity button interrupt.
 			DrvGPIO_ClearIntFlag(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
+			printf("activity button %x\n", activity_button_pressed_flag);
 		}
 	}	
 	
@@ -264,8 +265,8 @@ void gpioInit(void)
 	DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_5); // Turn off power down
 
 	// Enable interrupt on activity button released. TODO should we delete one of these interrupt triggers?
-//	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
-	DrvGPIO_EnableFallingLowInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
+	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
+//	DrvGPIO_EnableFallingLowInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
 	
 	// Enable interrupt on power off pin pressed (high).
 	DrvGPIO_SetRisingInt(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN, TRUE);
