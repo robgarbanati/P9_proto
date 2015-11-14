@@ -275,39 +275,42 @@ int elliptic_filter(int16_t* x, int16_t* y)
 
 	CircBuf ycirc;
 	
-	if(audio_filter == ROR_FILTER)
+	if((audio_filter & 0xF) == ROR_FILTER)
 	{
 		a = RoRa;
 		b = RoRb;
 		cry_thresholdA = 80;
-		cry_thresholdB = 0x310;
+		cry_thresholdB = 0xE20;
 		filter_length = NB = NA = 7;
+//		printf("af is RoR\n");
 	}
-	else if(audio_filter == SHD_FILTER)
+	else if((audio_filter & 0xF) == SHD_FILTER)
 	{
 		a = SHDa;
 		b = SHDb;
 		cry_thresholdA = 150;
-		cry_thresholdB = 0x300;
+		cry_thresholdB = 0xAE0;
 		filter_length =	NB = NA = 7;
+//		printf("af is SHD\n");
 	}
-	else if(audio_filter == FNV_FILTER)
+	else if((audio_filter & 0xF) == FNV_FILTER)
 	{
 		a = FnVa;
 		b = FnVb;
 		cry_thresholdA = 250;
-		cry_thresholdB = 0x330;
+		cry_thresholdB = 0x14F0;
 		filter_length = NB = NA = 7;
+//		printf("af is FnV\n");
 	}
 	else // ROR_FILTER
 	{
 		a = RoRa;
 		b = RoRb;
 		cry_thresholdA = 1020;
-		cry_thresholdB = 0x310;
+		cry_thresholdB = 0x0;
 		filter_length = NB = NA = 7;
 	}
-	if(audio_filter & 0x8000)
+	if(audio_filter & 0x80)
 	{
 		cry_thresholdA = INT16_MAX;
 		cry_thresholdB = INT16_MAX;
@@ -397,7 +400,7 @@ void Do_Loop(void)
 	static int filt_amp_ave_A=0;
 //	static int filt_amp_ave_B=0;
 	static int filt_amp_ave_A_circ[] = {0, 0};
-	static int filt_amp_ave_B_circ[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	static int filt_amp_ave_B_circ[30] = {0, };
 
 	//Have we collected an array's worth of data?
 	if (!collect_samples)
@@ -455,7 +458,7 @@ void Do_Loop(void)
 		}
 		
 		k++;
-		if(k>=10)
+		if(k>=30)
 		{
 			k = 0;
 		}
@@ -474,9 +477,12 @@ void Do_Loop(void)
 		if(filt_amp_ave_B > cry_thresholdB)
 		{
 			cry_volume = filt_amp_ave_B - cry_thresholdB;
+//			cry_volume = filt_amp_ave_B;
 			cry_volume /= 10;
 			if(cry_volume > 0xFF)
+			{
 				cry_volume = 0xFF;
+			}
 		}
 		else
 		{

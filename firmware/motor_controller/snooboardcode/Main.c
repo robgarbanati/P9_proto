@@ -278,17 +278,11 @@ void gpioInit(void)
 uint16_t res;
 int main(void)
 {
-	float old_frequency = 0.0, old_amplitude = 0.0, old_power = 0.40;
+	float old_frequency = 3.0, old_amplitude = 0.01, old_power = 0.40;
 	
 	clkInit();
 
 	gpioInit();
-
-//	init_ADC();
-	
-	spiSlave_Init();
-	spiMaster_Init();
-	
 	
 	// motor driver IC initialization
 	init_DRV8301();
@@ -296,7 +290,8 @@ int main(void)
 	PWM_Init();
 	
 	// BLDC motor control initialization
-	SineDrive_init();	
+	SineDrive_init();
+
 	
 	// software PWM for RGB initializaiton
 	RGB_init(); // place it after sindrive init so it doesn't slow down initial calculation
@@ -304,6 +299,12 @@ int main(void)
 	
 	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 1500);
 	set_sway_state(BASELINE);
+	
+	// Init communication with N32905
+	spiSlave_Init();
+	
+	// Init communication with Cry Detect chip
+	spiMaster_Init_Cry();
 
 	for (;;)
 	{	
@@ -324,6 +325,8 @@ int main(void)
 //			}
 			SineDrive_do();	
 			
+			
+			/* Doesn't work yet! Need to switch CS pin back to SPI_MASTER_CS_MOTOR (instead of SPI_MASTER_CS_CRY)
 			// EXAMPLE ********************************************************
 			// driver status reading and checking
 			
@@ -344,7 +347,7 @@ int main(void)
 				
 			}
 			// EXAMPLE ********************************************************
-	
+			*/
 		}
 	}
 

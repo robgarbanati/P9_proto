@@ -6,13 +6,6 @@
 //
 // Global Defines and Declarations
 //
-#define ONLINE_STATE	1
-#define BASELINE_STATE	2
-#define STEPUP1_STATE	3
-#define STEPUP2_STATE	4
-#define STEPUP3_STATE	5
-#define STEPUP4_STATE	6
-#define TIMEOUT_STATE	7
 
 #define MOTOR_PWM_PERIOD	128
 #define STEP_PERIOD     17

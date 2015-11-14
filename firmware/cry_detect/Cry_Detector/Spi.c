@@ -56,7 +56,7 @@ void spiSlave_Init(void)
 }
 
 // 
-// write a value of 16 bits to Sway Hoste
+// write a value of 16 bits to Sway Host
 //
 void spiSlave_Write(UINT32 value)
 {
@@ -73,22 +73,22 @@ void spiSlave_Write(UINT32 value)
 //
 void read_and_write_SPI(void)
 {
-//	UINT8 index = 0;
-	
+
 	// Send/receive bytes until the SPI CS pin is raised.
 	while (!DrvGPIO_GetInputPinValue(&SPI_GPIO, SPI_CS_PIN))
 	{
 		// Wait while the SPI ports are busy and the SPI CS line is low.
-		while (DrvSPI_GetBusy(SPI_SLAVE_HANDLER) && !DrvGPIO_GetInputPinValue(&SPI_GPIO, SPI_CS_PIN));  // && DrvSPI_GetBusy(SPI_MASTER_HANDLER)
+		while (DrvSPI_GetBusy(SPI_SLAVE_HANDLER) && !DrvGPIO_GetInputPinValue(&SPI_GPIO, SPI_CS_PIN));
 
 		// Process the next byte if the SPI CS line is still low.
 		if (!DrvGPIO_GetInputPinValue(&SPI_GPIO, SPI_CS_PIN))
 		{
 			// Read the value shifted in.
  			audio_filter = DrvSPI_SingleReadData0(SPI_SLAVE_HANDLER);
-
-//			// Increment the index, but prevent overflow.
-//			if (index < SPI_BUF_LENGTH) ++index;
+			if(audio_filter == 0)
+				audio_filter = 0x0A;
+			else
+				 audio_filter = audio_filter & 0x00FF;
 		}
 	}
 	// Initialize the first zero status byte to shift out on the next packet.

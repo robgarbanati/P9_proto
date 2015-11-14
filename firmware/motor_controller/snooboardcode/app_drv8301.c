@@ -14,7 +14,7 @@
 
 void configure_spi_master(void)
 {
-	spiMaster_Init();
+	spiMaster_Init_Motor();
 }
 
 uint16_t sendData(uint16_t Data)
@@ -42,7 +42,7 @@ void configure_DRV8301(void)
 	
 	CtrlReg |= (DRV8301_WRITE_CMD               << DRV8301_RW_BIT_POS);
 	
-	for(i=0;i<1000;i++) // It doesn't always work, so doing it 1000 times makes it pretty damn foolproof. And we have plenty of time while the linux boots up.
+	for(i=0;i<1000;i++) // It doesn't always work, so doing it 1000 times makes it pretty damn foolproof. And we have plenty of time while linux boots up.
 	{
 		while(DrvSPI_GetBusy(SPI_MASTER_HANDLER));
 		sendData(CtrlReg);
