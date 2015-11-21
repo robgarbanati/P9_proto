@@ -171,7 +171,7 @@ void uartInit(void)
 int main (void)
 {
 	// Initialize clocks.
-	clkInit();
+ 	clkInit();
 
 	// Initialize interrupt priorities.
 	priorityInit();
@@ -183,7 +183,7 @@ int main (void)
 	dirDetectInit();
 	
 	// Initialize SPI.
-	spiSlave_Init();
+//	spiSlave_Init();
 
 	for (;;)
 	{	
