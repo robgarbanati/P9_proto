@@ -23,6 +23,7 @@
 volatile uint16_t audio_filter = 0; // received from spi.
 volatile UINT16 cry_volume = 0; // Result of cry analysis. To be sent over spi.
 int filt_amp_ave_B = 0;
+int16_t phaseAB, phaseAC, phaseBC;
 
 //
 // Local Variables and Defines
@@ -202,7 +203,7 @@ void init_ADC(void)
 // Find the number of indices ADC_Buf_A is shifted from ADC_Buf_B. Return as best_phase.
 // best_phase * SAMPLE_FREQUENCY = time delay in audio from microphoneB to microphoneA.
 // (positive best_phase means sound hits microphoneB first) TODO: check that statement.
-short find_phase(INT16* buf1, INT16* buf2, int vol_min_1, int vol_min_2)
+int16_t find_phase(INT16* buf1, INT16* buf2, int vol_min_1, int vol_min_2)
 {
 	int phase,i;
 	int sub = 0, cost = 0;
@@ -213,6 +214,7 @@ short find_phase(INT16* buf1, INT16* buf2, int vol_min_1, int vol_min_2)
 	for(phase = -P_E_RES; phase<P_E_RES; phase++) {
 		cost = 0;
 		for(i = P_E_RES+100; i<ADC_BUFFER_SIZE - P_E_RES; i++) {
+			
 			sub = (buf1[i + phase] - buf2[i] - height_difference);
 			cost = cost + sub*sub;
 		}
@@ -253,7 +255,7 @@ short find_phase32(INT32* buf1, INT32* buf2, INT32 vol_min_1, INT32 vol_min_2)
 
 int elliptic_filter(int16_t* x, int16_t* y)
 {	
-	int audio_filter = FNV_FILTER;
+//	int audio_filter = SHD_FILTER;
 	//  RoR 900-1200
 	int64_t RoRa[] = { 1e+08, -4.01365e+08, 8.26119e+08, -1.01624e+09, 8.02648e+08, -3.78857e+08, 9.17189e+07  };
 	int64_t RoRb[] = { 264121, -655276, 614196, 0, -614196, 655276, -264121  };
@@ -397,7 +399,7 @@ void Do_Loop(void)
 {	
 	static int i = 0, k=0, j=0;
 //	static float phaseAB=0.0, phaseAC=0.0, phaseBC=0.0;
-	short phaseAB=0, phaseAC=0, phaseBC=0;
+//	short phaseAB=0, phaseAC=0, phaseBC=0;
 	int filt_amp_A = 0;
 	static int filt_amp_ave_A=0;
 //	static int filt_amp_ave_B=0;
@@ -407,7 +409,7 @@ void Do_Loop(void)
 	//Have we collected an array's worth of data?
 	if (!collect_samples)
 	{ 
-		filt_amp_A = elliptic_filter(ADC_Buf_A, BP_Buf_A);
+		filt_amp_A = elliptic_filter(ADC_Buf_C, BP_Buf_A);
 		
 		phaseAB = find_phase(ADC_Buf_A, ADC_Buf_B, vol_min_A, vol_min_B);
 		phaseAC = find_phase(ADC_Buf_A, ADC_Buf_C, vol_min_A, vol_min_C);
@@ -429,12 +431,8 @@ void Do_Loop(void)
 ////			DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_10);
 ////		}
 ////		
-////		if( (abs(phaseAB - 1) < DETECTWIDTH) && (abs(phaseAC - 3) < DETECTWIDTH) && (abs(phaseBC - 1) < DETECTWIDTH))
-//		if((phaseAB < 0.41) && (phaseAB > 0.19) && (phaseAC < 1.21) && (phaseAC > 0.59) && (phaseBC < 0.61) && (phaseBC > 0.39))
-//		if((phaseAB < 30) && (phaseAB > 20) && (phaseAC < 28) && (phaseAC > 19) && (phaseBC < 3) && (phaseBC > -2))
-//		if((phaseAB <= 2) && (phaseAB >= -2) && (phaseAC <= 2) && (phaseAC >= -2) && (phaseBC <= 2) && (phaseBC >= -1)) // FnV tall stalks
-		if((phaseAB <= 2) && (phaseAB >= -1) && (phaseAC <= 2) && (phaseAC >= -1) && (phaseBC <= 1) && (phaseBC >= -1)) // RoR and SHD
-//		if((phaseAB <= 6) && (phaseAB >= 3) && (phaseAC <= 5) && (phaseAC >= 3) && (phaseBC <= 1) && (phaseBC >= -2))
+
+		if((phaseAB >= -5) && (phaseAB <= 5) && (phaseAC >= -5) && (phaseAC <= 4) && (phaseBC >= -3) && (phaseBC <= 7)) // RoR and SHD wide zone
 		{
 			DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_11);
 			filt_amp_ave_A -= filt_amp_ave_A_circ[j];
@@ -468,17 +466,6 @@ void Do_Loop(void)
 		{
 			k = 0;
 		}
-
-//		if(filt_amp_ave_A > cry_thresholdA)
-//		{
-//			DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_6);
-//			cry_volume |= 0x1000;
-//		}
-//		else
-//		{
-//			DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_6);
-//			cry_volume &= 0x2000;
-//		}
 		
 		if(filt_amp_ave_B > cry_thresholdB)
 		{
@@ -496,15 +483,11 @@ void Do_Loop(void)
 		}
 		 
 		i++;
-//		printf("AB: %f, AC: %f, BC: %f, amp %d, ave %d\n", phaseAB - 6.1, phaseAC - 3.15, phaseBC + 1.9, filt_amp_A, filt_amp_ave_B);
-		printf("AB: %d, AC: %d, BC: %d, amp %d, ave %d\n", phaseAB, phaseAC, phaseBC, filt_amp_A, filt_amp_ave_B);
-//		printf("%d, %x, %d, %d, %d, %d\n", i, audio_filter, filt_amp_A, filt_amp_ave_A, filt_amp_ave_B, cry_volume);
-//		printf("af = %d\n", audio_filter);
-//		printf("filt_amp_ave_B = %d\n", filt_amp_ave_B);
-//		printf("cry_volume = %d\n", cry_volume);
+//		printf("AB: %d, AC: %d, BC: %d, amp %d, ave %d\n", phaseAB, phaseAC, phaseBC, filt_amp_A, filt_amp_ave_B);
+//		printf("AB: %d, AC: %d, BC: %d\n", phaseAB, phaseAC, phaseBC);
 		
-
-		// print maybe
+//#endif
+//		// print maybe
 #if 0
 		if((abs(phaseAB) > 14) || (abs(phaseAC) > 14) || (abs(phaseBC) > 14))
 //		if((phaseAB == 5) && (phaseAC == 4) && (phaseBC == -1))
@@ -515,6 +498,7 @@ void Do_Loop(void)
 			}
 		}
 #endif
+
 		
 		collect_samples = 1; // let the ADC_ISR take data again
 		vol_max_A = INT16_MIN;

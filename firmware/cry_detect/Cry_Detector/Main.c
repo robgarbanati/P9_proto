@@ -33,23 +33,23 @@ void GPAB_IRQHandler(void)
 void adcClockInit()
 {
 	UINT32	u32HCLK = 0,u32ADCClk = 0;
-// 	INT32 adc_clk_freq, sample_freq;
+ 	INT32 adc_clk_freq, sample_freq;
 	
 	DrvCLK_SetClkSrcAdc(eDRVCLK_ADCSRC_48M);
-// 	adc_clk_freq = ADC_CLOCK_FREQUENCY;
-//	sample_freq = SAMPLE_FREQUENCY;
+ 	adc_clk_freq = ADC_CLOCK_FREQUENCY;
+	sample_freq = SAMPLE_FREQUENCY;
 	
 	DrvCLK_SetClkDividerAdc(48000000/ADC_CLOCK_FREQUENCY - 1);  // == sampling_frequency*25
 	
 	u32HCLK = DrvCLK_GetHclk();
 	u32ADCClk = DrvCLK_GetClkAdc();
 
-//	printf("adc_clk_f should be %d, is %d . sample_f should be %d, is %d. hclk is %d\n", adc_clk_freq, u32ADCClk, sample_freq, u32ADCClk/CYCLES_PER_CONVERSION/NUM_CHANNELS, u32HCLK);
+	printf("adc_clk_f should be %d, is %d . sample_f should be %d, is %d. hclk is %d\n", adc_clk_freq, u32ADCClk, sample_freq, u32ADCClk/CYCLES_PER_CONVERSION/NUM_CHANNELS, u32HCLK);
 	
 	//The ADC engine clock must meet the constraint: ADCLK <=  HCKL/2.
 	if (u32ADCClk>(u32HCLK/2)) {
-//		puts("ADCClk is greater than half the frequency of the HCLK. That's bad.\n");
-//		puts("Check adcClockInit() in Main.c\n");
+		puts("ADCClk is greater than half the frequency of the HCLK. That's bad.\n");
+		puts("Check adcClockInit() in Main.c\n");
 	}
 }
 
@@ -171,6 +171,7 @@ void uartInit(void)
 int main (void)
 {
 	// Initialize clocks.
+
  	clkInit();
 
 	// Initialize interrupt priorities.
@@ -183,7 +184,7 @@ int main (void)
 	dirDetectInit();
 	
 	// Initialize SPI.
-//	spiSlave_Init();
+	spiSlave_Init();
 
 	for (;;)
 	{	

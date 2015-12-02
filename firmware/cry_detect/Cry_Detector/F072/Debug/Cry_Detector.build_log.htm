@@ -7,3 +7,36 @@ C:\Users\Rob\Documents\OLogic\Unacuna\P9_proto\firmware\cry_detect\Cry_Detector\
 Project File Date:  11/04/2015
 
 <h2>Output:</h2>
+Build target 'F072_Debug'
+compiling Main.c...
+compiling DirDetect.c...
+DirDetect.c(32): warning:  #550-D: variable "cry_thresholdA" was set but never used
+  static int cry_thresholdA, cry_thresholdB;
+DirDetect.c: 1 warning, 0 errors
+linking...
+Program Size: Code=7704 RO-data=656 RW-data=196 ZI-data=8092  
+After Build - User command #1: fromelf --i32combined --output F072\Debug\Cry_Detector.hex F072\Debug\Cry_Detector.axf
+After Build - User command #2: ../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\Cry_Detector.hex
+hex2bin v1.0.2, Copyright (C) 2012 Jacques Pelletier
+Lowest address = 00000000
+Highest address = 00002223
+".\F072\Debug\Cry_Detector.axf" - 0 Error(s), 1 Warning(s).
+</pre>
+</body>
+</html>
+-D: variable "filt_amp_ave_B_circ" was declared but never referenced
+        static int filt_amp_ave_B_circ[30] = {0, };
+DirDetect.c(32): warning:  #550-D: variable "cry_thresholdA" was set but never used
+  static int cry_thresholdA, cry_thresholdB;
+DirDetect.c(32): warning:  #550-D: variable "cry_thresholdB" was set but never used
+  static int cry_thresholdA, cry_thresholdB;
+DirDetect.c: 8 warnings, 0 errors
+linking...
+Program Size: Code=7224 RO-data=656 RW-data=196 ZI-data=8388  
+After Build - User command #1: fromelf --i32combined --output F072\Debug\Cry_Detector.hex F072\Debug\Cry_Detector.axf
+After Build - User command #2: ../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\Cry_Detector.hex
+hex2bin v1.0.2, Copyright (C) 2012 Jacques Pelletier
+Lowest address = 00000000
+Highest address = 00002043
+".\F072\Debug\Cry_Detector.axf" - 0 Error(s), 8 Warning(s).
+r(s), 8 Warning(s).

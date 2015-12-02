@@ -30,24 +30,24 @@ ARM Macro Assembler    Page 1
    17 00000300         ; <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
    18 00000300         ; </h>
    19 00000300         
-   20 00000300 00000100 
+   20 00000300 00000000 
                        Heap_Size
-                               EQU              0x00000100
+                               EQU              0x00000000
    21 00000300         
    22 00000300                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3
    23 00000000         __heap_base
    24 00000000         Heap_Mem
                                SPACE            Heap_Size
-   25 00000100         __heap_limit
-   26 00000100         
-   27 00000100         
-   28 00000100                 PRESERVE8
-   29 00000100                 THUMB
-   30 00000100         
-   31 00000100         
-   32 00000100         ; Vector Table Mapped to Address 0 at Reset
-   33 00000100                 AREA             RESET, DATA, READONLY
+   25 00000000         __heap_limit
+   26 00000000         
+   27 00000000         
+   28 00000000                 PRESERVE8
+   29 00000000                 THUMB
+   30 00000000         
+   31 00000000         
+   32 00000000         ; Vector Table Mapped to Address 0 at Reset
+   33 00000000                 AREA             RESET, DATA, READONLY
    34 00000000                 EXPORT           __Vectors
    35 00000000         
    36 00000000         
@@ -364,8 +364,8 @@ ARM Macro Assembler    Page 6
   275 00000004         
   276 00000004 4803            LDR              R0, =  Heap_Mem
   277 00000006 4904            LDR              R1, = (Stack_Mem + Stack_Size)
-  278 00000008 4A04            LDR              R2, = (Heap_Mem +  Heap_Size)
-  279 0000000A 4B05            LDR              R3, = Stack_Mem
+  278 00000008 4A02            LDR              R2, = (Heap_Mem +  Heap_Size)
+  279 0000000A 4B04            LDR              R3, = Stack_Mem
   280 0000000C 4770            BX               LR
   281 0000000E         
   282 0000000E 00 00           ALIGN
@@ -379,7 +379,6 @@ ARM Macro Assembler    Page 6
   290 00000010 00000000 
               00000000 
               00000300 
-              00000100 
               00000000         AREA             IRQTABLE, DATA, READWRITE
   291 00000000 00000000 
                        Reset_ISR
@@ -388,13 +387,13 @@ ARM Macro Assembler    Page 6
                        HardFault_ISR
                                DCD              HardFault_Handler
   293 00000008 00000000 
+                       SVC_ISR DCD              SVC_Handler
 
 
 
 ARM Macro Assembler    Page 7 
 
 
-                       SVC_ISR DCD              SVC_Handler
   294 0000000C 00000000 
                        PendSV_ISR
                                DCD              PendSV_Handler
@@ -453,13 +452,13 @@ ARM Macro Assembler    Page 7
   319 00000054                 EXPORT           NMI_ISR
   320 00000054                 EXPORT           WDT_ISR
   321 00000054                 EXPORT           APU_ISR
+  322 00000054                 EXPORT           ADC_ISR
 
 
 
 ARM Macro Assembler    Page 8 
 
 
-  322 00000054                 EXPORT           ADC_ISR
   323 00000054                 EXPORT           EXINT_ISR
   324 00000054                 EXPORT           USB_ISR
   325 00000054                 EXPORT           TMR0_ISR
@@ -551,7 +550,7 @@ Symbol: __heap_base
    Uses
       None
 Comment: __heap_base unused
-__heap_limit 00000100
+__heap_limit 00000000
 
 Symbol: __heap_limit
    Definitions
@@ -1270,7 +1269,7 @@ Comment: appJumpAddress used once
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Absolute symbols
 
-Heap_Size 00000100
+Heap_Size 00000000
 
 Symbol: Heap_Size
    Definitions
