@@ -1,5 +1,7 @@
 *.o
 *.bak
 firmware/motor_controller/snooboardcode/F072/Debug/*
+firmware/motor_controller/manual_motor_control/F072/Debug/*
 *.Robert
-
+*.swo
+*.swp
