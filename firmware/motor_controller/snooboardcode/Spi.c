@@ -14,7 +14,7 @@
 //
 #define SPI_MAX_VALUE	0xFF
 #define MOTOR_SPEED_DIVIDER 4  // We have a resolution of 0.25 hz
-volatile UINT8 activity_button_pressed_flag = 0;
+volatile UINT16 activity_button_pressed_flag = 0;
 volatile UINT8 power_down_flag = 0;
 
 //
@@ -29,77 +29,80 @@ static UINT32 desired_speed;
 // Global Functions
 //
 
+#define STARTUP		0
+#define STARTUP_BOOST	1
+#define STEPUP1		2
+#define STEPUP2		3
+#define STEPUP3	        4
+#define STEPUP3_SU4_ON  5
+#define STEPUP4		6
+#define STEPDOWN3	7
+#define STEPDOWN2	8
+#define STEPDOWN1	9
+#define BASELINE_BOOST	10
+#define BASELINE	11
+#define TIMEOUT_STATE	12
+#define ONLINE_STATE	13
+#define NO_STATE	14
+
+
+
+//
+// Global Functions
+//
+
 float get_frequency_from_state(void)
 {
-	/*switch(sway_state)
-	{
-		case ONLINE_STATE:
-			return 3.43;
-		case BASELINE:
-			return 0.79;
-		case STEPUP1:
-			return 1.37;
-		case STEPUP2:
-			return 1.79;
-		case STEPUP3:
-			return 2.97;
-		case STEPUP4:
-			return 3.43;
-		default:
-			return 3.43;
-	}*/
 	switch(sway_state)
 	{
 		case ONLINE_STATE:
-			return 3.25;
+			return 0.75;
 		case BASELINE:
+		case BASELINE_BOOST:
+		case STARTUP:
+		case STARTUP_BOOST:
 			return 0.75;
 		case STEPUP1:
+		case STEPDOWN1:
 			return 1.50;
 		case STEPUP2:
+		case STEPDOWN2:
 			return 1.70;
 		case STEPUP3:
+		case STEPUP3_SU4_ON:
+		case STEPDOWN3:
 			return 2.50;
 		case STEPUP4:
 			return 3.25;
 		default:
-			return 3.25;
+			return 0.75; // Needs nonzero frequency to not break motor control code
 	}
 }
 
 float get_amplitude_from_state(void)
 {
-	/*switch(sway_state)
-	{
-		case ONLINE_STATE:
-			return 0;
-		case BASELINE:
-			return 0.3404;
-		case STEPUP1:
-			return 0.2179;
-		case STEPUP2:
-			return 0.1362;
-		case STEPUP3:
-		case STEPUP4:
-			return 0.0817;
-		default:
-			return 0;
-	}*/
 	switch(sway_state)
 	{
 		case ONLINE_STATE:
-			return 0;
+			return 0.0;
 		case BASELINE:
+		case BASELINE_BOOST:
+		case STARTUP:
+		case STARTUP_BOOST:
 			return 0.6808;
 		case STEPUP1:
+		case STEPDOWN1:
 			return 0.4357;
 		case STEPUP2:
+		case STEPDOWN2:
 			return 0.2713;
 		case STEPUP3:
+		case STEPDOWN3:
+		case STEPUP3_SU4_ON:
 		case STEPUP4:
 			return 0.1634;
 		default:
-			return 0;
+			return 0.0;
 	}
 }
 
@@ -111,15 +114,22 @@ void set_led_color_from_state(void)
 			RGB_set(RGB_WHITE);
 			break;
 		case BASELINE:
+		case BASELINE_BOOST:
+		case STARTUP:
+		case STARTUP_BOOST:
 			RGB_set(RGB_BLUE);
 			break;
 		case STEPUP1:
+		case STEPDOWN1:
 			RGB_set(RGB_GREEN);
 			break;
 		case STEPUP2:
+		case STEPDOWN2:
 			RGB_set(RGB_YELLOW);
 			break;
 		case STEPUP3:
+		case STEPUP3_SU4_ON:
+		case STEPDOWN3:
 			RGB_set(RGB_ORANGE);
 			break;
 		case STEPUP4:
@@ -132,6 +142,40 @@ void set_led_color_from_state(void)
 	return;
 }
 
+void move_to_next_sway_state(void)
+{
+	switch(sway_state)
+	{
+		case ONLINE_STATE:
+			sway_state = BASELINE;
+			break;
+		case BASELINE:
+		case BASELINE_BOOST:
+		case STARTUP:
+		case STARTUP_BOOST:
+			sway_state = STEPUP1;
+			break;
+		case STEPUP1:
+		case STEPDOWN1:
+			sway_state = STEPUP2;
+			break;
+		case STEPUP2:
+		case STEPDOWN2:
+			sway_state = STEPUP3;
+			break;
+		case STEPUP3:
+		case STEPUP3_SU4_ON:
+		case STEPDOWN3:
+			sway_state = STEPUP4;
+			break;
+		case STEPUP4:
+			sway_state = ONLINE_STATE;
+			break;
+		default:
+			sway_state = ONLINE_STATE;
+			break;
+	}
+}
 
 float get_motor_PWM(void)
 {
@@ -185,6 +229,8 @@ void spiSlave_Init(void)
 
 	// Enable interupt on SPI CS falling.
 	DrvGPIO_SetFallingInt(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN, TRUE);
+	
+	sway_state = NO_STATE;
 }
 
 void spiSlave_Write(UINT32 value)
@@ -259,25 +305,16 @@ void read_and_write_SPI(void)
 			spiMaster_Data[index] = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 			
 			// Interpret messages
-//			printf("%d\n", spiSlave_Data[index]);
 			sway_state = (spiSlave_Data[index] & 0x00FF);
-			motor_PWM = (spiSlave_Data[index] >> 8) & 0x00FF;
-//			printf("%d %d\n", motor_PWM, sway_state);
 			
-			// Daisy-chain: Pass slave values (recvd from Linux master) to master (to Cry Detect Board) and vice versa.
-			// TODO: delete because it's always only one packet
-			spiSlave_Write(0xA9);
-//			spiMaster_Write(spiSlave_Data[index]);
-			
-//			// Increment the index, but prevent overflow.
-//			if (index < SPI_BUF_LENGTH) ++index;
+			if(spiSlave_Data[index] == 0)
+				sway_state = NO_STATE;
 		}
 	}
 
 	// Initialize the first zero status byte to shift out on the next packet.
-//	spiSlave_Write(activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
-//	spiSlave_Write(0x24);
-	spiSlave_Write(spiMaster_Data[index]);// | activity_button_pressed_flag);// | power_down_flag | get_safety_clip_flags());
+//	spiSlave_Write(spiMaster_Data[index]);// | activity_button_pressed_flag);// | power_down_flag | get_safety_clip_flags());
+	spiSlave_Write(activity_button_pressed_flag);// | power_down_flag | get_safety_clip_flags());
 	spiMaster_Write(spiSlave_Data[index]);
 	
 	activity_button_pressed_flag = 0;

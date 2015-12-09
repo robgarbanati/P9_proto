@@ -17,7 +17,7 @@
 #include "app_SoftPWM.h"
 #include "app_OptoSensor.h"
 
-#define ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT	7
+#define ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT	11
 #define POWER_OFF_SPI_SHIFT_AMOUNT			6
 #define HIGH_STATE	1
 #define LOW_STATE	0
@@ -42,7 +42,7 @@ extern volatile int current_sensed;
 
 volatile UINT32 TO_counter = 0;
 volatile UINT8 speed_flag;
-extern UINT8 activity_button_pressed_flag, power_down_flag;
+extern UINT16 activity_button_pressed_flag, power_down_flag;
 
 /*------------------------------------------------------------------------------------------------------*/
 /* Local variables                                                                               		*/
@@ -89,6 +89,8 @@ void GPAB_IRQHandler(void)
 		{
 			activity_button_is_being_pressed = 0;
 			activity_button_pressed_flag = 1 << ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT;
+			
+			move_to_next_sway_state();
 			
 			// Clear the activity button interrupt.
 			DrvGPIO_ClearIntFlag(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
@@ -264,7 +266,7 @@ void gpioInit(void)
 	DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_5); // Turn off power down
 
 	// Enable interrupt on activity button released. TODO should we delete one of these interrupt triggers?
-//	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
+	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
 	DrvGPIO_EnableFallingLowInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
 	
 	// Enable interrupt on power off pin pressed (high).
@@ -286,7 +288,7 @@ int main(void)
 //	init_ADC();
 	
 	spiSlave_Init();
-	spiMaster_Init();
+//	spiMaster_Init();
 	
 	
 	// motor driver IC initialization
@@ -302,7 +304,7 @@ int main(void)
 	RGB_set(RGB_RED);
 	
 	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 1500);
-	set_sway_state(BASELINE);
+//	set_sway_state(BASELINE);
 
 	for (;;)
 	{	
@@ -330,7 +332,7 @@ int main(void)
 			res = getReg_DRV8301(DRV8301_STATUS_REG1);
 			
 			// check for general fault flag
-			if (res && DRV8301_FAULT_FLAG)
+			if (res & DRV8301_FAULT_FLAG)
 			{
 				// fault detected!
 				
