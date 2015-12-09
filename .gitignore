@@ -5,5 +5,6 @@ firmware/motor_controller/manual_motor_control/F072/Debug/*
 firmware/cry_detect/manual_cry_detect/F072/Debug/*
 firmware/cry_detect/Cry_Detector/F072/Debug/*
 *.Robert
+*.Rob
 *.swo
 *.swp
