@@ -12,6 +12,8 @@
 //
 // Global Variables
 //
+#define SPI_MAX_VALUE	0xFF
+#define MOTOR_SPEED_DIVIDER 4  // We have a resolution of 0.25 hz
 volatile UINT16 activity_button_pressed_flag = 0;
 volatile UINT16 power_down_flag = 0;
 
@@ -22,6 +24,23 @@ volatile UINT16 power_down_flag = 0;
 static UINT8 sway_state, motor_PWM;
 static UINT32 desired_speed;
 
+#define STARTUP		0
+#define STARTUP_BOOST	1
+#define STEPUP1		2
+#define STEPUP2		3
+#define STEPUP3	        4
+#define STEPUP3_SU4_ON  5
+#define STEPUP4		6
+#define STEPDOWN3	7
+#define STEPDOWN2	8
+#define STEPDOWN1	9
+#define BASELINE_BOOST	10
+#define BASELINE	11
+#define TIMEOUT_STATE	12
+#define ONLINE_STATE	13
+#define NO_STATE	14
+
+
 
 //
 // Global Functions
@@ -29,27 +48,10 @@ static UINT32 desired_speed;
 
 float get_frequency_from_state(void)
 {
-	/*switch(sway_state)
-	{
-		case ONLINE_STATE:
-			return 3.43;
-		case BASELINE:
-			return 0.79;
-		case STEPUP1:
-			return 1.37;
-		case STEPUP2:
-			return 1.79;
-		case STEPUP3:
-			return 2.97;
-		case STEPUP4:
-			return 3.43;
-		default:
-			return 3.43;
-	}*/
 	switch(sway_state)
 	{
 		case ONLINE_STATE:
-			return 3.25;
+			return 0.75;
 		case BASELINE:
 		case BASELINE_BOOST:
 		case STARTUP:
@@ -62,37 +64,22 @@ float get_frequency_from_state(void)
 		case STEPDOWN2:
 			return 1.70;
 		case STEPUP3:
+		case STEPUP3_SU4_ON:
 		case STEPDOWN3:
 			return 2.50;
 		case STEPUP4:
-			return 3.25;
+			return 3.50;//3.25;
 		default:
-			return 3.25;
+			return 0.75; // Needs nonzero frequency to not break motor control code
 	}
 }
 
 float get_amplitude_from_state(void)
 {
-	/*switch(sway_state)
-	{
-		case ONLINE_STATE:
-			return 0;
-		case BASELINE:
-			return 0.3404;
-		case STEPUP1:
-			return 0.2179;
-		case STEPUP2:
-			return 0.1362;
-		case STEPUP3:
-		case STEPUP4:
-			return 0.0817;
-		default:
-			return 0;
-	}*/
 	switch(sway_state)
 	{
 		case ONLINE_STATE:
-			return 0.01;
+			return 0.0;
 		case BASELINE:
 		case BASELINE_BOOST:
 		case STARTUP:
@@ -106,10 +93,11 @@ float get_amplitude_from_state(void)
 			return 0.2713;
 		case STEPUP3:
 		case STEPDOWN3:
+		case STEPUP3_SU4_ON:
 		case STEPUP4:
-			return 0.1634;
+			return 0.21;//0.1634;
 		default:
-			return 0.01;
+			return 0.0;
 	}
 }
 
@@ -135,6 +123,7 @@ void set_led_color_from_state(void)
 			RGB_set(RGB_YELLOW);
 			break;
 		case STEPUP3:
+		case STEPUP3_SU4_ON:
 		case STEPDOWN3:
 			RGB_set(RGB_ORANGE);
 			break;
@@ -151,12 +140,12 @@ void set_led_color_from_state(void)
 
 float get_motor_PWM(void)
 {
-//	printf("pwm is %f and %f\n", (float) motor_PWM,((float) motor_PWM)/100);
 	return ((float) motor_PWM)/100;
 }
 
 UINT16 get_safety_clip_flags(void)
 {
+//	printf("%d %d\n", is_left_safety_clip_in(), is_right_safety_clip_in());
 	return (is_left_safety_clip_in() << LEFT_SAFETY_CLIP_FLAG_POSITION) | (is_right_safety_clip_in() << RIGHT_SAFETY_CLIP_FLAG_POSITION);
 }
 
@@ -170,12 +159,6 @@ UINT8 get_sway_state(void)
 	return (UINT8) sway_state;
 }
 
-// usefull for code testing
-void set_sway_state(UINT8 newState)
-{
-	sway_state = newState;
-}
-
 //
 // Local Functions
 //
@@ -184,8 +167,6 @@ void spiSlave_Init(void)
 {
 	// Open the SPI driver.
 	DrvSPI_Open(SPI_SLAVE_HANDLER, SPI_SLAVE_OPEN_FLAGS, SPI_SLAVE_DIVIDER);
-	
-//	DrvSPI_SlaveSelect(SPI_SLAVE_HANDLER, TRUE, DRVSPI_IDEL_CLK_LOW);
 
 	// Configure for slave mode.
 	DrvSPI_SPI1_SetSlaveMode(TRUE);
@@ -201,6 +182,8 @@ void spiSlave_Init(void)
 
 	// Enable interupt on SPI CS falling.
 	DrvGPIO_SetFallingInt(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN, TRUE);
+	
+	sway_state = NO_STATE;
 }
 
 void spiSlave_Write(UINT32 value)
@@ -212,27 +195,14 @@ void spiSlave_Write(UINT32 value)
 	DrvSPI_SetGo(SPI_SLAVE_HANDLER);
 }
 
-// Init SPI Master to communicate with DRV8301
-void spiMaster_Init_Motor(void) {
+// Master talks to Cry Detect Board (CDB)
+void spiMaster_Init(void) {
 	// Open the SPI driver.
 	DrvSPI_Open(SPI_MASTER_HANDLER, SPI_MASTER_OPEN_FLAGS, SPI_MASTER_DIVIDER);
 
 	// Select the slave.
 	DrvSPI_SlaveSelect(SPI_MASTER_HANDLER, TRUE, DRVSPI_IDEL_CLK_LOW);
-	DrvSPI_SelectSlave(SPI_MASTER_HANDLER, SPI_MASTER_CS_MOTOR);
-
-	// Read/write data in 16 bit chunks.
-	DrvSPI_SetDataConfig(SPI_MASTER_HANDLER, 1, 16);
-}
-
-// Init SPI Master to communicate with Cry Detect Chip
-void spiMaster_Init_Cry(void) {
-	// Open the SPI driver.
-	DrvSPI_Open(SPI_MASTER_HANDLER, SPI_MASTER_OPEN_FLAGS, SPI_MASTER_DIVIDER);
-
-	// Select the slave.
-	DrvSPI_SlaveSelect(SPI_MASTER_HANDLER, TRUE, DRVSPI_IDEL_CLK_LOW);
-	DrvSPI_SelectSlave(SPI_MASTER_HANDLER, SPI_MASTER_CS_CRY);
+	DrvSPI_SelectSlave(SPI_MASTER_HANDLER, SPI_MASTER_DEVICE);
 
 	// Read/write data in 16 bit chunks.
 	DrvSPI_SetDataConfig(SPI_MASTER_HANDLER, 1, 16);
@@ -247,7 +217,7 @@ void spiMaster_Write(UINT32 value)
 	DrvSPI_SetGo(SPI_MASTER_HANDLER);
 }
 
-void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData)
+void spiMaster_Xchange(UINT16 TxData, UINT16 RxData)
 {
 	// Set the data to shift out of the SPI port.
 	DrvSPI_SingleWriteData0(SPI_MASTER_HANDLER, (UINT32) TxData);
@@ -259,7 +229,7 @@ void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData)
 	while (DrvSPI_GetBusy(SPI_MASTER_HANDLER));
 	
 	// Read the value shifted in
-	*RxData = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
+	DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 }
 
 // Handle the send/receive of the SPI packets at interrupt time.
@@ -267,12 +237,12 @@ void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData)
 void read_and_write_SPI(void)
 {
 	UINT8 index = 0;
-	UINT16 spiMaster_Data[SPI_BUF_LENGTH];
-	UINT16 spiSlave_Data[SPI_BUF_LENGTH];
+	UINT16 spiMaster_Data;
+	UINT16 spiSlave_Data;
 	
 	// Assume we receive a zero length packet.
-	spiSlave_Data[0] = 0;
-	spiMaster_Data[0] = 0;
+	spiSlave_Data = 0;
+	spiMaster_Data = 0;
 
 	// Send/receive bytes until the SPI CS pin is raised.
 	while (!DrvGPIO_GetInputPinValue(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN))
@@ -284,21 +254,18 @@ void read_and_write_SPI(void)
 		if (!DrvGPIO_GetInputPinValue(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN))
 		{
 			// Read the values shifted in.
-			spiSlave_Data[index] = DrvSPI_SingleReadData0(SPI_SLAVE_HANDLER);
-			spiMaster_Data[index] = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
+			spiSlave_Data = DrvSPI_SingleReadData0(SPI_SLAVE_HANDLER);
 			
-			// Interpret messages
-//			motor_PWM = (spiSlave_Data[index] & 0x00FF);
-			sway_state = (spiSlave_Data[index] >> 8) & 0x00FF;
+			// Interpret messages		
+			if(spiSlave_Data == 0)
+				sway_state = NO_STATE;
+			else
+				sway_state = (spiSlave_Data >> 8) & 0x00FF;	
 		}
 	}
 
 	// Initialize the first zero status byte to shift out on the next packet.
-	spiSlave_Write(spiMaster_Data[index] | activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
-	printf("smd = %x\n", spiMaster_Data[index]);
-	spiMaster_Write(spiSlave_Data[index]);
-	
+	spiSlave_Write(activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
 	activity_button_pressed_flag = 0;
-	power_down_flag = 0;
 }
 

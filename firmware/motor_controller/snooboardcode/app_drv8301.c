@@ -14,15 +14,21 @@
 
 void configure_spi_master(void)
 {
-	spiMaster_Init_Motor();
+	spiMaster_Init();
 }
 
 uint16_t sendData(uint16_t Data)
 {
 	uint16_t Result;
 	uint16_t txData, rxData;
+	 
+	txData  = ( Data >> 8) & 0x00FF;
+	txData += (Data & 0x00FF) << 8;
 	
-	spiMaster_Xchange(Data, &Result);
+	spiMaster_Write(Data);
+	
+	Result  = ( rxData >> 8) & 0x00FF;
+	Result += (rxData & 0x00FF) << 8;
 	 
 	return Result;
 }
@@ -32,34 +38,52 @@ void configure_DRV8301(void)
 	int i;
 	uint16_t CtrlReg = 0x00;	
 	
-	CtrlReg  = (DRV8301_GATE_PEAK_CURRENT_250mA << DRV8301_GATE_CURRENT_POS);
-	CtrlReg |= (DRV8301_GATE_RESET              << DRV8301_GATE_RESET_POS);
-	CtrlReg |= (DRV8301_PWM_MODE_3_INPUTS       << DRV8301_PWM_MODE_POS);	
-	CtrlReg |= (DRV8301_OC_MODE_REPORT_ONLY     << DRV8301_OC_MODE_POS);
-	CtrlReg |= (DRV8301_OC_ADJ_SET_VDS_60mV     << DRV8301_OC_ADJ_SET_POS);
+	CtrlReg  = (0x00 << DRV8301_OC_MODE) || (0x01 << DRV8301_PWM_MODE) || (0x00 << DRV8301_GATE_RESET) || (0x02 << DRV8301_GATE_CURRENT);
+	CtrlReg |= (DRV8301_CONTROL_REG_1 << DRV8301_DATA_BITS);
+	CtrlReg |= (DRV8301_WRITE_CMD << 15);
 	
-	CtrlReg |= (DRV8301_CONTROL_REG_1           << DRV8301_ADDRESS_BIT_POS);
+	CtrlReg   = 0x17CA; // TODO use control flags.
 	
-	CtrlReg |= (DRV8301_WRITE_CMD               << DRV8301_RW_BIT_POS);
-	
-	for(i=0;i<1000;i++) // It doesn't always work, so doing it 1000 times makes it pretty damn foolproof. And we have plenty of time while linux boots up.
+	// It doesn't always work, so waiting a moment then doing it 1000 times makes it pretty damn foolproof. And we have plenty of time while the linux boots up.
+	for(i=0;i<100000;i++);
+	for(i=0;i<1000;i++)
 	{
 		while(DrvSPI_GetBusy(SPI_MASTER_HANDLER));
+		CtrlReg   = 0x17CA;
 		sendData(CtrlReg);
 	}
 }
 
-uint16_t getReg_DRV8301(uint8_t Reg)
+uint16_t getStatus_DRV8301(void)
 {
 	uint16_t Cmd = 0x00;
 	uint16_t Res;
 	
-	Cmd  = (Reg << DRV8301_ADDRESS_BIT_POS);
-	Cmd |= (DRV8301_READ_CMD << DRV8301_RW_BIT_POS);
+	Cmd = 0x8000;	
+	Res = sendData(Cmd);
 	
-	while(DrvSPI_GetBusy(SPI_MASTER_HANDLER));	
+	Cmd = 0x8000;	
+	Res = sendData(Cmd);
+	
+	return Res;
+}
+
+uint16_t getCtrlReg_DRV8301(uint8_t Reg)
+{
+	uint16_t Cmd = 0x00;
+	uint16_t Res;
+	
+	if (Reg == 1)
+	{
+		Cmd = 0x9000;
+	} else if (Reg == 2)
+	{
+		Cmd = 0x9800;
+	} else {
+		return 0;
+	}
+		
 	Res = sendData(Cmd);		
-	while(DrvSPI_GetBusy(SPI_MASTER_HANDLER));
 	Res = sendData(Cmd);
 	
 	return Res;

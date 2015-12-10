@@ -10,8 +10,8 @@
 
 // SPI master mode for communication with Cry Detect Board.
 #define SPI_MASTER_HANDLER		DRVSPI_SPI0_HANDLER
-#define SPI_MASTER_CS_CRY		eDRVSPI_SLAVE_1
-#define SPI_MASTER_CS_MOTOR		eDRVSPI_SLAVE_2
+//#define SPI_MASTER_DEVICE  		eDRVSPI_SLAVE_1
+#define SPI_MASTER_DEVICE  		eDRVSPI_SLAVE_2
 #define SPI_MASTER_DIVIDER    (_DRVSPI_DIVIDER(DrvCLK_GetHclk(), 100000))
 #define SPI_MASTER_OPEN_FLAGS (	DRVSPI_ENDIAN_BIG | \
 								DRVSPI_IDEL_CLK_LOW | \
@@ -45,36 +45,15 @@
 #define LEFT_SAFETY_CLIP_FLAG_POSITION	9
 #define RIGHT_SAFETY_CLIP_FLAG_POSITION	8
 
-// Should be identical to state definitions in sway_code/host/state.h
-#define STARTUP		0
-#define STARTUP_BOOST	1
-#define STEPUP1		2
-#define STEPUP2		3
-#define STEPUP3	        4
-#define STEPUP3_SU4_ON  5
-#define STEPUP4		6
-#define STEPDOWN3	7
-#define STEPDOWN2	8
-#define STEPDOWN1	9
-#define BASELINE_BOOST	10
-#define BASELINE	11
-#define TIMEOUT_STATE	12
-#define ONLINE_STATE	13
-#define NO_STATE	14
-
-
-
 //
 // Global Functions
 //
 UINT32 get_desired_speed(void);
 UINT8 get_sway_state(void);
-void set_sway_state(UINT8 newState);
 float get_motor_PWM(void);
 	
 void spiSlave_Init(void);
-void spiMaster_Init_Cry(void);
-void spiMaster_Init_Motor(void);
+void spiMaster_Init(void);
 
 void spiSlave_Close(void);
 void spiMaster_Close(void);
@@ -93,7 +72,7 @@ void read_and_write_SPI(void);
 void spiSlave_Write(UINT32 value);
 
 // Exchange single word with slave device
-void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData);
+void spiMaster_Xchange(UINT16 TxData, UINT16 RxData);
 
 
 float get_frequency_from_state(void);

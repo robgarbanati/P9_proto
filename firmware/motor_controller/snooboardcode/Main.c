@@ -53,12 +53,12 @@ volatile UINT16 Homing_pin_state;
 
 int is_left_safety_clip_in(void)
 {
-	return DrvGPIO_GetInputPinValue(&SAFETY_CLIP_GPIO, LEFT_SAFETY_CLIP) >> 15;
+	return (DrvGPIO_GetInputPinValue(&SAFETY_CLIP_GPIO, LEFT_SAFETY_CLIP) > 0);
 }
 
 int is_right_safety_clip_in(void)
 {
-	return DrvGPIO_GetInputPinValue(&SAFETY_CLIP_GPIO, RIGHT_SAFETY_CLIP) >> 14;
+	return (DrvGPIO_GetInputPinValue(&SAFETY_CLIP_GPIO, RIGHT_SAFETY_CLIP) > 0);
 }
 
 int get_activity_button_state(void)
@@ -96,21 +96,7 @@ void GPAB_IRQHandler(void)
 		}
 	}	
 	
-	// Is interrupt from Activity Button?
-	if(DrvGPIO_GetIntFlag(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN))
-	{
-//		// Only continue if pin is high.
-//		DrvGPIO_ClearIntFlag(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN);
-//		if (DrvGPIO_GetInputPinValue(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN))
-//		{
-		power_down_flag = 1 << POWER_OFF_SPI_SHIFT_AMOUNT;
-		
-		// Clear the activity button interrupt.
-		DrvGPIO_ClearIntFlag(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN);
-//		}
-	}	
-	
-	// Is this from homing sensor?
+	// Is this from homing sensor? TODO make sure homing sensor works.
 	if(DrvGPIO_GetIntFlag(&HOMING_SENSOR_GPIO, HOMING_SENSOR_PIN))
 	{
 		// grab homing sensor state and process it...
@@ -141,9 +127,6 @@ void TMR0_IRQHandler(void)
 	DrvTimer_ClearIntFlagTmr0();
 		
 	Update = 1;
-	
-	// TEST - for measuring processor load
-	//DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_11);
 	
 	// Increment real-time counter
 	TO_counter++;
@@ -264,9 +247,8 @@ void gpioInit(void)
 	DrvGPIO_SetOutputBit(&GPIOA, DRVGPIO_PIN_14); // EN_GATE needs to enabled before SPI	
 	DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_5); // Turn off power down
 
-	// Enable interrupt on activity button released. TODO should we delete one of these interrupt triggers?
+	// Enable interrupt on activity button released.
 	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
-//	DrvGPIO_EnableFallingLowInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
 	
 	// Enable interrupt on power off pin pressed (high).
 	DrvGPIO_SetRisingInt(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN, TRUE);
@@ -278,33 +260,31 @@ void gpioInit(void)
 uint16_t res;
 int main(void)
 {
-	float old_frequency = 3.0, old_amplitude = 0.01, old_power = 0.40;
+	float old_frequency = 2.0, old_amplitude = 0.25, old_power = 0.40;
 	
 	clkInit();
 
 	gpioInit();
-	
-	// motor driver IC initialization
-	init_DRV8301();
+		
 	// motor PWM module initialization
 	PWM_Init();
-	
-	// BLDC motor control initialization
-	SineDrive_init();
 
-	
 	// software PWM for RGB initializaiton
 	RGB_init(); // place it after sindrive init so it doesn't slow down initial calculation
 	RGB_set(RGB_RED);
 	
-	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 1500);
-	set_sway_state(BASELINE);
+	// motor driver IC initialization
+	init_DRV8301();
 	
-	// Init communication with N32905
 	spiSlave_Init();
+//	spiMaster_Init();
+
 	
-	// Init communication with Cry Detect chip
-	spiMaster_Init_Cry();
+	// BLDC motor control initialization
+	SineDrive_init();	
+	
+	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
+	SineDrive_do();
 
 	for (;;)
 	{	
@@ -315,39 +295,11 @@ int main(void)
 			{
 				old_frequency = get_frequency_from_state();
 				old_amplitude = get_amplitude_from_state();
-				SineDrive_setMotorMovement(old_frequency, old_amplitude, 0.4, 3000);
+				SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
+//				SineDrive_setMotorMovement(2.0, 0.4, 0.40, 3000);
 			}
-//			if(old_power != get_motor_PWM())
-//			{
-//				old_power = get_motor_PWM();
-//				printf("old = %f, new = %f\n", old_power, get_motor_PWM());
-//				SineDrive_setPower(old_power);
-//			}
 			SineDrive_do();	
-			
-			
-			/* Doesn't work yet! Need to switch CS pin back to SPI_MASTER_CS_MOTOR (instead of SPI_MASTER_CS_CRY)
-			// EXAMPLE ********************************************************
-			// driver status reading and checking
-			
-			// read the status register
-			res = getReg_DRV8301(DRV8301_STATUS_REG1);
-			
-			// check for general fault flag
-			if (res && DRV8301_FAULT_FLAG)
-			{
-				// fault detected!
-				
-				// TEST, just go to online state
-				set_sway_state(ONLINE_STATE);
-				
-				// you can test specific flags if you need to and see if
-				// there was an OC and on which channel and which mosfet -> flags DRV8301_FETHA_OC_FLAG, DRV8301_FETLA_OC_FLAG, etc...
-				// there was an undervoltage (UVP flags), over temperature warning (OTW), etc... See datasheet for DRV8301.
-				
-			}
-			// EXAMPLE ********************************************************
-			*/
+	
 		}
 	}
 

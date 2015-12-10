@@ -40,11 +40,7 @@ INT16 amplitudeFactorStep;
 
 float amplitudeDriveStep;
 float frequencyDriveStep;
-//UINT8 amplitudeTransitionDone, frequencyTransitionDone;
-
-UINT8 doAmplitudeTransition = 0;
-UINT8 doFrequencyTransition = 0;
-enum transition_priority priorityTransition = FREQUENCY;
+UINT8 amplitudeTransitionDone, frequencyTransitionDone;
 
 enum state_machine State = STOPPED;
 
@@ -57,13 +53,6 @@ float 	drvPower;
 float 	drvAmplitude;
 UINT16	drvTransitionTime;
 UINT8   drvNewParameters = 0;
-
-// for holding incoming motor movement parameters while motor is transitioning
-float  bufferedFrequency;
-float  bufferedAmplitude;
-float  bufferedPower;
-UINT16 bufferedTransitionTime;
-UINT8  bufferedMovementWaiting = 0;
 
 static void SineDrive_create_sine_table(void)
 {
@@ -196,34 +185,8 @@ void SineDrive_Start(void)
 void SineDrive_Switchover(void)
 {
 	// activate the transiton code...
-	
-	if ((frequencyDriveStep >= 0) && (amplitudeDriveStep >= 0))
-	{
-		// increase frequency, then amplitude
-		priorityTransition = FREQUENCY;
-	}
-	else if ((frequencyDriveStep >= 0) && (amplitudeDriveStep <= 0))
-	{
-		// drop amplitude, then increase frequency
-		priorityTransition = AMPLITUDE;
-	}
-	else if ((frequencyDriveStep <= 0) && (amplitudeDriveStep >= 0))
-	{
-		// drop frequency, then increase amplitude
-		priorityTransition = FREQUENCY;
-	}
-	else if ((frequencyDriveStep <= 0) && (amplitudeDriveStep <= 0))
-	{
-		// drop amplitude, then drop frequency
-		priorityTransition = AMPLITUDE;
-	}
-	
-	//amplitudeTransitionDone = 0;
-	//frequencyTransitionDone = 0;	
-	
-	doAmplitudeTransition = 1;
-	doFrequencyTransition = 1;
-	
+	amplitudeTransitionDone = 0;
+	frequencyTransitionDone = 0;	
 	SineDrive_switchState(SWITCHOVER);
 }
 
@@ -402,9 +365,8 @@ void SineDrive_do(void)
 	
 	if (State == SWITCHOVER)
 	{
-
 		// amplitude transition
-		if ((doAmplitudeTransition == 1) && (priorityTransition == AMPLITUDE))
+		if (amplitudeTransitionDone == 0)
 		{
 			if (amplitudeDriveStep > 0)
 			{
@@ -413,9 +375,7 @@ void SineDrive_do(void)
 				if (driveAmplitude >= drvAmplitude)
 				{		
 					driveAmplitude = drvAmplitude;
-					//amplitudeTransitionDone = 1;
-					doAmplitudeTransition = 0;
-					priorityTransition = FREQUENCY;
+					amplitudeTransitionDone = 1;
 				}
 			} else {
 				// amplitude down...
@@ -423,86 +383,67 @@ void SineDrive_do(void)
 				if (driveAmplitude <= drvAmplitude)
 				{		
 					driveAmplitude = drvAmplitude;
-					//amplitudeTransitionDone = 1;
-					doAmplitudeTransition = 0;
-					priorityTransition = FREQUENCY;
+					amplitudeTransitionDone = 1;
 				}
 			}
 			SineDrive_setAmplitude(driveAmplitude);
 		}
 		
 		// frequency transition
-		if ((doFrequencyTransition == 1) && (priorityTransition == FREQUENCY))
+		// are we at the swing endpoint! (1/4 sine or 3/4 sine)
+		if ( ((old_arg <= 256) && (arg > 256)) || ((old_arg <= 768 ) && (arg > 768)) )
 		{
-			// are we at the swing endpoint! (1/4 sine or 3/4 sine)
-			if ( ((old_arg <= 256) && (arg > 256)) || ((old_arg <= 768 ) && (arg > 768)) )
+			
+			// do the frequency update
+			driveFrequency += frequencyDriveStep;
+			if (frequencyDriveStep > 0)
 			{
-				
-				// do the frequency update
-				driveFrequency += frequencyDriveStep;
-				if (frequencyDriveStep > 0)
-				{
-						// speeding up...
-						if (driveFrequency >= drvFrequency)
-						{
-							driveFrequency = drvFrequency;
-							//frequencyTransitionDone = 1;
-							doFrequencyTransition = 0;
-							priorityTransition = AMPLITUDE;
-						}
-				} else {
-						// slowing down...
-						if (driveFrequency <= drvFrequency)
-						{
-							driveFrequency = drvFrequency;
-							//frequencyTransitionDone = 1;
-							doFrequencyTransition = 0;
-							priorityTransition = AMPLITUDE;
-						}
-				}	
-				
-				// this is where sine functions of different frequencies are seamlessly "sewed" together
-				
-				//**********************************************************************************************************
-				// reset oscillation time to appropriate point on sin function ( Pi/4 or 3Pi/4 )
-				if ((old_arg <= 256) && (arg > 256))
-				{
-					t = arg / (driveFrequency * 1024);
-				}
-					
-				if ((old_arg <= 768) && (arg > 768))
-				{
-					t = arg / (driveFrequency * 1024);					
-				}
-											
-				// reset arg and setep count variables			
-				arg  = (FINE_SINE_STEPS * driveFrequency * t);
-				arg %= FINE_SINE_STEPS;
-				discrete_phy = fine_sine[arg];
-				step_now = (int32_t)(discrete_phy * intDriveAmplitude + aOffset * intDriveAmplitude)/(10000);
-				step_now = step_now * amplitudeFactor / MAX_AMPLITUDE_FACTOR;
-				step_old = step_now;
-				
-				// reset any opto corrections
-				phy_measured_offset = 0;
-				//**********************************************************************************************************			
+					// speeding up...
+					if (driveFrequency >= drvFrequency)
+					{
+						driveFrequency = drvFrequency;
+						frequencyTransitionDone = 1;
+					}
+			} else {
+					// slowing down...
+					if (driveFrequency <= drvFrequency)
+					{
+						driveFrequency = drvFrequency;
+						frequencyTransitionDone = 1;
+					}
+			}	
+			
+			// this is where sine functions of different frequencies are seamlessly "sewed" together
+			
+			//**********************************************************************************************************
+			// reset oscillation time to appropriate point on sin function ( Pi/4 or 3Pi/4 )
+			if ((old_arg <= 256) && (arg > 256))
+			{
+				t = arg / (driveFrequency * 1024);
 			}
-		}
-		
+				
+			if ((old_arg <= 768) && (arg > 768))
+			{
+				t = arg / (driveFrequency * 1024);					
+			}
+										
+			// reset arg and setep count variables			
+			arg  = (FINE_SINE_STEPS * driveFrequency * t);
+			arg %= FINE_SINE_STEPS;
+			discrete_phy = fine_sine[arg];
+			step_now = (int32_t)(discrete_phy * intDriveAmplitude + aOffset * intDriveAmplitude)/(10000);
+			step_now = step_now * amplitudeFactor / MAX_AMPLITUDE_FACTOR;
+			step_old = step_now;
+			
+			// reset any opto corrections
+			phy_measured_offset = 0;
+			//**********************************************************************************************************			
+		}		
 		
 		// if all is done...
-		//if ((amplitudeTransitionDone == 1) && (frequencyTransitionDone == 1))
-		if ((doAmplitudeTransition == 0) && (doFrequencyTransition == 0))
+		if ((amplitudeTransitionDone == 1) && (frequencyTransitionDone == 1))
 		{
-			if (bufferedMovementWaiting == 0)
-			{
-				// business as usual...
-				SineDrive_switchState(RUN);
-			} else {
-				// we have received a transition(s) while transitioning, go handle that...
-				bufferedMovementWaiting = 0;
-				SineDrive_setMotorMovement(bufferedFrequency, bufferedAmplitude, bufferedPower, bufferedTransitionTime);
-			}
+			SineDrive_switchState(RUN);
 		}
 	}
 	
@@ -512,28 +453,13 @@ void SineDrive_do(void)
 
 /*
   Frequency in Hz, float
-	Amplitude in %, [0.00 - 1.00]
+	Amplitude in %, [0.00 - 100.00]
 	Power, [0.00 - 1.00]
 	TransitionTime in ms - max 5000!
 */
 void SineDrive_setMotorMovement(float Frequency, float Amplitude, float Power, UINT16 TransitionTime)
 {
 	float TransitionSteps;
-	
-	// prevent midtransition movement changes
-	if (SineDrive_getState() == SWITCHOVER)
-	{
-		// save this request for later, and just jump out
-		// if multiple requests received, only the last one is saved and aplied after the current switchower
-		
-		bufferedFrequency      = Frequency;
-		bufferedAmplitude      = Amplitude;
-		bufferedPower          = Power;
-		bufferedTransitionTime = TransitionTime;
-		bufferedMovementWaiting  = 1;
-		
-		return;
-	}
 	
 	drvFrequency = 			Frequency;
 	drvPower = 					Power;
