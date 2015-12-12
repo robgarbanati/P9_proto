@@ -494,11 +494,10 @@ void SineDrive_do(void)
 		//if ((amplitudeTransitionDone == 1) && (frequencyTransitionDone == 1))
 		if ((doAmplitudeTransition == 0) && (doFrequencyTransition == 0))
 		{
-			if (bufferedMovementWaiting == 0)
+			SineDrive_switchState(RUN);
+			
+			if (bufferedMovementWaiting != 0)
 			{
-				// business as usual...
-				SineDrive_switchState(RUN);
-			} else {
 				// we have received a transition(s) while transitioning, go handle that...
 				bufferedMovementWaiting = 0;
 				SineDrive_setMotorMovement(bufferedFrequency, bufferedAmplitude, bufferedPower, bufferedTransitionTime);
