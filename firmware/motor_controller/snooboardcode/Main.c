@@ -18,7 +18,11 @@
 #include "app_OptoSensor.h"
 
 #define ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT	11
+<<<<<<< HEAD
 #define POWER_OFF_SPI_SHIFT_AMOUNT			10
+=======
+#define POWER_OFF_SPI_SHIFT_AMOUNT			6
+>>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 #define HIGH_STATE	1
 #define LOW_STATE	0
 
@@ -89,6 +93,8 @@ void GPAB_IRQHandler(void)
 		{
 			activity_button_is_being_pressed = 0;
 			activity_button_pressed_flag = 1 << ACTIVITY_BUTTON_SPI_SHIFT_AMOUNT;
+			
+			move_to_next_sway_state();
 			
 			// Clear the activity button interrupt.
 			DrvGPIO_ClearIntFlag(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
@@ -247,8 +253,14 @@ void gpioInit(void)
 	DrvGPIO_SetOutputBit(&GPIOA, DRVGPIO_PIN_14); // EN_GATE needs to enabled before SPI	
 	DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_5); // Turn off power down
 
+<<<<<<< HEAD
 	// Enable interrupt on activity button released.
 	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
+=======
+	// Enable interrupt on activity button released. TODO should we delete one of these interrupt triggers?
+	DrvGPIO_SetRisingInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN, TRUE);
+	DrvGPIO_EnableFallingLowInt(&ACTIVITY_BUTTON_GPIO, ACTIVITY_BUTTON_PIN);
+>>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 	
 	// Enable interrupt on power off pin pressed (high).
 	DrvGPIO_SetRisingInt(&POWER_OFF_BUTTON_GPIO, POWER_OFF_BUTTON_PIN, TRUE);
@@ -269,9 +281,17 @@ int main(void)
 	// motor PWM module initialization
 	PWM_Init();
 
+<<<<<<< HEAD
 	// software PWM for RGB initializaiton
 	RGB_init(); // place it after sindrive init so it doesn't slow down initial calculation
 	RGB_set(RGB_RED);
+=======
+//	init_ADC();
+	
+	spiSlave_Init();
+//	spiMaster_Init();
+	
+>>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 	
 	// motor driver IC initialization
 	init_DRV8301();
@@ -283,8 +303,17 @@ int main(void)
 	// BLDC motor control initialization
 	SineDrive_init();	
 	
+<<<<<<< HEAD
 	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
 	SineDrive_do();
+=======
+	// software PWM for RGB initializaiton
+	RGB_init(); // place it after sindrive init so it doesn't slow down initial calculation
+	RGB_set(RGB_RED);
+	
+	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 1500);
+//	set_sway_state(BASELINE);
+>>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 
 	for (;;)
 	{	
@@ -299,6 +328,30 @@ int main(void)
 //				SineDrive_setMotorMovement(2.0, 0.4, 0.40, 3000);
 			}
 			SineDrive_do();	
+<<<<<<< HEAD
+=======
+			
+			// EXAMPLE ********************************************************
+			// driver status reading and checking
+			
+			// read the status register
+			res = getReg_DRV8301(DRV8301_STATUS_REG1);
+			
+			// check for general fault flag
+			if (res & DRV8301_FAULT_FLAG)
+			{
+				// fault detected!
+				
+				// TEST, just go to online state
+				set_sway_state(ONLINE_STATE);
+				
+				// you can test specific flags if you need to and see if
+				// there was an OC and on which channel and which mosfet -> flags DRV8301_FETHA_OC_FLAG, DRV8301_FETLA_OC_FLAG, etc...
+				// there was an undervoltage (UVP flags), over temperature warning (OTW), etc... See datasheet for DRV8301.
+				
+			}
+			// EXAMPLE ********************************************************
+>>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 	
 		}
 	}

@@ -444,6 +444,16 @@ void SineDrive_do(void)
 		if ((amplitudeTransitionDone == 1) && (frequencyTransitionDone == 1))
 		{
 			SineDrive_switchState(RUN);
+<<<<<<< HEAD
+=======
+			
+			if (bufferedMovementWaiting != 0)
+			{
+				// we have received a transition(s) while transitioning, go handle that...
+				bufferedMovementWaiting = 0;
+				SineDrive_setMotorMovement(bufferedFrequency, bufferedAmplitude, bufferedPower, bufferedTransitionTime);
+			}
+>>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 		}
 	}
 	
