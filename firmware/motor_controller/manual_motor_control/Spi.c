@@ -217,19 +217,19 @@ void spiMaster_Write(UINT32 value)
 	DrvSPI_SetGo(SPI_MASTER_HANDLER);
 }
 
-void spiMaster_Xchange(UINT16 TxData, UINT16 RxData)
+void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData)
 {
 	// Set the data to shift out of the SPI port.
 	DrvSPI_SingleWriteData0(SPI_MASTER_HANDLER, (UINT32) TxData);
-	
+
 	// Initiate the SPI transaction.
 	DrvSPI_SetGo(SPI_MASTER_HANDLER);
-	
+
 	// Wait while the SPI port is busy
 	while (DrvSPI_GetBusy(SPI_MASTER_HANDLER));
-	
+
 	// Read the value shifted in
-	DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
+	*RxData = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 }
 
 // Handle the send/receive of the SPI packets at interrupt time.
