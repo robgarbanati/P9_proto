@@ -15,11 +15,7 @@
 #define SPI_MAX_VALUE	0xFF
 #define MOTOR_SPEED_DIVIDER 4  // We have a resolution of 0.25 hz
 volatile UINT16 activity_button_pressed_flag = 0;
-<<<<<<< HEAD
 volatile UINT16 power_down_flag = 0;
-=======
-volatile UINT8 power_down_flag = 0;
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 
 //
 // Local Defines
@@ -27,28 +23,6 @@ volatile UINT8 power_down_flag = 0;
 
 static UINT8 sway_state, motor_PWM;
 static UINT32 desired_speed;
-
-#define STARTUP		0
-#define STARTUP_BOOST	1
-#define STEPUP1		2
-#define STEPUP2		3
-#define STEPUP3	        4
-#define STEPUP3_SU4_ON  5
-#define STEPUP4		6
-#define STEPDOWN3	7
-#define STEPDOWN2	8
-#define STEPDOWN1	9
-#define BASELINE_BOOST	10
-#define BASELINE	11
-#define TIMEOUT_STATE	12
-#define ONLINE_STATE	13
-#define NO_STATE	14
-
-
-
-//
-// Global Functions
-//
 
 #define STARTUP		0
 #define STARTUP_BOOST	1
@@ -94,7 +68,7 @@ float get_frequency_from_state(void)
 		case STEPDOWN3:
 			return 2.50;
 		case STEPUP4:
-			return 3.50;//3.25;
+			return 3.25;
 		default:
 			return 0.75; // Needs nonzero frequency to not break motor control code
 	}
@@ -121,7 +95,7 @@ float get_amplitude_from_state(void)
 		case STEPDOWN3:
 		case STEPUP3_SU4_ON:
 		case STEPUP4:
-			return 0.21;//0.1634;
+			return 0.1634;
 		default:
 			return 0.0;
 	}
@@ -163,40 +137,6 @@ void set_led_color_from_state(void)
 	return;
 }
 
-void move_to_next_sway_state(void)
-{
-	switch(sway_state)
-	{
-		case ONLINE_STATE:
-			sway_state = BASELINE;
-			break;
-		case BASELINE:
-		case BASELINE_BOOST:
-		case STARTUP:
-		case STARTUP_BOOST:
-			sway_state = STEPUP1;
-			break;
-		case STEPUP1:
-		case STEPDOWN1:
-			sway_state = STEPUP2;
-			break;
-		case STEPUP2:
-		case STEPDOWN2:
-			sway_state = STEPUP3;
-			break;
-		case STEPUP3:
-		case STEPUP3_SU4_ON:
-		case STEPDOWN3:
-			sway_state = STEPUP4;
-			break;
-		case STEPUP4:
-			sway_state = ONLINE_STATE;
-			break;
-		default:
-			sway_state = ONLINE_STATE;
-			break;
-	}
-}
 
 float get_motor_PWM(void)
 {
@@ -277,19 +217,19 @@ void spiMaster_Write(UINT32 value)
 	DrvSPI_SetGo(SPI_MASTER_HANDLER);
 }
 
-void spiMaster_Xchange(UINT16 TxData, UINT16 RxData)
+void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData)
 {
 	// Set the data to shift out of the SPI port.
 	DrvSPI_SingleWriteData0(SPI_MASTER_HANDLER, (UINT32) TxData);
-	
+
 	// Initiate the SPI transaction.
 	DrvSPI_SetGo(SPI_MASTER_HANDLER);
-	
+
 	// Wait while the SPI port is busy
 	while (DrvSPI_GetBusy(SPI_MASTER_HANDLER));
-	
+
 	// Read the value shifted in
-	DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
+	*RxData = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 }
 
 // Handle the send/receive of the SPI packets at interrupt time.
@@ -315,32 +255,19 @@ void read_and_write_SPI(void)
 		{
 			// Read the values shifted in.
 			spiSlave_Data = DrvSPI_SingleReadData0(SPI_SLAVE_HANDLER);
+			spiMaster_Data = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 			
-<<<<<<< HEAD
-			// Interpret messages		
+			// Interpret messages
+			sway_state = (spiSlave_Data>>8 & 0x00FF);
+			
 			if(spiSlave_Data == 0)
 				sway_state = NO_STATE;
-			else
-				sway_state = (spiSlave_Data >> 8) & 0x00FF;	
-=======
-			// Interpret messages
-			sway_state = (spiSlave_Data[index] & 0x00FF);
-			
-			if(spiSlave_Data[index] == 0)
-				sway_state = NO_STATE;
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 		}
 	}
 
 	// Initialize the first zero status byte to shift out on the next packet.
-<<<<<<< HEAD
-	spiSlave_Write(activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
-=======
-//	spiSlave_Write(spiMaster_Data[index]);// | activity_button_pressed_flag);// | power_down_flag | get_safety_clip_flags());
-	spiSlave_Write(activity_button_pressed_flag);// | power_down_flag | get_safety_clip_flags());
-	spiMaster_Write(spiSlave_Data[index]);
-	
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+	spiSlave_Write(spiMaster_Data | activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
+	spiMaster_Write(spiSlave_Data);
 	activity_button_pressed_flag = 0;
 }
 

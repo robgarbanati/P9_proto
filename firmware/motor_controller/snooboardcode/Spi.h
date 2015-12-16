@@ -72,7 +72,7 @@ void read_and_write_SPI(void);
 void spiSlave_Write(UINT32 value);
 
 // Exchange single word with slave device
-void spiMaster_Xchange(UINT16 TxData, UINT16 RxData);
+void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData);
 
 
 float get_frequency_from_state(void);

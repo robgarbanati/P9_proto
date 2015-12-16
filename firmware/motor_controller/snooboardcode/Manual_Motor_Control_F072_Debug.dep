@@ -1,27 +1,14 @@
-Dependencies for Project 'Motor_Control_Chip', Target 'F072_Debug': (DO NOT MODIFY !)
-<<<<<<< HEAD
-F (.\Main.h)(0x5668B17C)()
-F (.\Spi.h)(0x5668B17C)()
-F (.\SysClkConfig.h)(0x5668B17C)()
-F (.\Debug.h)(0x5668B17C)()
-F (.\Adc.h)(0x5668B17C)()
-F (.\PWM.h)(0x5668B17C)()
-F (.\app_SinDrive.h)(0x5668B17C)()
-F (.\app_drv8301.h)(0x5668B17C)()
+Dependencies for Project 'Manual_Motor_Control', Target 'F072_Debug': (DO NOT MODIFY !)
+F (.\Main.h)(0x566FB3AE)()
+F (.\Spi.h)(0x566FB427)()
+F (.\SysClkConfig.h)(0x566FB3AE)()
+F (.\Debug.h)(0x566FB3AE)()
+F (.\Adc.h)(0x566FB3AE)()
+F (.\PWM.h)(0x566FB3AE)()
+F (.\app_SinDrive.h)(0x566FB35C)()
+F (.\app_drv8301.h)(0x566FB3AE)()
 F (.\app_SoftPWM.h)(0x5668B17C)()
-F (.\app_OptoSensor.h)(0x5668B17C)()
-=======
-F (.\Main.h)(0x56667A57)()
-F (.\Spi.h)(0x5667BDE8)()
-F (.\SysClkConfig.h)(0x55D4FEBD)()
-F (.\Debug.h)(0x55D4FEBD)()
-F (.\Adc.h)(0x55D4FEBD)()
-F (.\PWM.h)(0x5667BDE8)()
-F (.\app_SinDrive.h)(0x5667BD8B)()
-F (.\app_drv8301.h)(0x5667BD8B)()
-F (.\app_SoftPWM.h)(0x5615D1A6)()
-F (.\app_OptoSensor.h)(0x56003F82)()
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+F (.\app_OptoSensor.h)(0x566FB3AE)()
 F (..\Nuvoton\HW\Include\SFR.c)(0x561F0A08)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\sfr.o --omf_browse .\f072\debug\sfr.crf --depend .\f072\debug\sfr.d)
 I (..\Nuvoton\HW\Include\SFR.h)(0x561F0A08)
 I (..\Nuvoton\HW\Include\F072/SFR.h)(0x561F0A08)
@@ -39,11 +26,7 @@ I (..\Nuvoton\HW\Include\F072/SPI.h)(0x561F0A08)
 I (..\Nuvoton\HW\Include\F072/PWM.h)(0x561F0A08)
 I (..\Nuvoton\HW\Include\F072/APU.h)(0x561F0A08)
 I (..\Nuvoton\HW\Include\F072/ADC.h)(0x561F0A08)
-<<<<<<< HEAD
-F (.\Main.c)(0x5668B17C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\main.o --omf_browse .\f072\debug\main.crf --depend .\f072\debug\main.d)
-=======
-F (.\Main.c)(0x5668A82B)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\main.o --omf_browse .\f072\debug\main.crf --depend .\f072\debug\main.d)
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+F (.\Main.c)(0x566FB3AE)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\main.o --omf_browse .\f072\debug\main.crf --depend .\f072\debug\main.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x52FEB37E)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x52FEB37E)
 I (../Nuvoton/Include/Platform.h)(0x561F0A08)
@@ -77,29 +60,16 @@ I (../Nuvoton/Include/Driver/DrvSPI.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvPWM.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvTimer.h)(0x561F0A08)
-<<<<<<< HEAD
-I (Adc.h)(0x5668B17C)
-I (SysClkConfig.h)(0x5668B17C)
-I (Main.h)(0x5668B17C)
-I (Spi.h)(0x5668B17C)
-I (PWM.h)(0x5668B17C)
-I (app_SinDrive.h)(0x5668B17C)
-I (app_drv8301.h)(0x5668B17C)
+I (Adc.h)(0x566FB3AE)
+I (SysClkConfig.h)(0x566FB3AE)
+I (Main.h)(0x566FB3AE)
+I (Spi.h)(0x566FB427)
+I (PWM.h)(0x566FB3AE)
+I (app_SinDrive.h)(0x566FB35C)
+I (app_drv8301.h)(0x566FB3AE)
 I (app_SoftPWM.h)(0x5668B17C)
-I (app_OptoSensor.h)(0x5668B17C)
-F (.\Spi.c)(0x5668C72D)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\spi.o --omf_browse .\f072\debug\spi.crf --depend .\f072\debug\spi.d)
-=======
-I (Adc.h)(0x55D4FEBD)
-I (SysClkConfig.h)(0x55D4FEBD)
-I (Main.h)(0x56667A57)
-I (Spi.h)(0x5667BDE8)
-I (PWM.h)(0x5667BDE8)
-I (app_SinDrive.h)(0x5667BD8B)
-I (app_drv8301.h)(0x5667BD8B)
-I (app_SoftPWM.h)(0x5615D1A6)
-I (app_OptoSensor.h)(0x56003F82)
-F (.\Spi.c)(0x5668A834)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\spi.o --omf_browse .\f072\debug\spi.crf --depend .\f072\debug\spi.d)
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+I (app_OptoSensor.h)(0x566FB3AE)
+F (.\Spi.c)(0x5670875F)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\spi.o --omf_browse .\f072\debug\spi.crf --depend .\f072\debug\spi.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x52FEB37E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x52FEB37E)
 I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x561F0A08)
@@ -131,21 +101,12 @@ I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvCLK.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvSYS.h)(0x561F0A08)
-<<<<<<< HEAD
-I (Spi.h)(0x5668B17C)
-I (Motor.h)(0x5668B17C)
-I (PWM.h)(0x5668B17C)
-I (Main.h)(0x5668B17C)
+I (Spi.h)(0x566FB427)
+I (Motor.h)(0x566FB3AE)
+I (PWM.h)(0x566FB3AE)
+I (Main.h)(0x566FB3AE)
 I (app_SoftPWM.h)(0x5668B17C)
-F (.\Adc.c)(0x5668B17C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\adc.o --omf_browse .\f072\debug\adc.crf --depend .\f072\debug\adc.d)
-=======
-I (Spi.h)(0x5667BDE8)
-I (Motor.h)(0x55D4FEBD)
-I (PWM.h)(0x5667BDE8)
-I (Main.h)(0x56667A57)
-I (app_SoftPWM.h)(0x5615D1A6)
-F (.\Adc.c)(0x55D4FEBD)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\adc.o --omf_browse .\f072\debug\adc.crf --depend .\f072\debug\adc.d)
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+F (.\Adc.c)(0x566FB3AE)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\adc.o --omf_browse .\f072\debug\adc.crf --depend .\f072\debug\adc.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x52FEB37E)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x52FEB37E)
 I (../Nuvoton/Include/Platform.h)(0x561F0A08)
@@ -179,24 +140,17 @@ I (../Nuvoton/Include/Driver/DrvSPI.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvPWM.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvTimer.h)(0x561F0A08)
-I (SysClkConfig.h)(0x5668B17C)
-I (Debug.h)(0x5668B17C)
+I (SysClkConfig.h)(0x566FB3AE)
+I (Debug.h)(0x566FB3AE)
 I (../Nuvoton/Include/Commu/SemiHost.h)(0x561F0A08)
-<<<<<<< HEAD
-I (Main.h)(0x5668B17C)
-I (Spi.h)(0x5668B17C)
-I (Motor.h)(0x5668B17C)
-I (PWM.h)(0x5668B17C)
-=======
-I (Main.h)(0x56667A57)
-I (Spi.h)(0x5667BDE8)
-I (Motor.h)(0x55D4FEBD)
-I (PWM.h)(0x5667BDE8)
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+I (Main.h)(0x566FB3AE)
+I (Spi.h)(0x566FB427)
+I (Motor.h)(0x566FB3AE)
+I (PWM.h)(0x566FB3AE)
 I (../Nuvoton/Include/Driver/DrvADC.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvADCEx_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvAPU.h)(0x561F0A08)
-F (.\PWM.c)(0x5668B17C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\pwm.o --omf_browse .\f072\debug\pwm.crf --depend .\f072\debug\pwm.d)
+F (.\PWM.c)(0x566FB3AE)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\pwm.o --omf_browse .\f072\debug\pwm.crf --depend .\f072\debug\pwm.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x52FEB37E)
 I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x561F0A08)
 I (../Nuvoton/Include/Platform.h)(0x561F0A08)
@@ -229,25 +183,14 @@ I (../Nuvoton/Include/Driver/DrvSYS.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvSPI.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvPWM.h)(0x561F0A08)
-<<<<<<< HEAD
-I (Motor.h)(0x5668B17C)
-I (Spi.h)(0x5668B17C)
-I (Debug.h)(0x5668B17C)
+I (Motor.h)(0x566FB3AE)
+I (Spi.h)(0x566FB427)
+I (Debug.h)(0x566FB3AE)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x52FEB37E)
 I (../Nuvoton/Include/Commu/SemiHost.h)(0x561F0A08)
-I (PWM.h)(0x5668B17C)
-I (Main.h)(0x5668B17C)
-F (.\app_SinDrive.c)(0x5668B17C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_sindrive.o --omf_browse .\f072\debug\app_sindrive.crf --depend .\f072\debug\app_sindrive.d)
-=======
-I (Motor.h)(0x55D4FEBD)
-I (Spi.h)(0x5667BDE8)
-I (Debug.h)(0x55D4FEBD)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x52FEB37E)
-I (../Nuvoton/Include/Commu/SemiHost.h)(0x561F0A08)
-I (PWM.h)(0x5667BDE8)
-I (Main.h)(0x56667A57)
-F (.\app_SinDrive.c)(0x5667BD8B)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_sindrive.o --omf_browse .\f072\debug\app_sindrive.crf --depend .\f072\debug\app_sindrive.d)
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+I (PWM.h)(0x566FB3AE)
+I (Main.h)(0x566FB3AE)
+F (.\app_SinDrive.c)(0x566FB35C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_sindrive.o --omf_browse .\f072\debug\app_sindrive.crf --depend .\f072\debug\app_sindrive.d)
 I (../Nuvoton/Include/Platform.h)(0x561F0A08)
 I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x561F0A08)
 I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x561F0A08)
@@ -277,17 +220,10 @@ I (../Nuvoton/Include/System/ModuleID.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvTimer.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvSYS.h)(0x561F0A08)
-<<<<<<< HEAD
-I (PWM.h)(0x5668B17C)
-I (app_SinDrive.h)(0x5668B17C)
+I (PWM.h)(0x566FB3AE)
+I (app_SinDrive.h)(0x566FB35C)
 I (app_SoftPWM.h)(0x5668B17C)
-F (.\app_drv8301.c)(0x5668B17C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_drv8301.o --omf_browse .\f072\debug\app_drv8301.crf --depend .\f072\debug\app_drv8301.d)
-=======
-I (PWM.h)(0x5667BDE8)
-I (app_SinDrive.h)(0x5667BD8B)
-I (app_SoftPWM.h)(0x5615D1A6)
-F (.\app_drv8301.c)(0x5667BDE8)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_drv8301.o --omf_browse .\f072\debug\app_drv8301.crf --depend .\f072\debug\app_drv8301.d)
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+F (.\app_drv8301.c)(0x566FB3AE)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_drv8301.o --omf_browse .\f072\debug\app_drv8301.crf --depend .\f072\debug\app_drv8301.d)
 I (../Nuvoton/Include/Platform.h)(0x561F0A08)
 I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x561F0A08)
 I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x561F0A08)
@@ -316,15 +252,9 @@ I (../Nuvoton/Include/System/ModuleID.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvCLK.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvSYS.h)(0x561F0A08)
-<<<<<<< HEAD
-I (Spi.h)(0x5668B17C)
-I (app_drv8301.h)(0x5668B17C)
+I (Spi.h)(0x566FB427)
+I (app_drv8301.h)(0x566FB3AE)
 F (.\app_SoftPWM.c)(0x5668B17C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_softpwm.o --omf_browse .\f072\debug\app_softpwm.crf --depend .\f072\debug\app_softpwm.d)
-=======
-I (Spi.h)(0x5667BDE8)
-I (app_drv8301.h)(0x5667BD8B)
-F (.\app_SoftPWM.c)(0x5615D1C5)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_softpwm.o --omf_browse .\f072\debug\app_softpwm.crf --depend .\f072\debug\app_softpwm.d)
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
 I (../Nuvoton/Include/Platform.h)(0x561F0A08)
 I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x561F0A08)
 I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x561F0A08)
@@ -354,7 +284,7 @@ I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvTimer.h)(0x561F0A08)
 I (../Nuvoton/Include/Driver/DrvSYS.h)(0x561F0A08)
 I (app_SoftPWM.h)(0x5668B17C)
-F (.\app_OptoSensor.c)(0x5668B17C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_optosensor.o --omf_browse .\f072\debug\app_optosensor.crf --depend .\f072\debug\app_optosensor.d)
+F (.\app_OptoSensor.c)(0x566FB3AE)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\app_optosensor.o --omf_browse .\f072\debug\app_optosensor.crf --depend .\f072\debug\app_optosensor.d)
 I (../Nuvoton/Include/Platform.h)(0x561F0A08)
 I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x561F0A08)
 I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x561F0A08)
@@ -377,15 +307,10 @@ I (../Nuvoton/HW/Include/F072/ADC.h)(0x561F0A08)
 I (../Nuvoton/Include/NVTTypes.h)(0x561F0A08)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x52FEB37E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x52FEB37E)
-<<<<<<< HEAD
-I (app_SinDrive.h)(0x5668B17C)
-I (app_OptoSensor.h)(0x5668B17C)
-=======
-I (app_SinDrive.h)(0x5667BD8B)
-I (app_OptoSensor.h)(0x56003F82)
->>>>>>> aa08decb82757084639511af1db609959b4e6b5a
+I (app_SinDrive.h)(0x566FB35C)
+I (app_OptoSensor.h)(0x566FB3AE)
 F (..\Nuvoton\CMSIS\CM0\core_cm0.c)(0x561F0A08)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include-D__N572F072__ -o .\f072\debug\core_cm0.o --omf_browse .\f072\debug\core_cm0.crf --depend .\f072\debug\core_cm0.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x52FEB37E)
 F (..\Nuvoton\CMSIS\CM0\startup\arm\startup_N572_ISP.s)(0x561F0A08)(--cpu Cortex-M0 -g --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Include--pd "__N572F072__ SETA 1" --list .\f072\debug\startup_n572_isp.lst --xref -o .\f072\debug\startup_n572_isp.o --depend .\f072\debug\startup_n572_isp.d)
 F (..\Nuvoton\Lib\Commu\SemiHost_Keil.lib)(0x561F0A09)()
-F (.\Abstract.txt)(0x5668B17C)()
+F (.\Abstract.txt)(0x566FB3AE)()

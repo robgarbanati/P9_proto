@@ -32,6 +32,12 @@ typedef enum state_machine
 	SWITCHOVER
 } stm;
 
+typedef enum transition_priority
+{
+	FREQUENCY,
+	AMPLITUDE
+} trprio;
+
 void SineDrive_init(void);
 void SineDrive_do(void);
 void SineDrive_Halt(void);
