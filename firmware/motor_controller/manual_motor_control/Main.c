@@ -260,7 +260,7 @@ void gpioInit(void)
 uint16_t res;
 int main(void)
 {
-	float old_frequency = 2.0, old_amplitude = 0.25, old_power = 0.40;
+	float old_frequency = 0.75, old_amplitude = 0.0, old_power = 0.40;
 	
 	clkInit();
 
