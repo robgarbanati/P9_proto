@@ -45,7 +45,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\F072\Debug\</OutputDirectory>
-          <OutputName>Manual_Motor_Control</OutputName>
+          <OutputName>dirdetecttest_motor</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -76,8 +76,8 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>1</RunUserProg2>
-            <UserProg1Name>fromelf --i32combined --output F072\Debug\Manual_Motor_Control.hex F072\Debug\Manual_Motor_Control.axf</UserProg1Name>
-            <UserProg2Name>../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\Manual_Motor_Control.hex</UserProg2Name>
+            <UserProg1Name>fromelf --i32combined --output F072\Debug\dirdetecttest_motor.hex F072\Debug\dirdetecttest_motor.axf</UserProg1Name>
+            <UserProg2Name>../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\dirdetecttest_motor.hex</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </AfterMake>
@@ -391,7 +391,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\Manual_Motor_Control_F072.ld</ScatterFile>
+            <ScatterFile>.\dirdetecttest_motor_F072.ld</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc>--map --datacompressor=off --info=inline --entry Reset_Handler --remove --keep startup_N572_ISP.o(JMPTABLE) --userlibpath="../Nuvoton/Lib" Driver_F072_keil.lib</Misc>
@@ -582,7 +582,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\F072\Release\</OutputDirectory>
-          <OutputName>Manual_Motor_Control</OutputName>
+          <OutputName>dirdetecttest_motor</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -613,8 +613,8 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>1</RunUserProg2>
-            <UserProg1Name>fromelf --i32combined --output F072\Release\Manual_Motor_Control.hex F072\Release\Manual_Motor_Control.axf</UserProg1Name>
-            <UserProg2Name>../../../../WindowsPlatform/Tool/Utility/hex2bin F072\Release\Manual_Motor_Control.hex</UserProg2Name>
+            <UserProg1Name>fromelf --i32combined --output F072\Release\dirdetecttest_motor.hex F072\Release\dirdetecttest_motor.axf</UserProg1Name>
+            <UserProg2Name>../../../../WindowsPlatform/Tool/Utility/hex2bin F072\Release\dirdetecttest_motor.hex</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </AfterMake>
@@ -928,7 +928,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\Manual_Motor_Control_F072.ld</ScatterFile>
+            <ScatterFile>.\dirdetecttest_motor_F072.ld</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc>--map --datacompressor=off --info=inline --entry Reset_Handler --remove --userlibpath="../../../lib" Driver_F072_keil.lib</Misc>
