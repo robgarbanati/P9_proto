@@ -92,7 +92,7 @@ void read_and_write_SPI(void)
 			if(audio_filter == 0)
 				audio_filter = 0x0A;
 			else
-				 audio_filter = audio_filter & 0x00FF;
+				audio_filter = audio_filter & 0x000F;
 		}
 	}
 	spiSlave_Write(cry_volume);

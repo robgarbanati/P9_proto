@@ -313,7 +313,7 @@ int elliptic_filter(int16_t* x, int16_t* y)
 		cry_thresholdB = 0;
 		filter_length = NB = NA = 7;
 	}
-	if(audio_filter & 0x80)
+	if(audio_filter & 0x08)
 	{
 		cry_thresholdA = INT16_MAX;
 		cry_thresholdB = INT16_MAX;
