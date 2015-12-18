@@ -260,7 +260,7 @@ void gpioInit(void)
 uint16_t res;
 int main(void)
 {
-	float old_frequency = 2.0, old_amplitude = 0.25, old_power = 0.40;
+	float old_frequency = 0.5, old_amplitude = 0.01, old_power = 0.50;
 	
 	clkInit();
 
@@ -290,9 +290,9 @@ int main(void)
 		if (Update) {
 			Update = 0;
 			set_led_color_from_state();
-			if((old_frequency != get_frequency_from_state()) || (old_amplitude != get_amplitude_from_state()))
+			if((old_frequency != get_frequency()) || (old_amplitude != get_amplitude_from_state()))
 			{
-				old_frequency = get_frequency_from_state();
+				old_frequency = get_frequency();
 				old_amplitude = get_amplitude_from_state();
 				SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
 //				SineDrive_setMotorMovement(2.0, 0.4, 0.40, 3000);

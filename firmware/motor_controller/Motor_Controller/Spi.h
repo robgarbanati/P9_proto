@@ -76,7 +76,7 @@ void spiSlave_Write(UINT32 value);
 void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData);
 
 
-float get_frequency_from_state(void);
+float get_frequency(void);
 float get_amplitude_from_state(void);
 void set_led_color_from_state(void);
 

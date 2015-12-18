@@ -22,59 +22,45 @@ volatile UINT16 power_down_flag = 0;
 //
 
 static UINT8 sway_state, motor_PWM;
-static UINT32 desired_speed;
+static UINT16 motor_freq;
 
-#define STARTUP			0
+#define STARTUP		    0
 #define STARTUP_BOOST	1
-#define UP1				2
-#define UP2				3
-#define UP3	        	4
-#define UP3_BOOST  		5
-#define DOWN3			6
-#define DOWN2			7
-#define DOWN1			8
-#define HOME_BOOST		9
-#define HOME			10
-#define TIMEOUT_STATE	11
-#define ONLINE_STATE	12
-#define NO_STATE		13
-
+#define UP1		        2
+#define UP2		        3
+#define UP3	            4
+#define UP3_BOOST       5
+#define PRETIMEOUT      6
+#define DOWN3	        7
+#define DOWN2	        8
+#define DOWN1	        9
+#define HOME_BOOST	    10
+#define HOME	        11
+#define TIMEOUT_STATE	12
+#define ONLINE_STATE	13
+#define NO_STATE	    14
 
 
 //
 // Global Functions
 //
 
-float get_frequency_from_state(void)
+float get_frequency(void)
 {
-	switch(sway_state)
-	{
-		case ONLINE_STATE:
-			return 0.50;
-		case HOME:
-		case STARTUP:
-			return 0.50;
-		case HOME_BOOST:
-		case STARTUP_BOOST:
-			return 1.00;
-		case UP1:
-		case DOWN1:
-			return 1.70;
-		case UP2:
-		case DOWN2:
-			return 2.50;
-		case UP3:
-		case DOWN3:
-			return 3.50;
-		case UP3_BOOST:
-			return 3.75;
-		default:
-			return 0.50; // Needs nonzero frequency to not break motor control code
-	}
+	float return_value = (float) motor_freq * 0.05;
+//	printf("mf is %d, gf returns %f\n", motor_freq, return_value);
+	
+	// Make sure 0 Hz is never returned, because that breaks SineDrive_setMotorMovement.
+	if(return_value < 0.50)
+		return 0.50;
+	else
+		return return_value;
 }
 
 float get_amplitude_from_state(void)
 {
+	if(motor_freq == 0)
+		return 0.0;
 	switch(sway_state)
 	{
 		case ONLINE_STATE:
@@ -93,6 +79,7 @@ float get_amplitude_from_state(void)
 		case UP3:
 		case DOWN3:
 		case UP3_BOOST:
+		case PRETIMEOUT:
 			return 0.2100;
 		default:
 			return 0.0;
@@ -110,21 +97,20 @@ void set_led_color_from_state(void)
 		case HOME_BOOST:
 		case STARTUP:
 		case STARTUP_BOOST:
-			RGB_set(RGB_BLUE);
+			RGB_set(RGB_MAGENTA);
 			break;
 		case UP1:
 		case DOWN1:
-			RGB_set(RGB_GREEN);
+			RGB_set(RGB_BLUE);	
 			break;
 		case UP2:
 		case DOWN2:
-			RGB_set(RGB_YELLOW);
+			RGB_set(RGB_GREEN);
 			break;
 		case UP3:
 		case DOWN3:
-			RGB_set(RGB_ORANGE);
-			break;
 		case UP3_BOOST:
+		case PRETIMEOUT:
 			RGB_set(RGB_PINK);
 			break;
 		default:
@@ -144,11 +130,6 @@ UINT16 get_safety_clip_flags(void)
 {
 //	printf("%d %d\n", is_left_safety_clip_in(), is_right_safety_clip_in());
 	return (is_left_safety_clip_in() << LEFT_SAFETY_CLIP_FLAG_POSITION) | (is_right_safety_clip_in() << RIGHT_SAFETY_CLIP_FLAG_POSITION);
-}
-
-UINT32 get_desired_speed(void)
-{
-	return desired_speed;
 }
 
 UINT8 get_sway_state(void)
@@ -268,7 +249,8 @@ void read_and_write_SPI(void)
 			spiMaster_Data = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 			
 			// Interpret messages
-			sway_state = (spiSlave_Data>>8 & 0x00FF);
+			motor_freq = (spiSlave_Data>>8 & 0x00FF);
+			sway_state = (spiSlave_Data>>4 & 0x000F);
 			
 			if(spiSlave_Data == 0)
 				sway_state = NO_STATE;
