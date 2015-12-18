@@ -24,21 +24,20 @@ volatile UINT16 power_down_flag = 0;
 static UINT8 sway_state, motor_PWM;
 static UINT32 desired_speed;
 
-#define STARTUP		0
+#define STARTUP			0
 #define STARTUP_BOOST	1
-#define STEPUP1		2
-#define STEPUP2		3
-#define STEPUP3	        4
-#define STEPUP3_SU4_ON  5
-#define STEPUP4		6
-#define STEPDOWN3	7
-#define STEPDOWN2	8
-#define STEPDOWN1	9
-#define BASELINE_BOOST	10
-#define BASELINE	11
-#define TIMEOUT_STATE	12
-#define ONLINE_STATE	13
-#define NO_STATE	14
+#define UP1				2
+#define UP2				3
+#define UP3	        	4
+#define UP3_BOOST  		5
+#define DOWN3			6
+#define DOWN2			7
+#define DOWN1			8
+#define HOME_BOOST		9
+#define HOME			10
+#define TIMEOUT_STATE	11
+#define ONLINE_STATE	12
+#define NO_STATE		13
 
 
 
@@ -51,26 +50,26 @@ float get_frequency_from_state(void)
 	switch(sway_state)
 	{
 		case ONLINE_STATE:
-			return 0.75;
-		case BASELINE:
-		case BASELINE_BOOST:
+			return 0.50;
+		case HOME:
 		case STARTUP:
+			return 0.50;
+		case HOME_BOOST:
 		case STARTUP_BOOST:
-			return 0.75;
-		case STEPUP1:
-		case STEPDOWN1:
-			return 1.50;
-		case STEPUP2:
-		case STEPDOWN2:
+			return 1.00;
+		case UP1:
+		case DOWN1:
 			return 1.70;
-		case STEPUP3:
-		case STEPUP3_SU4_ON:
-		case STEPDOWN3:
+		case UP2:
+		case DOWN2:
 			return 2.50;
-		case STEPUP4:
-			return 3.25;
+		case UP3:
+		case DOWN3:
+			return 3.50;
+		case UP3_BOOST:
+			return 3.75;
 		default:
-			return 0.75; // Needs nonzero frequency to not break motor control code
+			return 0.50; // Needs nonzero frequency to not break motor control code
 	}
 }
 
@@ -80,22 +79,21 @@ float get_amplitude_from_state(void)
 	{
 		case ONLINE_STATE:
 			return 0.0;
-		case BASELINE:
-		case BASELINE_BOOST:
+		case HOME:
+		case HOME_BOOST:
 		case STARTUP:
 		case STARTUP_BOOST:
 			return 0.6808;
-		case STEPUP1:
-		case STEPDOWN1:
+		case UP1:
+		case DOWN1:
 			return 0.4357;
-		case STEPUP2:
-		case STEPDOWN2:
+		case UP2:
+		case DOWN2:
 			return 0.2713;
-		case STEPUP3:
-		case STEPDOWN3:
-		case STEPUP3_SU4_ON:
-		case STEPUP4:
-			return 0.1634;
+		case UP3:
+		case DOWN3:
+		case UP3_BOOST:
+			return 0.2100;
 		default:
 			return 0.0;
 	}
@@ -108,26 +106,25 @@ void set_led_color_from_state(void)
 		case ONLINE_STATE:
 			RGB_set(RGB_WHITE);
 			break;
-		case BASELINE:
-		case BASELINE_BOOST:
+		case HOME:
+		case HOME_BOOST:
 		case STARTUP:
 		case STARTUP_BOOST:
 			RGB_set(RGB_BLUE);
 			break;
-		case STEPUP1:
-		case STEPDOWN1:
+		case UP1:
+		case DOWN1:
 			RGB_set(RGB_GREEN);
 			break;
-		case STEPUP2:
-		case STEPDOWN2:
+		case UP2:
+		case DOWN2:
 			RGB_set(RGB_YELLOW);
 			break;
-		case STEPUP3:
-		case STEPUP3_SU4_ON:
-		case STEPDOWN3:
+		case UP3:
+		case DOWN3:
 			RGB_set(RGB_ORANGE);
 			break;
-		case STEPUP4:
+		case UP3_BOOST:
 			RGB_set(RGB_PINK);
 			break;
 		default:
