@@ -12,6 +12,7 @@ extern volatile UINT16 cry_volume;
 extern volatile uint16_t audio_filter;
 extern volatile int filt_amp_ave_B;
 extern volatile int16_t phaseAB, phaseAC, phaseBC;
+
 //
 // Local Defines
 //
@@ -94,19 +95,6 @@ void read_and_write_SPI(void)
 				 audio_filter = audio_filter & 0x00FF;
 		}
 	}
-	if(everyother)
-	{
-		slave_message = (phaseAB&0x1F)<<10;
-		slave_message |= (phaseAC&0x1F)<<5;
-		slave_message |= (phaseBC&0x1F);
-		// Initialize the first zero status byte to shift out on the next packet.
-		spiSlave_Write(slave_message);
-		everyother = 0;
-	}
-	else
-	{
-		spiSlave_Write(filt_amp_ave_B | 0x8000);
-		everyother = 1;
-	}
+	spiSlave_Write(cry_volume);
 }
 

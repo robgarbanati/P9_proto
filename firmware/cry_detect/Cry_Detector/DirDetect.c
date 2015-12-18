@@ -29,11 +29,11 @@ int16_t phaseAB, phaseAC, phaseBC;
 // Local Variables and Defines
 //
 
-static int cry_thresholdA, cry_thresholdB;
+static uint16_t cry_thresholdA, cry_thresholdB;
 
-static int16_t ADC_Buf_A[ADC_BUFFER_SIZE];
-static int16_t ADC_Buf_B[ADC_BUFFER_SIZE];
-static int16_t ADC_Buf_C[ADC_BUFFER_SIZE];
+static int16_t ADC_Buf_A[ADC_BUFFER_SIZE]; // Make sure this is the left microphone
+static int16_t ADC_Buf_B[ADC_BUFFER_SIZE]; // Make sure this is the top microphone
+static int16_t ADC_Buf_C[ADC_BUFFER_SIZE]; // Make sure this is the right microphone
 
 static int16_t BP_Buf_A[ADC_BUFFER_SIZE];
 
@@ -283,7 +283,7 @@ int elliptic_filter(int16_t* x, int16_t* y)
 		a = RoRa;
 		b = RoRb;
 		cry_thresholdA = 80;
-		cry_thresholdB = 0xE20;
+		cry_thresholdB = 2000;
 		filter_length = NB = NA = 7;
 //		printf("af is RoR\n");
 	}
@@ -292,7 +292,7 @@ int elliptic_filter(int16_t* x, int16_t* y)
 		a = SHDa;
 		b = SHDb;
 		cry_thresholdA = 150;
-		cry_thresholdB = 0xAE0;
+		cry_thresholdB = 1500;
 		filter_length =	NB = NA = 7;
 //		printf("af is SHD\n");
 	}
@@ -301,7 +301,7 @@ int elliptic_filter(int16_t* x, int16_t* y)
 		a = FnVa;
 		b = FnVb;
 		cry_thresholdA = 250;
-		cry_thresholdB = 0x14F0;
+		cry_thresholdB = 0xFFFF;
 		filter_length = NB = NA = 7;
 //		printf("af is FnV\n");
 	}
@@ -309,8 +309,8 @@ int elliptic_filter(int16_t* x, int16_t* y)
 	{
 		a = RoRa;
 		b = RoRb;
-		cry_thresholdA = 1020;
-		cry_thresholdB = 0x0;
+		cry_thresholdA = 0;
+		cry_thresholdB = 0;
 		filter_length = NB = NA = 7;
 	}
 	if(audio_filter & 0x80)
@@ -398,41 +398,21 @@ int abs(int number)
 void Do_Loop(void)
 {	
 	static int i = 0, k=0, j=0;
-//	static float phaseAB=0.0, phaseAC=0.0, phaseBC=0.0;
-//	short phaseAB=0, phaseAC=0, phaseBC=0;
 	int filt_amp_A = 0;
 	static int filt_amp_ave_A=0;
-//	static int filt_amp_ave_B=0;
 	static int filt_amp_ave_A_circ[] = {0, 0};
 	static int filt_amp_ave_B_circ[30] = {0, };
 
 	//Have we collected an array's worth of data?
 	if (!collect_samples)
 	{ 
-		filt_amp_A = elliptic_filter(ADC_Buf_C, BP_Buf_A);
+		filt_amp_A = elliptic_filter(ADC_Buf_B, BP_Buf_A);
 		
 		phaseAB = find_phase(ADC_Buf_A, ADC_Buf_B, vol_min_A, vol_min_B);
 		phaseAC = find_phase(ADC_Buf_A, ADC_Buf_C, vol_min_A, vol_min_C);
 		phaseBC = find_phase(ADC_Buf_B, ADC_Buf_C, vol_min_B, vol_min_C);
 
-//		phaseAB = (0.2 * (float) find_phase(ADC_Buf_A, ADC_Buf_B, vol_min_A, vol_min_B)) + 0.8*phaseAB;
-//		phaseAC = (0.2 * (float) find_phase(ADC_Buf_A, ADC_Buf_C, vol_min_A, vol_min_C)) + 0.8*phaseAC;
-//		phaseBC = (0.2 * (float) find_phase(ADC_Buf_B, ADC_Buf_C, vol_min_B, vol_min_C)) + 0.8*phaseBC;
-
-//		
-//		
-//		
-////		if( (abs(phaseAB + 0) < 2) && (abs(phaseAC + 0) < 2) && (abs(phaseBC + 0) < 2))	
-////		{
-////			DrvGPIO_ClearOutputBit(&GPIOB, DRVGPIO_PIN_10);
-////		}
-////		else
-////		{
-////			DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_10);
-////		}
-////		
-
-		if((phaseAB >= -5) && (phaseAB <= 5) && (phaseAC >= -5) && (phaseAC <= 4) && (phaseBC >= -3) && (phaseBC <= 7)) // RoR and SHD wide zone
+		if((phaseAB >= -3) && (phaseAB <= 5) && (phaseAC >= -4) && (phaseAC <= 4) && (phaseBC >= -5) && (phaseBC <= 3)) // RoR and SHD wide zone
 		{
 			DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_11);
 			filt_amp_ave_A -= filt_amp_ave_A_circ[j];
@@ -470,7 +450,6 @@ void Do_Loop(void)
 		if(filt_amp_ave_B > cry_thresholdB)
 		{
 			cry_volume = filt_amp_ave_B - cry_thresholdB;
-//			cry_volume = filt_amp_ave_B;
 			cry_volume /= 10;
 			if(cry_volume > 0xFF)
 			{
@@ -483,13 +462,14 @@ void Do_Loop(void)
 		}
 		 
 		i++;
-//		printf("AB: %d, AC: %d, BC: %d, amp %d, ave %d\n", phaseAB, phaseAC, phaseBC, filt_amp_A, filt_amp_ave_B);
+//		printf("AB: %d, AC: %d, BC: %d, amp %d\n", phaseAB, phaseAC, phaseBC, filt_amp_ave_B);
+//		printf("amp %d, cv %d, thresh %d, af %d\n", filt_amp_ave_B, cry_volume, cry_thresholdB, audio_filter);
 //		printf("AB: %d, AC: %d, BC: %d\n", phaseAB, phaseAC, phaseBC);
 		
 //#endif
 //		// print maybe
 #if 0
-		if((abs(phaseAB) > 14) || (abs(phaseAC) > 14) || (abs(phaseBC) > 14))
+//		if((abs(phaseAB) > 14) || (abs(phaseAC) > 14) || (abs(phaseBC) > 14))
 //		if((phaseAB == 5) && (phaseAC == 4) && (phaseBC == -1))
 		{
 			for(k = P_E_RES; k<ADC_BUFFER_SIZE - P_E_RES; k++)
@@ -527,6 +507,14 @@ void dirDetectInit(void) {
 	vol_min_A = INT16_MAX;
 	vol_min_B = INT16_MAX;
 	vol_min_C = INT16_MAX;
+	
+	audio_filter = 0;
+	cry_volume = 0;
+	filt_amp_ave_B = 0;
+	phaseAB = 0;
+	phaseAC = 0;
+	phaseBC = 0;
+	
+	cry_thresholdA = 0;
+	cry_thresholdB = 0;
 }
-
-
