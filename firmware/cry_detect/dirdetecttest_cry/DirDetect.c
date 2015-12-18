@@ -31,9 +31,9 @@ int16_t phaseAB, phaseAC, phaseBC;
 
 static int cry_thresholdA, cry_thresholdB;
 
-static int16_t ADC_Buf_A[ADC_BUFFER_SIZE];
-static int16_t ADC_Buf_B[ADC_BUFFER_SIZE];
-static int16_t ADC_Buf_C[ADC_BUFFER_SIZE];
+static int16_t ADC_Buf_A[ADC_BUFFER_SIZE]; // Make sure this is the left microphone
+static int16_t ADC_Buf_B[ADC_BUFFER_SIZE]; // Make sure this is the top microphone
+static int16_t ADC_Buf_C[ADC_BUFFER_SIZE]; // Make sure this is the right microphone
 
 static int16_t BP_Buf_A[ADC_BUFFER_SIZE];
 
@@ -409,7 +409,7 @@ void Do_Loop(void)
 	//Have we collected an array's worth of data?
 	if (!collect_samples)
 	{ 
-		filt_amp_A = elliptic_filter(ADC_Buf_C, BP_Buf_A);
+		filt_amp_A = elliptic_filter(ADC_Buf_B, BP_Buf_A);
 		
 		phaseAB = find_phase(ADC_Buf_A, ADC_Buf_B, vol_min_A, vol_min_B);
 		phaseAC = find_phase(ADC_Buf_A, ADC_Buf_C, vol_min_A, vol_min_C);
@@ -432,7 +432,7 @@ void Do_Loop(void)
 ////		}
 ////		
 
-		if((phaseAB >= -5) && (phaseAB <= 5) && (phaseAC >= -5) && (phaseAC <= 4) && (phaseBC >= -3) && (phaseBC <= 7)) // RoR and SHD wide zone
+		if((phaseAB >= -3) && (phaseAB <= 5) && (phaseAC >= -4) && (phaseAC <= 5) && (phaseBC >= -5) && (phaseBC <= 4)) // RoR and SHD wide zone
 		{
 			DrvGPIO_SetOutputBit(&GPIOB, DRVGPIO_PIN_11);
 			filt_amp_ave_A -= filt_amp_ave_A_circ[j];
