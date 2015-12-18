@@ -59,7 +59,7 @@ float get_frequency_from_state(void)
 			return 0.75;
 		case STEPUP1:
 		case STEPDOWN1:
-			return 1.50;
+			return 1.30;
 		case STEPUP2:
 		case STEPDOWN2:
 			return 1.70;
@@ -68,7 +68,7 @@ float get_frequency_from_state(void)
 		case STEPDOWN3:
 			return 2.50;
 		case STEPUP4:
-			return 3.25;
+			return 3.50;
 		default:
 			return 0.75; // Needs nonzero frequency to not break motor control code
 	}
@@ -95,7 +95,7 @@ float get_amplitude_from_state(void)
 		case STEPDOWN3:
 		case STEPUP3_SU4_ON:
 		case STEPUP4:
-			return 0.1634;
+			return 0.21;
 		default:
 			return 0.0;
 	}
