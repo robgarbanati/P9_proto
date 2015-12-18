@@ -195,14 +195,27 @@ void spiSlave_Write(UINT32 value)
 	DrvSPI_SetGo(SPI_SLAVE_HANDLER);
 }
 
-// Master talks to Cry Detect Board (CDB)
-void spiMaster_Init(void) {
+// Init master to talk to DRV8301
+void spiMaster_Init_Motor(void) {
 	// Open the SPI driver.
 	DrvSPI_Open(SPI_MASTER_HANDLER, SPI_MASTER_OPEN_FLAGS, SPI_MASTER_DIVIDER);
 
 	// Select the slave.
 	DrvSPI_SlaveSelect(SPI_MASTER_HANDLER, TRUE, DRVSPI_IDEL_CLK_LOW);
-	DrvSPI_SelectSlave(SPI_MASTER_HANDLER, SPI_MASTER_DEVICE);
+	DrvSPI_SelectSlave(SPI_MASTER_HANDLER, SPI_MASTER_MOTOR_DEVICE);
+
+	// Read/write data in 16 bit chunks.
+	DrvSPI_SetDataConfig(SPI_MASTER_HANDLER, 1, 16);
+}
+
+// Init master to talk to cry chip
+void spiMaster_Init_Cry(void) {
+	// Open the SPI driver.
+	DrvSPI_Open(SPI_MASTER_HANDLER, SPI_MASTER_OPEN_FLAGS, SPI_MASTER_DIVIDER);
+
+	// Select the slave.
+	DrvSPI_SlaveSelect(SPI_MASTER_HANDLER, TRUE, DRVSPI_IDEL_CLK_LOW);
+	DrvSPI_SelectSlave(SPI_MASTER_HANDLER, SPI_MASTER_CRY_DEVICE);
 
 	// Read/write data in 16 bit chunks.
 	DrvSPI_SetDataConfig(SPI_MASTER_HANDLER, 1, 16);

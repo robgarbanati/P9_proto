@@ -1,8 +1,10 @@
 *.o
 *.bak
-firmware/motor_controller/snooboardcode/F072/Debug/*
+firmware/motor_controller/Motor_Controller/F072/Debug/*
 firmware/motor_controller/manual_motor_control/F072/Debug/*
+firmware/motor_controller/dirdetecttest_motor/F072/Debug/*
 firmware/cry_detect/Manual_Cry_Detector/F072/Debug/*
+firmware/cry_detect/dirdetecttest_cry/F072/Debug/*
 firmware/cry_detect/Cry_Detector/F072/Debug/*
 *.Robert
 *.Rob

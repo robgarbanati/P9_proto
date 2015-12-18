@@ -14,7 +14,7 @@
 
 void configure_spi_master(void)
 {
-	spiMaster_Init();
+	spiMaster_Init_Motor();
 }
 
 uint16_t sendData(uint16_t Data)

@@ -9,18 +9,18 @@
 
 
 // SPI master mode for communication with Cry Detect Board.
-#define SPI_MASTER_HANDLER		DRVSPI_SPI0_HANDLER
-//#define SPI_MASTER_DEVICE  		eDRVSPI_SLAVE_1
-#define SPI_MASTER_DEVICE  		eDRVSPI_SLAVE_2
-#define SPI_MASTER_DIVIDER    (_DRVSPI_DIVIDER(DrvCLK_GetHclk(), 100000))
-#define SPI_MASTER_OPEN_FLAGS (	DRVSPI_ENDIAN_BIG | \
-								DRVSPI_IDEL_CLK_LOW | \
-								DRVSPI_MSB_FIRST | \
-								DRVSPI_TX_1DATA | \
-								DRVSPI_TX_POSEDGE | \
-								DRVSPI_RX_NEGEDGE | \
-								_DRVSPI_SLEEP(2) | \
-								_DRVSPI_DATA_BITS(16))
+#define SPI_MASTER_HANDLER			DRVSPI_SPI0_HANDLER
+#define SPI_MASTER_CRY_DEVICE  		eDRVSPI_SLAVE_1
+#define SPI_MASTER_MOTOR_DEVICE  	eDRVSPI_SLAVE_2
+#define SPI_MASTER_DIVIDER    		(_DRVSPI_DIVIDER(DrvCLK_GetHclk(), 100000))
+#define SPI_MASTER_OPEN_FLAGS 		(	DRVSPI_ENDIAN_BIG | \
+									DRVSPI_IDEL_CLK_LOW | \
+									DRVSPI_MSB_FIRST | \
+									DRVSPI_TX_1DATA | \
+									DRVSPI_TX_POSEDGE | \
+									DRVSPI_RX_NEGEDGE | \
+									_DRVSPI_SLEEP(2) | \
+									_DRVSPI_DATA_BITS(16))
 
 // SPI slave mode for communication with N3290 State Machine.
 #define SPI_SLAVE_HANDLER					DRVSPI_SPI1_HANDLER
@@ -53,7 +53,8 @@ UINT8 get_sway_state(void);
 float get_motor_PWM(void);
 	
 void spiSlave_Init(void);
-void spiMaster_Init(void);
+void spiMaster_Init_Motor(void);
+void spiMaster_Init_Cry(void);
 
 void spiSlave_Close(void);
 void spiMaster_Close(void);

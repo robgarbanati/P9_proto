@@ -277,8 +277,7 @@ int main(void)
 	init_DRV8301();
 	
 	spiSlave_Init();
-//	spiMaster_Init();
-
+	spiMaster_Init_Cry();
 	
 	// BLDC motor control initialization
 	SineDrive_init();	
