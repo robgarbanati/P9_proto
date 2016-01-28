@@ -1,0 +1,18 @@
+--cpu Cortex-M0
+".\f072\debug\sfr.o"
+".\f072\debug\main.o"
+".\f072\debug\spi.o"
+".\f072\debug\adc.o"
+".\f072\debug\pwm.o"
+".\f072\debug\app_sindrive.o"
+".\f072\debug\app_drv8301.o"
+".\f072\debug\app_softpwm.o"
+".\f072\debug\app_optosensor.o"
+".\f072\debug\core_cm0.o"
+".\f072\debug\startup_n572_isp.o"
+"..\Nuvoton\Lib\Commu\SemiHost_Keil.lib"
+--strict --scatter ".\Motor_Control_Chip_F072.ld"
+
+--map --datacompressor=off --info=inline --entry Reset_Handler --remove --keep startup_N572_ISP.o(JMPTABLE) --userlibpath="../Nuvoton/Lib" Driver_F072_keil.lib --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\F072\Debug\Motor_Control_Chip.map" -o .\F072\Debug\Motor_Control_Chip.axf

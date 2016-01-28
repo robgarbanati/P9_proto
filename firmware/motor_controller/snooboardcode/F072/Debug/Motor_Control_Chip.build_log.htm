@@ -1,0 +1,85 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.14.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Adam Eden, Sky Unlimited, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.14.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.05 update 1 (build 106)
+Assembler:       Armasm.exe V5.05 update 1 (build 106)
+Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
+Library Manager: ArmAr.exe V5.05 update 1 (build 106)
+Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
+CPU DLL:         SARMCM3.DLL V5.14.0.0
+Dialog DLL:      DARMCM1.DLL V1.12.0.0
+Target DLL:      Nu_Link.dll V1.26
+Dialog DLL:      TARMCM1.DLL V1.9.0.0
+ 
+<h2>Project:</h2>
+C:\Users\Marko\Desktop\Unacuna\github reposiory\P9_proto\firmware\motor_controller\snooboardcode\Motor_Control_Chip.uvprojx
+Project File Date:  12/12/2015
+
+<h2>Output:</h2>
+Rebuild target 'F072_Debug'
+compiling SFR.c...
+compiling Main.c...
+PWM.h(9): warning:  #47-D: incompatible redefinition of macro "ONLINE_STATE" (declared at line 48 of "Spi.h")
+  #define ONLINE_STATE  1
+Main.c(93): warning:  #223-D: function "move_to_next_sway_state" declared implicitly
+                        move_to_next_sway_state();
+Main.c(313): warning:  #111-D: statement is unreachable
+        SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 1500);
+Main.c: 3 warnings, 0 errors
+compiling Spi.c...
+PWM.h(9): warning:  #47-D: incompatible redefinition of macro "ONLINE_STATE" (declared at line 48 of "Spi.h")
+  #define ONLINE_STATE  1
+Spi.c(36): warning:  #47-D: incompatible redefinition of macro "STEPUP3" (declared at line 52 of "Spi.h")
+  #define STEPUP3               4
+Spi.c(44): warning:  #47-D: incompatible redefinition of macro "TIMEOUT_STATE" (declared at line 15 of "PWM.h")
+  #define TIMEOUT_STATE 12
+Spi.c(45): warning:  #47-D: incompatible redefinition of macro "ONLINE_STATE" (declared at line 9 of "PWM.h")
+  #define ONLINE_STATE  13
+Spi.c(287): warning:  #550-D: variable "spiMaster_Data" was set but never used
+        UINT16 spiMaster_Data[SPI_BUF_LENGTH];
+Spi.c: 5 warnings, 0 errors
+compiling Adc.c...
+PWM.h(9): warning:  #47-D: incompatible redefinition of macro "ONLINE_STATE" (declared at line 48 of "Spi.h")
+  #define ONLINE_STATE  1
+Adc.c: 1 warning, 0 errors
+compiling PWM.c...
+PWM.h(9): warning:  #47-D: incompatible redefinition of macro "ONLINE_STATE" (declared at line 48 of "Spi.h")
+  #define ONLINE_STATE  1
+PWM.c: 1 warning, 0 errors
+compiling app_SinDrive.c...
+compiling app_drv8301.c...
+app_drv8301.c(23): warning:  #177-D: variable "txData" was declared but never referenced
+        uint16_t txData, rxData;
+app_drv8301.c(23): warning:  #177-D: variable "rxData" was declared but never referenced
+        uint16_t txData, rxData;
+app_drv8301.c: 2 warnings, 0 errors
+compiling app_SoftPWM.c...
+compiling app_OptoSensor.c...
+compiling core_cm0.c...
+assembling startup_N572_ISP.s...
+linking...
+.\F072\Debug\Motor_Control_Chip.axf: Warning: C3912W: Option 'device' is deprecated.
+Program Size: Code=14908 RO-data=660 RW-data=296 ZI-data=5696  
+After Build - User command #1: fromelf --i32combined --output F072\Debug\Motor_Control_Chip.hex F072\Debug\Motor_Control_Chip.axf
+After Build - User command #2: ../Nuvoton/WindowsPlatform/Tool/Utility/hex2bin F072\Debug\Motor_Control_Chip.hex
+hex2bin v1.0.2, Copyright (C) 2012 Jacques Pelletier
+Lowest address = 00000000
+Highest address = 00003EAF
+".\F072\Debug\Motor_Control_Chip.axf" - 0 Error(s), 13 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\Marko\Desktop\Unacuna\github reposiory\P9_proto\firmware\motor_controller\snooboardcode\RTE
+
+<h2>Collection of Component Files used:</h2>
+</pre>
+</body>
+</html>
