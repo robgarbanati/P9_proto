@@ -90,6 +90,7 @@ void set_led_color_from_state(void)
 {
 	switch(sway_state)
 	{
+//		printf("set led to %d\n", sway_state);
 		case ONLINE_STATE:
 			RGB_set(RGB_WHITE);
 			break;
@@ -159,7 +160,7 @@ void spiSlave_Init(void)
 	DrvSPI_SetGo(SPI_SLAVE_HANDLER);
 
 	// Enable interupt on SPI CS falling.
-	DrvGPIO_SetFallingInt(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN, TRUE);
+	DrvGPIO_SetRisingInt(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN, TRUE);
 	
 	sway_state = NO_STATE;
 }
@@ -224,40 +225,28 @@ void spiMaster_Xchange(UINT16 TxData, UINT16 *RxData)
 }
 
 // Handle the send/receive of the SPI packets at interrupt time.
-// On the order of 10 to 100 microseconds
+// Around 100 microseconds
 void read_and_write_SPI(void)
 {
 	UINT8 index = 0;
 	UINT16 spiMaster_Data;
 	UINT16 spiSlave_Data;
+
+	// Read the values shifted in.
+	spiSlave_Data = DrvSPI_SingleReadData0(SPI_SLAVE_HANDLER);
+	spiMaster_Data = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
 	
-	// Assume we receive a zero length packet.
-	spiSlave_Data = 0;
-	spiMaster_Data = 0;
-
-	// Send/receive bytes until the SPI CS pin is raised.
-	while (!DrvGPIO_GetInputPinValue(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN))
-	{
-		// Wait while the SPI ports are busy and the SPI CS line is low.
-		while (DrvSPI_GetBusy(SPI_SLAVE_HANDLER) && !DrvGPIO_GetInputPinValue(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN));  // && DrvSPI_GetBusy(SPI_MASTER_HANDLER)
-
-		// Process the next byte if the SPI CS line is still low.
-		if (!DrvGPIO_GetInputPinValue(&SPI_SLAVE_GPIO, SPI_SLAVE_CS_PIN))
-		{
-			// Read the values shifted in.
-			spiSlave_Data = DrvSPI_SingleReadData0(SPI_SLAVE_HANDLER);
-			spiMaster_Data = DrvSPI_SingleReadData0(SPI_MASTER_HANDLER);
-			
-			// Interpret messages
-			motor_freq = (spiSlave_Data>>8 & 0x00FF);
-			sway_state = (spiSlave_Data>>4 & 0x000F);
-			
-			if(spiSlave_Data == 0)
-				sway_state = NO_STATE;
-		}
-	}
-
-	// Initialize the first zero status byte to shift out on the next packet.
+	// Interpret message from Linux.
+	motor_freq = (spiSlave_Data>>8 & 0x00FF);
+	sway_state = (spiSlave_Data>>4 & 0x000F);
+//	printf("spislave data: %x. sway_state: %d\n", spiSlave_Data, sway_state);
+	
+	// Go to NO_STATE in absence of communication.
+	if(spiSlave_Data == 0)
+		sway_state = NO_STATE;
+//	printf("NEW spislave data: %x. sway_state: %d\n", spiSlave_Data, sway_state);
+	
+	// Initialize the byte to shift out on the transmission.
 	spiSlave_Write(spiMaster_Data | activity_button_pressed_flag | power_down_flag | get_safety_clip_flags());
 	spiMaster_Write(spiSlave_Data);
 	activity_button_pressed_flag = 0;

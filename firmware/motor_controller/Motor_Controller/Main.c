@@ -145,13 +145,13 @@ void TMR2_IRQHandler(void)
 // Initialize interrupt priorities.
 void priorityInit(void)
 {
-	// Set the SPI slave interrupt priority high.
-	NVIC_SetPriority(SPI1_IRQn, 0);
+	// Set the SPI slave interrupt priority low.
+	NVIC_SetPriority(SPI1_IRQn, 2);
 
 	// Set the GPIO interrupt priority high.
 	NVIC_SetPriority(GPAB_IRQn, 0);
 
-	// Set the ADC interrupt lower than SPI and GPIO.
+	// Set the ADC interrupt lower than GPIO.
 	NVIC_SetPriority(ADC_IRQn, 1);
 	
 	//********** What is going on here?*********
@@ -192,6 +192,7 @@ void clkInit(void)
 	// Lock protected registers.
 	DrvSYS_LockKeyReg();
 }
+
 
 void gpioInit(void)
 {
@@ -287,7 +288,9 @@ int main(void)
 
 	for (;;)
 	{	
+//		printf("looping\n");
 		if (Update) {
+//			printf("updating\n");
 			Update = 0;
 			set_led_color_from_state();
 			if((old_frequency != get_frequency()) || (old_amplitude != get_amplitude_from_state()))
