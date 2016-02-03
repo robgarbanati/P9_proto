@@ -256,6 +256,7 @@ static void SineDrive_switchState(enum state_machine newState)
 	{		
 		amplitudeFactor = 0;
 		t = 0;
+		SineDrive_motorOFF();
 		State = STOPPED;
 	}
 	
@@ -558,9 +559,11 @@ void SineDrive_setMotorMovement(float Frequency, float Amplitude, float Power, U
 	frequencyDriveStep = (drvFrequency - driveFrequency) / TransitionSteps;
 	
 	// Should we stop?
-	if (drvFrequency == 0)
+	//if (drvFrequency == 0)
+	if (drvAmplitude == 0)
 	{
 		if (State != STOPPED) {
+			drvNewParameters = 0;
 			SineDrive_Stop();
 		}
 		return;

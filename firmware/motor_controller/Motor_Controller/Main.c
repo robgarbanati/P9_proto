@@ -7,6 +7,7 @@
 #include "Driver/DrvSPI.h"
 #include "Driver/DrvPWM.h"
 #include "Driver/DrvTimer.h"
+#include "Driver/DrvWDT.h"
 #include "Adc.h"
 #include "SysClkConfig.h"
 #include "Main.h"
@@ -258,6 +259,47 @@ void gpioInit(void)
 	NVIC_EnableIRQ(GPAB_IRQn);    
 }
 
+void wdtInit(void)
+{
+	DrvSYS_UnlockKeyReg();
+	
+	if(DrvSYS_IsUnLockKeyReg())
+	{
+		// check if WDT reset flag is set
+		if(DrvWDT_GetResetFlag()) 
+		{
+				// if so, clear WDT reset flag
+				DrvWDT_ClearResetFlag_P();  
+		}
+		
+		// WDT is clocked by WDT_CLK signal
+		// WDT_CLK has several sources, the HCLK/2048 source is choisen
+		// since HCLK divider is set to (15+1) in clkInit() routine, the HCLK frequency is 48MHz/16 = 3MHz
+		// This gives WDT_CLK of around 1464Hz
+		DrvCLK_SetClkSrcWdt(eDRVCLK_WDTSRC_HCLK_D2048);
+
+		// Setup WDT
+		// Timeout set to LEVEL4 = 4096 WDT_CLK clocks (see DrWDT.h), wakeup off, reset on
+		// After timeout, WDT sets interrupt flag and starts another fixed 1024 WDT_CLK clocks countdown after which processor is reset
+		// Total timeout before reset is therefore 4096 + fixed 1024 WDT_CLK clocks			
+		// Reset timeout is 5120 * WDT_CLK period which is 3.495s				
+		DrvWDT_Open_P(DRVWDT_INTERVAL_LEVEL4, 0, 1); 
+		
+		// enable WDT interrupt, needed for reset, see block diagram Figure 5-19 in manual 
+		DrvWDT_EnableInt_P();
+		DrvWDT_Enable_P();    // enable WDT
+	}
+	
+	DrvSYS_LockKeyReg();
+}
+
+void wdtReset(void)
+{
+		DrvSYS_UnlockKeyReg();
+		DrvWDT_ClearCount_P();
+		DrvSYS_LockKeyReg();
+}
+
 uint16_t res;
 int main(void)
 {
@@ -282,6 +324,10 @@ int main(void)
 	
 	// BLDC motor control initialization
 	SineDrive_init();	
+		
+	// place watchdog initializatin after SineDrive_init()
+	// because motor drive initialization takes longer than WDT timeout
+	wdtInit();	
 	
 	SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
 	SineDrive_do();
@@ -300,8 +346,10 @@ int main(void)
 				SineDrive_setMotorMovement(old_frequency, old_amplitude, old_power, 3000);
 //				SineDrive_setMotorMovement(2.0, 0.4, 0.40, 3000);
 			}
-			SineDrive_do();	
-	
+			SineDrive_do();
+			
+			// clear watchdog timer
+			wdtReset();
 		}
 	}
 
