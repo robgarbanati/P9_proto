@@ -12,7 +12,6 @@
 ".\f072\debug\startup_n572_isp.o"
 "..\Nuvoton\Lib\Commu\SemiHost_Keil.lib"
 --strict --scatter ".\Motor_Control_Chip_F072.ld"
-
 --map --datacompressor=off --info=inline --entry Reset_Handler --remove --keep startup_N572_ISP.o(JMPTABLE) --userlibpath="../Nuvoton/Lib" Driver_F072_keil.lib --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\F072\Debug\Motor_Control_Chip.map" -o .\F072\Debug\Motor_Control_Chip.axf

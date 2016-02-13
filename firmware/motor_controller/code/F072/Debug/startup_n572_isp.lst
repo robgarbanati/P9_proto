@@ -485,11 +485,10 @@ ARM Macro Assembler    Page 8
   343 00000004                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0 --apcs=interw
 ork --depend=.\f072\debug\startup_n572_isp.d -o.\f072\debug\startup_n572_isp.o 
--I"C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_con
-troller\code\RTE" -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --
-predefine="__UVISION_VERSION SETA 514" --predefine="__N572F072__ SETA 1" --list
-=.\f072\debug\startup_n572_isp.lst ..\Nuvoton\CMSIS\CM0\startup\arm\startup_N57
-2_ISP.s
+-IC:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\c
+ode\RTE -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine=
+"__UVISION_VERSION SETA 516" --predefine="__N572F072__ SETA 1" --list=.\f072\de
+bug\startup_n572_isp.lst ..\Nuvoton\CMSIS\CM0\startup\arm\startup_N572_ISP.s
 
 
 

@@ -1,315 +1,315 @@
 Dependencies for Project 'Motor_Control_Chip', Target 'F072_Debug': (DO NOT MODIFY !)
-F (.\Main.h)(0x55F97162)()
-F (.\Spi.h)(0x55244973)()
-F (.\SysClkConfig.h)(0x54F4EE40)()
-F (.\Debug.h)(0x54F4EE40)()
-F (.\Adc.h)(0x54F4EE40)()
-F (.\PWM.h)(0x5525AE35)()
-F (.\app_SinDrive.h)(0x5602E833)()
-F (.\app_drv8301.h)(0x55FAF300)()
-F (.\app_SoftPWM.h)(0x55F9765C)()
-F (.\app_OptoSensor.h)(0x55FAF28C)()
-F (..\Nuvoton\HW\Include\SFR.c)(0x55F94FFA)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\sfr.o --omf_browse .\f072\debug\sfr.crf --depend .\f072\debug\sfr.d)
-I (..\Nuvoton\HW\Include\SFR.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/SFR.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/NVTChipDef.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (..\Nuvoton\HW\Include\F072/SYS.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/CLK.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/SYSINT.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/GPIO.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/FMC.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/WDT.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/RTC.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/TMR.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/SPI.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/PWM.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/APU.h)(0x55F94FFA)
-I (..\Nuvoton\HW\Include\F072/ADC.h)(0x55F94FFA)
-F (.\Main.c)(0x560DA850)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\main.o --omf_browse .\f072\debug\main.crf --depend .\f072\debug\main.d)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54766380)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54766380)
-I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (../Nuvoton/HW/Include/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYS.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/CLK.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/GPIO.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/FMC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/WDT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/RTC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/TMR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SPI.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/PWM.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/APU.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/ADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/NVTTypes.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54766380)
-I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/SysInfra.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/ModuleID.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSYS.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLK.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvPWM.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvTimer.h)(0x55F94FFA)
-I (Adc.h)(0x54F4EE40)
-I (SysClkConfig.h)(0x54F4EE40)
-I (Main.h)(0x55F97162)
-I (Spi.h)(0x55244973)
-I (PWM.h)(0x5525AE35)
-I (app_SinDrive.h)(0x5602E833)
-I (app_drv8301.h)(0x55FAF300)
-I (app_SoftPWM.h)(0x55F9765C)
-I (app_OptoSensor.h)(0x55FAF28C)
-F (.\Spi.c)(0x552456D9)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\spi.o --omf_browse .\f072\debug\spi.crf --depend .\f072\debug\spi.d)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54766380)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54766380)
-I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x55F94FFA)
-I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (../Nuvoton/HW/Include/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYS.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/CLK.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/GPIO.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/FMC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/WDT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/RTC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/TMR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SPI.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/PWM.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/APU.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/ADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/NVTTypes.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54766380)
-I (../Nuvoton/Include/System/SysInfra.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/ModuleID.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLK.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSYS.h)(0x55F94FFA)
-I (Spi.h)(0x55244973)
-I (Motor.h)(0x5526F0C9)
-I (PWM.h)(0x5525AE35)
-I (Main.h)(0x55F97162)
-F (.\Adc.c)(0x5515A7BC)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\adc.o --omf_browse .\f072\debug\adc.crf --depend .\f072\debug\adc.d)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54766380)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54766380)
-I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (../Nuvoton/HW/Include/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYS.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/CLK.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/GPIO.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/FMC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/WDT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/RTC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/TMR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SPI.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/PWM.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/APU.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/ADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/NVTTypes.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54766380)
-I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/SysInfra.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/ModuleID.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSYS.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLK.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvPWM.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvTimer.h)(0x55F94FFA)
-I (SysClkConfig.h)(0x54F4EE40)
-I (Debug.h)(0x54F4EE40)
-I (../Nuvoton/Include/Commu/SemiHost.h)(0x55F94FFA)
-I (Main.h)(0x55F97162)
-I (Spi.h)(0x55244973)
-I (Motor.h)(0x5526F0C9)
-I (PWM.h)(0x5525AE35)
-I (../Nuvoton/Include/Driver/DrvADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvADCEx_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvAPU.h)(0x55F94FFA)
-F (.\PWM.c)(0x560DA8CE)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\pwm.o --omf_browse .\f072\debug\pwm.crf --depend .\f072\debug\pwm.d)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54766380)
-I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x55F94FFA)
-I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (../Nuvoton/HW/Include/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYS.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/CLK.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/GPIO.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/FMC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/WDT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/RTC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/TMR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SPI.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/PWM.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/APU.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/ADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/NVTTypes.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54766380)
-I (../Nuvoton/Include/System/SysInfra.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/ModuleID.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLK.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvTimer.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSYS.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvPWM.h)(0x55F94FFA)
-I (Motor.h)(0x5526F0C9)
-I (Spi.h)(0x55244973)
-I (Debug.h)(0x54F4EE40)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54766380)
-I (../Nuvoton/Include/Commu/SemiHost.h)(0x55F94FFA)
-I (PWM.h)(0x5525AE35)
-I (Main.h)(0x55F97162)
-F (.\app_SinDrive.c)(0x560AFAC9)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\app_sindrive.o --omf_browse .\f072\debug\app_sindrive.crf --depend .\f072\debug\app_sindrive.d)
-I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (../Nuvoton/HW/Include/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYS.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/CLK.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/GPIO.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/FMC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/WDT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/RTC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/TMR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SPI.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/PWM.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/APU.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/ADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/NVTTypes.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54766380)
-I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54766380)
-I (C:\Keil_v5\ARM\ARMCC\include\Math.h)(0x5476637E)
-I (../Nuvoton/Include/Driver/DrvCLK.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/SysInfra.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/ModuleID.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvTimer.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSYS.h)(0x55F94FFA)
-I (PWM.h)(0x5525AE35)
-I (app_SinDrive.h)(0x5602E833)
-I (app_SoftPWM.h)(0x55F9765C)
-F (.\app_drv8301.c)(0x55F9606C)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\app_drv8301.o --omf_browse .\f072\debug\app_drv8301.crf --depend .\f072\debug\app_drv8301.d)
-I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (../Nuvoton/HW/Include/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYS.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/CLK.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/GPIO.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/FMC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/WDT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/RTC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/TMR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SPI.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/PWM.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/APU.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/ADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/NVTTypes.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54766380)
-I (../Nuvoton/Include/Driver/DrvSPI.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/SysInfra.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/ModuleID.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLK.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSYS.h)(0x55F94FFA)
-I (Spi.h)(0x55244973)
-I (app_drv8301.h)(0x55FAF300)
-F (.\app_SoftPWM.c)(0x552DB86F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\app_softpwm.o --omf_browse .\f072\debug\app_softpwm.crf --depend .\f072\debug\app_softpwm.d)
-I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (../Nuvoton/HW/Include/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYS.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/CLK.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/GPIO.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/FMC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/WDT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/RTC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/TMR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SPI.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/PWM.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/APU.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/ADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/NVTTypes.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54766380)
-I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/SysInfra.h)(0x55F94FFA)
-I (../Nuvoton/Include/System/ModuleID.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLK.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvTimer.h)(0x55F94FFA)
-I (../Nuvoton/Include/Driver/DrvSYS.h)(0x55F94FFA)
-I (app_SoftPWM.h)(0x55F9765C)
-F (.\app_OptoSensor.c)(0x55F975F3)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\app_optosensor.o --omf_browse .\f072\debug\app_optosensor.crf --depend .\f072\debug\app_optosensor.d)
-I (../Nuvoton/Include/Platform.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-I (../Nuvoton/HW/Include/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SFR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYS.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/CLK.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/GPIO.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/FMC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/WDT.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/RTC.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/TMR.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/SPI.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/PWM.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/APU.h)(0x55F94FFA)
-I (../Nuvoton/HW/Include/F072/ADC.h)(0x55F94FFA)
-I (../Nuvoton/Include/NVTTypes.h)(0x55F94FFA)
-I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54766380)
-I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54766380)
-I (app_SinDrive.h)(0x5602E833)
-I (app_OptoSensor.h)(0x55FAF28C)
-F (..\Nuvoton\CMSIS\CM0\core_cm0.c)(0x55F94FFA)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -D__N572F072__-o .\f072\debug\core_cm0.o --omf_browse .\f072\debug\core_cm0.crf --depend .\f072\debug\core_cm0.d)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54766380)
-F (..\Nuvoton\CMSIS\CM0\startup\arm\startup_N572_ISP.s)(0x55F94FFA)(--cpu Cortex-M0 --pd "__EVAL SETA 1" -g --apcs=interwork -I "C:\Users\Marko\Desktop\Unacuna\github repository\P9_proto\firmware\motor_controller\code\RTE"-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 514" --pd "__N572F072__ SETA 1"--list .\f072\debug\startup_n572_isp.lst --xref -o .\f072\debug\startup_n572_isp.o --depend .\f072\debug\startup_n572_isp.d)
-F (..\Nuvoton\Lib\Commu\SemiHost_Keil.lib)(0x55F94FFA)()
-F (.\Abstract.txt)(0x54F4EE40)()
+F (.\Main.h)(0x56BEA90F)()
+F (.\Spi.h)(0x56BEA90F)()
+F (.\SysClkConfig.h)(0x56BEA90F)()
+F (.\Debug.h)(0x56BEA90F)()
+F (.\Adc.h)(0x56BEA90F)()
+F (.\PWM.h)(0x56BEA90F)()
+F (.\app_SinDrive.h)(0x56BEA90F)()
+F (.\app_drv8301.h)(0x56BEA90F)()
+F (.\app_SoftPWM.h)(0x56BEA90F)()
+F (.\app_OptoSensor.h)(0x56BEA90F)()
+F (..\Nuvoton\HW\Include\SFR.c)(0x56BEA90D)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\sfr.o --omf_browse .\f072\debug\sfr.crf --depend .\f072\debug\sfr.d)
+I (..\Nuvoton\HW\Include\SFR.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/SFR.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/NVTChipDef.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (..\Nuvoton\HW\Include\F072/SYS.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/CLK.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/SYSINT.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/GPIO.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/FMC.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/WDT.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/RTC.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/TMR.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/SPI.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/PWM.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/APU.h)(0x56BEA90D)
+I (..\Nuvoton\HW\Include\F072/ADC.h)(0x56BEA90D)
+F (.\Main.c)(0x56BEA90F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\main.o --omf_browse .\f072\debug\main.crf --depend .\f072\debug\main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AFBAD2)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Platform.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (../Nuvoton/HW/Include/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYS.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/CLK.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/GPIO.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/FMC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/WDT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/RTC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/TMR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SPI.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/PWM.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/APU.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/ADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/NVTTypes.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/SysInfra.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/ModuleID.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSYS.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLK.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvPWM.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvTimer.h)(0x56BEA90D)
+I (Adc.h)(0x56BEA90F)
+I (SysClkConfig.h)(0x56BEA90F)
+I (Main.h)(0x56BEA90F)
+I (Spi.h)(0x56BEA90F)
+I (PWM.h)(0x56BEA90F)
+I (app_SinDrive.h)(0x56BEA90F)
+I (app_drv8301.h)(0x56BEA90F)
+I (app_SoftPWM.h)(0x56BEA90F)
+I (app_OptoSensor.h)(0x56BEA90F)
+F (.\Spi.c)(0x56BEA90F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\spi.o --omf_browse .\f072\debug\spi.crf --depend .\f072\debug\spi.d)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55AFBAD2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x56BEA90D)
+I (../Nuvoton/Include/Platform.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (../Nuvoton/HW/Include/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYS.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/CLK.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/GPIO.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/FMC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/WDT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/RTC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/TMR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SPI.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/PWM.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/APU.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/ADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/NVTTypes.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55AFBAD2)
+I (../Nuvoton/Include/System/SysInfra.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/ModuleID.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLK.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSYS.h)(0x56BEA90D)
+I (Spi.h)(0x56BEA90F)
+I (Motor.h)(0x56BEA90F)
+I (PWM.h)(0x56BEA90F)
+I (Main.h)(0x56BEA90F)
+F (.\Adc.c)(0x56BEA90F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\adc.o --omf_browse .\f072\debug\adc.crf --depend .\f072\debug\adc.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AFBAD2)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Platform.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (../Nuvoton/HW/Include/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYS.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/CLK.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/GPIO.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/FMC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/WDT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/RTC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/TMR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SPI.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/PWM.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/APU.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/ADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/NVTTypes.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/SysInfra.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/ModuleID.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSYS.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLK.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvPWM.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvTimer.h)(0x56BEA90D)
+I (SysClkConfig.h)(0x56BEA90F)
+I (Debug.h)(0x56BEA90F)
+I (../Nuvoton/Include/Commu/SemiHost.h)(0x56BEA90D)
+I (Main.h)(0x56BEA90F)
+I (Spi.h)(0x56BEA90F)
+I (Motor.h)(0x56BEA90F)
+I (PWM.h)(0x56BEA90F)
+I (../Nuvoton/Include/Driver/DrvADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvADCEx_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvAPU.h)(0x56BEA90D)
+F (.\PWM.c)(0x56BEA90F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\pwm.o --omf_browse .\f072\debug\pwm.crf --depend .\f072\debug\pwm.d)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x56BEA90D)
+I (../Nuvoton/Include/Platform.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (../Nuvoton/HW/Include/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYS.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/CLK.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/GPIO.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/FMC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/WDT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/RTC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/TMR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SPI.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/PWM.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/APU.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/ADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/NVTTypes.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55AFBAD2)
+I (../Nuvoton/Include/System/SysInfra.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/ModuleID.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLK.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvTimer.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSYS.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvPWM.h)(0x56BEA90D)
+I (Motor.h)(0x56BEA90F)
+I (Spi.h)(0x56BEA90F)
+I (Debug.h)(0x56BEA90F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Commu/SemiHost.h)(0x56BEA90D)
+I (PWM.h)(0x56BEA90F)
+I (Main.h)(0x56BEA90F)
+F (.\app_SinDrive.c)(0x56BEA90F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\app_sindrive.o --omf_browse .\f072\debug\app_sindrive.crf --depend .\f072\debug\app_sindrive.d)
+I (../Nuvoton/Include/Platform.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (../Nuvoton/HW/Include/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYS.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/CLK.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/GPIO.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/FMC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/WDT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/RTC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/TMR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SPI.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/PWM.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/APU.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/ADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/NVTTypes.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55AFBAD2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AFBAD2)
+I (C:\Keil_v5\ARM\ARMCC\include\Math.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Driver/DrvCLK.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/SysInfra.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/ModuleID.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvTimer.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSYS.h)(0x56BEA90D)
+I (PWM.h)(0x56BEA90F)
+I (app_SinDrive.h)(0x56BEA90F)
+I (app_SoftPWM.h)(0x56BEA90F)
+F (.\app_drv8301.c)(0x56BEA90F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\app_drv8301.o --omf_browse .\f072\debug\app_drv8301.crf --depend .\f072\debug\app_drv8301.d)
+I (../Nuvoton/Include/Platform.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (../Nuvoton/HW/Include/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYS.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/CLK.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/GPIO.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/FMC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/WDT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/RTC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/TMR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SPI.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/PWM.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/APU.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/ADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/NVTTypes.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Driver/DrvSPI.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSPI_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/SysInfra.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/ModuleID.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLK.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSYS.h)(0x56BEA90D)
+I (Spi.h)(0x56BEA90F)
+I (app_drv8301.h)(0x56BEA90F)
+F (.\app_SoftPWM.c)(0x56BEA90F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\app_softpwm.o --omf_browse .\f072\debug\app_softpwm.crf --depend .\f072\debug\app_softpwm.d)
+I (../Nuvoton/Include/Platform.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (../Nuvoton/HW/Include/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYS.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/CLK.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/GPIO.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/FMC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/WDT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/RTC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/TMR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SPI.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/PWM.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/APU.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/ADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/NVTTypes.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55AFBAD2)
+I (../Nuvoton/Include/Driver/DrvGPIO.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/SysInfra.h)(0x56BEA90D)
+I (../Nuvoton/Include/System/ModuleID.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLK.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvCLKEx_F072.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvTimer.h)(0x56BEA90D)
+I (../Nuvoton/Include/Driver/DrvSYS.h)(0x56BEA90D)
+I (app_SoftPWM.h)(0x56BEA90F)
+F (.\app_OptoSensor.c)(0x56BEA90F)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\app_optosensor.o --omf_browse .\f072\debug\app_optosensor.crf --depend .\f072\debug\app_optosensor.d)
+I (../Nuvoton/Include/Platform.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/N572.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/../../CMSIS/CM0/core_cm0.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+I (../Nuvoton/HW/Include/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SFR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/NVTChipDef.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYS.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/CLK.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SYSINT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/GPIO.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/FMC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/WDT.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/RTC.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/TMR.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/SPI.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/PWM.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/APU.h)(0x56BEA90D)
+I (../Nuvoton/HW/Include/F072/ADC.h)(0x56BEA90D)
+I (../Nuvoton/Include/NVTTypes.h)(0x56BEA90D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55AFBAD2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AFBAD2)
+I (app_SinDrive.h)(0x56BEA90F)
+I (app_OptoSensor.h)(0x56BEA90F)
+F (..\Nuvoton\CMSIS\CM0\core_cm0.c)(0x56BEA90D)(-c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork -I. -I../Nuvoton/HW/Include -I../Nuvoton/Include -I../RTX/INC -InRF8001 -InRF8001/hal-I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -D__N572F072__-o .\f072\debug\core_cm0.o --omf_browse .\f072\debug\core_cm0.crf --depend .\f072\debug\core_cm0.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AFBAD2)
+F (..\Nuvoton\CMSIS\CM0\startup\arm\startup_N572_ISP.s)(0x56BEA90D)(--cpu Cortex-M0 --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Users\rawb\ologic\unacuna\remote_test\P9_proto\firmware\motor_controller\code\RTE-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 516" --pd "__N572F072__ SETA 1"--list .\f072\debug\startup_n572_isp.lst --xref -o .\f072\debug\startup_n572_isp.o --depend .\f072\debug\startup_n572_isp.d)
+F (..\Nuvoton\Lib\Commu\SemiHost_Keil.lib)(0x56BEA90D)()
+F (.\Abstract.txt)(0x56BEA90F)()
